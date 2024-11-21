@@ -11,14 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+        Schema::create('customers', function (Blueprint $table) {
+                $table->id();
+                $table->string('customer_name', 50); // Customer name (varchar 50)
+                $table->string('email', 50)->nullable(); // Email (varchar 50, nullable)
+                $table->string('phone_number', 11)->nullable(); // Phone number (varchar 11, nullable)
+                $table->boolean('email_confirmed')->default(false); // Email confirmed (tinyint as boolean)
+                $table->decimal('prev_balance', 8, 2)->default(0.00); // Previous balance (decimal 8,2)
+                $table->dateTime('deleted', 6)->nullable(); // Deleted datetime with precision
+                $table->string('password'); // Password (varchar 50)
+                $table->timestamps(); // Adds `created_at` and `updated_at`
+
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
