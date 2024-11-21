@@ -2,7 +2,7 @@
 /********************************
 Developer: Abdullah Alharbi
 University ID: 230046409
-Function: This controller register a new customer to the database
+Function: This controller login  an existing user
  ********************************/
 namespace App\Http\Controllers;
 

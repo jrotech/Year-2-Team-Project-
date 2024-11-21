@@ -19,7 +19,8 @@ return new class extends Migration
                 $table->boolean('email_confirmed')->default(false); // Email confirmed (tinyint as boolean)
                 $table->decimal('prev_balance', 8, 2)->default(0.00); // Previous balance (decimal 8,2)
                 $table->dateTime('deleted', 6)->nullable(); // Deleted datetime with precision
-                $table->string('password'); // Password (varchar 50)
+                $table->string('google_id')->nullable();
+                $table->string('password')->nullable(); // Password (varchar 50)
                 $table->timestamps(); // Adds `created_at` and `updated_at`
 
         });
