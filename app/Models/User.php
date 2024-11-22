@@ -21,7 +21,8 @@ class User extends Authenticatable
         'customer_name',
         'email',
         'password',
-        'phone_number'
+        'phone_number',
+        'google_id',
     ];
 
     protected $table = 'customers';

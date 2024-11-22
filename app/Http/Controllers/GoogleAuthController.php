@@ -13,39 +13,41 @@ use Laravel\Socialite\Facades\Socialite;
 
 class GoogleAuthController extends Controller
 {
-
-    public function redirect(){
+    public function redirect()
+    {
         return Socialite::driver('google')->redirect();
     }
 
-
-    public function callback(){
+    public function callback()
+    {
         try {
-            $user = Socialite::driver('google')->user();
+            $googleUser = Socialite::driver('google')->user();
 
-            //check if the user exists
-            $findUser = User::where('email', $user->getEmail())->first();
+            // Check if the user exists by google_id
+            $findUser = User::where('google_id', $googleUser->getId())->first();
 
-            // If the user already exists log them in
             if ($findUser) {
-                // if Google ID is not already set, set a new one
-                if (!$findUser->google_id) {
-                    $findUser->google_id = $user->getId();
-                    $findUser->save();
-                }
-
+                // If user exists, log them in
                 Auth::login($findUser);
                 return redirect()->intended('/');
             } else {
-                // If user does not exist, create a new one
-                $newUser = User::create([
-                    'customer_name' => $user->getName(),
-                    'email' => $user->getEmail(),
-                    'google_id' => $user->getId(),
+                // If user doesn't exist, check if email exists
+                $existingUser = User::where('email', $googleUser->getEmail())->first();
 
-                ]);
-
-                Auth::login($newUser);
+                if ($existingUser) {
+                    // If email exists, update google_id and log in
+                    $existingUser->google_id = $googleUser->getId();
+                    $existingUser->save();
+                    Auth::login($existingUser);
+                } else {
+                    // Create completely new user
+                    $newUser = User::create([
+                        'customer_name' => $googleUser->getName(),
+                        'email' => $googleUser->getEmail(),
+                        'google_id' => $googleUser->getId(),
+                    ]);
+                    Auth::login($newUser);
+                }
                 return redirect()->intended('/');
             }
         } catch (\Exception $e) {
@@ -53,5 +55,4 @@ class GoogleAuthController extends Controller
             dd("Failed to log in. Please try again later. " . $e->getMessage());
         }
     }
-
 }
