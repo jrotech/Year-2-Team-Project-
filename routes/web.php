@@ -31,12 +31,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/cart/{cartItem}', [BasketController::class, 'update'])->name('cart.update');
     Route::delete('/cart/{cartItem}', [BasketController::class, 'remove'])->name('cart.remove');
     Route::delete('/cart', [BasketController::class, 'clear'])->name('cart.clear');
+
+    Route::get('/checkout', [CheckoutController::class, 'showCheckout'])->name('checkout.show');
+    Route::post('/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
+    Route::post('/cart/checkout', [BasketController::class, 'proceedToCheckout'])->name('cart.checkout');
 });
 
-Route::middleware(['auth'])->group(function () {
-    // Existing cart routes...
-
-    // Checkout routes
-    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
-    Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
-});

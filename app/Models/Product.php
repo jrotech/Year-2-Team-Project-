@@ -11,7 +11,7 @@ class Product extends Model
 
     public function basketItems()
     {
-        return $this->hasMany(BasketItem::class);
+        return $this->hasMany(Basket::class);
     }
 
 }

@@ -7,12 +7,13 @@ Function:
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use mysql_xdevapi\Table;
 
-class BasketItem extends Model
+class Basket extends Model
 {
     //
     protected $fillable = ['customer_id', 'product_id', 'quantity'];
-
+    protected $table = 'baskets';
     public function product()
     {
         return $this->belongsTo(Product::class);

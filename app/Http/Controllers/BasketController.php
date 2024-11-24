@@ -6,7 +6,7 @@ Function: This controller adds the basket feature
  ********************************/
 namespace App\Http\Controllers;
 
-use App\Models\BasketItem;
+use App\Models\Basket;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +16,7 @@ class BasketController extends Controller
     // display basket
     public function index()
     {
-        $cartItems = BasketItem::with('product')
+        $cartItems = Basket::with('product')
             ->where('customer_id', Auth::id())
             ->get();
 
@@ -33,14 +33,14 @@ class BasketController extends Controller
             'quantity' => 'required|integer|min:1|max:' . $product->stock,
         ]);
 
-        $cartItem = BasketItem::where('customer_id', Auth::id())
+        $cartItem = Basket::where('customer_id', Auth::id())
             ->where('product_id', $product->id)
             ->first();
 
         if ($cartItem) {
             $cartItem->increment('quantity', $request->quantity);
         } else {
-            BasketItem::create([
+            Basket::create([
                 'customer_id' => Auth::id(),
                 'product_id' => $product->id,
                 'quantity' => $request->quantity,
@@ -51,7 +51,7 @@ class BasketController extends Controller
     }
 
     // update the basket
-    public function update(Request $request, BasketItem $cartItem)
+    public function update(Request $request, Basket $cartItem)
     {
         $request->validate([
             'quantity' => 'required|integer|min:1|max:' . $cartItem->product->stock,
@@ -63,7 +63,7 @@ class BasketController extends Controller
     }
 
     //remove from the basket
-    public function remove(BasketItem $cartItem)
+    public function remove(Basket $cartItem)
     {
         $cartItem->delete();
 
@@ -73,8 +73,13 @@ class BasketController extends Controller
     // clear the basket
     public function clear()
     {
-        BasketItem::where('customer_id', Auth::id())->delete();
+        Basket::where('customer_id', Auth::id())->delete();
 
         return redirect()->route('cart.index')->with('success', 'Cart cleared!');
+    }
+
+    public function proceedToCheckout()
+    {
+        return redirect()->route('checkout.show');
     }
 }
