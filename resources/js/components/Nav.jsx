@@ -2,6 +2,15 @@ import { COMPANY_NAME } from "../constants";
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
+function NavWrapp(){
+  return (
+    <div className="absolute top-0 z-[10000] box-border w-screen text-white">
+      <NavBar/>
+      <Categories/>
+    </div>
+  )
+}
+
 function NavBar() {
   const links = [
     {
@@ -22,12 +31,12 @@ function NavBar() {
     }
   ];
   return (
-    <nav className="absolute top-0 z-[10000] box-border w-screen text-white">
-      <div className="flex items-center m-auto max-w-screen-xl justify-between p-4 bg-transparent flex-wrap">
+    <nav className="bg-main-primary">
+      <div className="flex items-center m-auto  justify-between p-4 bg-transparent flex-wrap">
         <a href="/" className="font-semibold uppercase mx-5 cursor-pointer md:block">
-          <h1 className="">{COMPANY_NAME}</h1>
+	  <img alt="" src="images/logo.png" className="w-44 max-[450px]:w-28" />
         </a>
-
+      <SearchBar />
         <div className="bg-none border-none outline-none cursor-pointer mx-5 select-none appearance-none z-1 flex flex-col ">
           {/* hamburger */}
           <input type="checkbox" id="hamburgercheckbox" className="peer hidden" />
@@ -44,9 +53,8 @@ function NavBar() {
               return (
                 <li
                   key={a.name}
-                  className="relative p-4 text-lg hover:text-main-accent transition-color duration-300 font-normal before:content-[''] before:absolute before:h-[2px] before:w-full before:bottom-0 before:left-0 before:right-0 before:bg-main-primary before:scale-x-0 before:transition-all before:ease-linear before:duration-300 hover:before:scale-x-100"
+                  className="relative p-4 text-lg hover:text-main-accent transition-color duration-300 font-normal before:content-[''] before:absolute before:h-[2px] before:w-full before:bottom-0 before:left-0 before:right-0 before:bg-main-accent before:scale-x-0 before:transition-all before:ease-linear before:duration-300 hover:before:scale-x-100"
                 >
-                  {/*@ts-ignore*/}
                   <a href={a.href}>{a.name}</a>
                 </li>
               );
@@ -70,9 +78,54 @@ function NavBar() {
   );
 }
 
-export default NavBar;
+function SearchBar(){
+  return (
+    <div className="flex items-center justify-center flex-shrink">
+      <input type="text" placeholder="Search" className="border-2 border-gray-300 bg-white h-10 sm:w-80 px-5 my-2 max-[540px]:w-32 rounded-full text-sm focus:outline-none text-center text-black" />
+    </div>
+  )
+}
+
+function Categories(){
+  const categories = [
+		{
+			name:"cases",
+			href:"/category1"
+		},
+		{
+			name:"PC components",
+			href:"/category2"
+		},
+		{
+			name:"Peripherals",
+			href:"/category3"
+		},
+		{
+			name:"monitors",
+			href:"/category4"
+		},
+	];
+  return (
+    <div className="bg-[#263238]">
+      <ul className="flex items-center justify-center flex-wrap">
+	{categories.map(a => {
+	  return (
+	    <li key={a.name} className="p-4 text-lg hover:text-main-accent transition-color duration-300 font-normal">
+	      <a href={a.href}>{a.name}</a>
+	    </li>
+	  );
+	})}
+      </ul>
+    </div>
+  )
+}
+
+
+export default NavWrapp;
 
 const rootElement = document.getElementById('nav')
 const root = createRoot(rootElement);
 
-root.render(<NavBar />);
+root.render(<NavWrapp />);
+
+
