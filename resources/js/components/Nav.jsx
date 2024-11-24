@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 
 function NavWrapp(){
   return (
-    <div className="absolute top-0 z-[10000] box-border w-screen text-white">
+    <div className="relative top-0 z-[10000] box-border w-screen text-white">
       <NavBar/>
       <Categories/>
     </div>
