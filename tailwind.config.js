@@ -16,6 +16,7 @@ export default {
         main: {
 	  primary: "#010035",
 	  accent: "#860017",
+	  green: "#0EFF32",
 	  bg: "#f5f5f5",
           darken: "rgba(0,0,0, 0.7)",
           dark: "#141414",
