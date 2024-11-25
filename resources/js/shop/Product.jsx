@@ -1,6 +1,7 @@
 import React from 'react';
 import { Title, Button, Flex, Stack } from "@mantine/core";
 import {Stars} from '../components/Stars'
+import {InStock} from '../components/InStock'
 
 export default function Product({name,img,price,inStock,rating,id,wishList}){
   return (
@@ -13,10 +14,7 @@ export default function Product({name,img,price,inStock,rating,id,wishList}){
 
       <Stars rating={rating} />
 
-      <Flex className="items-baseline gap-2">
-	<div className={`${!inStock ? "bg-red-600" : "bg-main-green"} w-3 h-3 rounded-full`}></div>
-	<Title order={4}>{!inStock && "not"} in stock</Title>
-      </Flex>
+      <InStock inStock={inStock} />
 
       <Flex>
 	<Title order={3}>
