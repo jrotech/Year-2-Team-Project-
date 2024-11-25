@@ -9,9 +9,9 @@ function ProductsList(props){
   console.log(props)
   return (
     <MantineProvider theme={theme}>
-      <Flex className="max-w-screen justify-between m-24 ">
+      <Flex className="max-w-screen justify-between m-24 relative">
 	<Flex className="items-center justify-center w-full">
-	  <Flex className="gap-20 flex-wrap max-w-[1200px]">
+	  <Flex className="gap-20 flex-wrap max-w-[1200px] justify-center">
 	    {
 	    Array.from({length: 100}, (_,i) => <Product key={i}
 							name={"Nvidia Gforce Rtx 3070 TI"}
