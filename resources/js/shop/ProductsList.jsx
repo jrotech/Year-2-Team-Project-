@@ -2,24 +2,8 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import Product from './Product'
 import Sidebar from './Sidebar'
-import { createTheme, MantineProvider, Flex } from '@mantine/core';
-const theme = createTheme({
-  colors: {
-    main: [
-      "#010035",
-      "#1A1947",
-      "#1A1947",
-      "#1A1947",
-      "#1A1947",
-      "#1A1947",
-      "#1A1947",
-      "#1A1947",
-      "#1A1947",
-      "#1A1947",
-    ],
-  },
-  primaryColor: "main",
-});
+import { MantineProvider, Flex } from '@mantine/core';
+import { theme } from '../mantine';
 
 function ProductsList(props){
   console.log(props)
