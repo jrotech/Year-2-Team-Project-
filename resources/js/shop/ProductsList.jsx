@@ -16,6 +16,7 @@ function ProductsList(props){
 	    Array.from({length: 100}, (_,i) => <Product key={i}
 							name={"Nvidia Gforce Rtx 3070 TI"}
 							img={"https://www.nvidia.com/content/dam/en-zz/Solutions/geforce/ampere/rtx-3070/geforce-rtx-3070-shop-600-p@2x.png"}
+							rating={2}
 							price={599.99}
 							inStock={false}
 							wishList={false}
