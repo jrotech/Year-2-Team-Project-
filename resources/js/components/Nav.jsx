@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 
 function NavWrapp(){
   return (
-    <div className="relative top-0 z-[10000] box-border w-screen text-white">
+    <div className="relative top-0 z-[1] box-border w-screen text-white">
       <NavBar/>
       <Categories/>
     </div>
@@ -18,8 +18,8 @@ function NavBar() {
       href:"/"
     },
     {
-      name:"about",
-      href:"/about"
+      name:"shop",
+      href:"/shop"
     },
     {
       name:"services",
@@ -53,7 +53,7 @@ function NavBar() {
               return (
                 <li
                   key={a.name}
-                  className="relative p-4 text-lg hover:text-main-accent transition-color duration-300 font-normal before:content-[''] before:absolute before:h-[2px] before:w-full before:bottom-0 before:left-0 before:right-0 before:bg-main-accent before:scale-x-0 before:transition-all before:ease-linear before:duration-300 hover:before:scale-x-100"
+                  className="relative p-4 text-lg hover:text-main-accent transition-color duration-300 font-normal before:content-[''] before:absolute before:h-[2px] before:w-full before:bottom-0 before:left-0 before:right-0 before:bg-main-accent before:scale-x-0 before:transition-all before:ease-linear before:duration-300 hover:before:scale-x-100 capitalize"
                 >
                   <a href={a.href}>{a.name}</a>
                 </li>
