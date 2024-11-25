@@ -15,6 +15,7 @@ export default {
       colors: {
         main: {
 	  primary: "#010035",
+	  primaryAccent: "#1A1947",
 	  accent: "#860017",
 	  green: "#0EFF32",
 	  bg: "#f5f5f5",
