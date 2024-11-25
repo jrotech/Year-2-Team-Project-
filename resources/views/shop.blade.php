@@ -11,7 +11,7 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Styles / Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js','resources/js/shop/Shop.js'])
+        @vite(['resources/css/app.css', 'resources/js/app.js','resources/js/shop/page.js'])
     </head>
     <body class="h-[200vh] bg-main-bg">
       <div id="nav"></div>
