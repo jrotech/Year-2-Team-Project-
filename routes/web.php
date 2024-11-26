@@ -26,3 +26,7 @@ Route::get('/shop', [NavController::class, 'shop'])->name('shop');
 
 // Submit Contact Form
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+
+Route::get('/shop/product/{id}', function ($id) {
+    return view('product', ['id' => $id]);
+});
