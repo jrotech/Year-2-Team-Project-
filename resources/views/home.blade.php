@@ -143,7 +143,7 @@
     <div class="footer">
     <p>Explore More:</p>
     <div class="footer-buttons">
-        <button onclick="location.href='{{ route('feedback') }}'">Give us your feedback</button>
+        <button onclick="location.href='{{ route('contact') }}'">Contact usk</button>
         <button onclick="location.href='{{ route('social-media') }}'">Follow us on social media</button>
         <button onclick="location.href='{{ route('payment-methods') }}'">Our payment methods</button>
     </div>

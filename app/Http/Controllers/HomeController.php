@@ -16,11 +16,6 @@ class HomeController extends Controller
         return view('home', compact('bestSellers', 'categories'));
     }
 
-    public function feedback()
-    {
-        return view('feedback'); // Replace with the actual feedback page
-    }
-
     public function socialMedia()
     {
         return redirect('https://instagram.com'); // Replace with the actual link
