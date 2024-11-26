@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product View - Nvidia GTX 3070</title>
+    <title>Product View - XFX Speedster MERC310 AMD Radeon RX 7900XTX Black Gaming Graphics Card with 24GB GDDR6, AMD RDNA 3 RX-79XMERCB9</title>
     <!-- Laravel Asset Helper for CSS -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <style>
@@ -81,13 +81,14 @@
         <div class="product-view">
             <!-- Product Image -->
             <div class="product-image">
-                <img src="{{ asset('images/nvidia-gtx-3070.jpg') }}" alt="Nvidia GTX 3070">
+                <img src="{{ asset('images/RX 7900XTX.jpg') }}" alt="RX 7900XTX">
+                
             </div>
 
             <!-- TEST TEST Product Details -->
             <div class="product-details">
-                <h1 class="product-title">Nvidia GTX 3070</h1>
-                <p class="product-price">£3000.00</p>
+                <h1 class="product-title">RX 7900XTX</h1>
+                <p class="product-price">£818.00</p>
                 <p class="product-stock">In Stock</p>
                 <p class="product-rating">Rating: ⭐⭐⭐⭐☆ (4.5/5)</p>
                 <p class="description">
