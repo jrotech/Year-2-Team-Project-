@@ -1,36 +1,31 @@
 <?php
-/********************************
-Developer: Abdullah Alharbi
-University ID: 230046409
-: Invoices Model
- ********************************/
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Invoice extends Model
 {
-    use SoftDeletes;
-
     protected $fillable = [
-        'date',
-        'customer_id',
         'invoice_number',
-        'invoice_amount',
-        'delivery_option',
-        'status'
+        'amount',
+        'status',
+        'paid_date',
+        'due_date',
+        'customer_id',
     ];
-
-    protected $dates = ['date', 'deleted_at'];
-
-    public function orderItems()
-    {
-        return $this->hasMany(InvoiceOrder::class, 'invoice_id');
-    }
 
     public function customer()
     {
-        return $this->belongsTo(User::class); // or User::class depending on your setup
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
+
+    public function payments()
+    {}
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'invoice_products', 'invoice_id', 'product_id')
+        ->withPivot('quantity','price');
     }
 }
