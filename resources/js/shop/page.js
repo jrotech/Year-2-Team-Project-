@@ -1,2 +1,2 @@
 
-import './ProductsList'
+import './Shop'
