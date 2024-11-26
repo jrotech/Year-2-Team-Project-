@@ -17,23 +17,7 @@ class NavController extends Controller
         return view('cart'); // Replace with actual cart logic
     }
 
-    public function shop(Request $request)
-    {
-        $searchQuery = $request->input('query', '');
-        $category = $request->input('category', 'all');
-
-        $products = Product::when($searchQuery, function ($query, $searchQuery) {
-            return $query->where('name', 'like', '%' . $searchQuery . '%');
-        })->when($category !== 'all', function ($query) use ($category) {
-            return $query->where('category', $category);
-        })->get();
-
-        return view('shop', [
-            'products' => $products,
-            'searchQuery' => $searchQuery,
-            'category' => ucfirst(str_replace('-', ' ', $category)),
-        ]);
-    }
+  
 
     public function about()
     {

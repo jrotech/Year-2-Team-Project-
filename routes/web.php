@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NavController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ShopController;
+
 
 // Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -27,14 +29,14 @@ Route::get('/pc-builder', [NavController::class, 'pcBuilder'])->name('pc-builder
 Route::get('/login', [NavController::class, 'login'])->name('login');
 
 // Search / Shop Page
-Route::get('/shop', [NavController::class, 'shop'])->name('shop');
+Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
 
+// Product
+Route::get('/shop/product/{id}', [ProductController::class, 'show'])->name('product.show');
 
 // Submit Contact Form
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
-Route::get('/', function () {
-    return view('home');
-});
+
 
 
 Route::get('/register', [register::class,'create'])->name('register');
@@ -47,7 +49,6 @@ Route::get('/logout', [login::class,'logout'])->name('logout');
 Route::get('/auth/google',[GoogleAuthController::class,'redirect']);
 Route::get('/authenticate/google/callback',[GoogleAuthController::class,'callback']);
 
-Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/cart', [BasketController::class, 'index'])->name('cart.index');
