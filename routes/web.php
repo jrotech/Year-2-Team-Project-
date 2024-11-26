@@ -26,6 +26,12 @@ Route::get('/shop', [NavController::class, 'shop'])->name('shop');
 // Submit Contact Form
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 
-Route::get('/shop/product/{id}', function ($id) {
-    return view('product', ['id' => $id]);
-});
+// Nav Bar Links
+Route::get('/wishlist', [NavController::class, 'wishlist'])->name('wishlist');
+Route::get('/cart', [NavController::class, 'cart'])->name('cart');
+Route::get('/about', [NavController::class, 'about'])->name('about');
+Route::get('/pc-builder', [NavController::class, 'pcBuilder'])->name('pc-builder');
+Route::get('/login', [NavController::class, 'login'])->name('login');
+
+// Search / Shop Page
+Route::get('/shop', [NavController::class, 'shop'])->name('shop');
