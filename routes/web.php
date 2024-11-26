@@ -5,7 +5,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NavController;
 use App\Http\Controllers\ContactController;
 
-// Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Footer Buttons
