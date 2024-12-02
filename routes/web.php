@@ -62,3 +62,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/cart/checkout', [BasketController::class, 'proceedToCheckout'])->name('cart.checkout');
 });
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+});
