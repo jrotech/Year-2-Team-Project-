@@ -1,3 +1,5 @@
+// THIS IS THE SIDEBAR COMPONENT FOR THE DASHBOARD
+
 //
 // THIS COMPONENT USES MANTINE MAKE SURE THE COMPONENT HAS ACCESS TO MANTINE PROVIDER!!!!
 //
@@ -9,13 +11,13 @@ import {Stars} from '../components/Stars'
 export default function Sidebar(){
   const toggleSidebarRef = React.useRef(null);
   const links = [
-		{ name: 'My Profile', href: '/' },
-		{ name: 'My Orders', href: '/about' },
-		{ name: 'Rate Products', href: '/contact' },
-    		{ name: 'My Wishlist', href: '/contact' },
-		{ name: 'My Cart', href: '/contact' },
-		{ name: 'Return Product', href: '/contact' },
-		{ name: 'Contact Us', href: '/contact' },
+		{ name: 'My Profile', href: '/dashboard' },
+		{ name: 'My Orders', href: '/dashboard/orders' },
+		{ name: 'Rate Products', href: '/dashboard/rate' },
+    		{ name: 'My Wishlist', href: '/dashboard/wishlist' },
+		{ name: 'My Cart', href: '/cart' },
+		{ name: 'Return Product', href: '/dashboard/return' },
+		{ name: 'Contact Us', href: '/dashboard/contact' },
 	];
   return (
     <div>
@@ -38,11 +40,11 @@ export default function Sidebar(){
       <Title order={2}>Dashboard</Title>
       {
 	links.map((link, i) => (
-	  <div>
-	  <Title order={6} href={link.href} className="relative hover:text-main-accent transition-color duration-300 font-normal before:content-[''] before:absolute before:h-[2px] before:w-full before:bottom-0 before:left-0 before:right-0 before:bg-main-accent before:scale-x-0 before:transition-all before:ease-linear before:duration-300 hover:before:scale-x-100 capitalize">
+	  <a href={link.href}>
+	    <Title order={6} href={link.href} className="relative hover:text-main-accent transition-color duration-300 font-normal before:content-[''] before:absolute before:h-[2px] before:w-full before:bottom-0 before:left-0 hover:before:right-0 before:bg-main-accent before:scale-x-0 before:transition-all before:ease-linear before:duration-300 hover:before:scale-x-100 capitalize">
 	    {link.name}
 	  </Title>
-	  </div>
+	  </a>
 	))
       }
       <hr/>
@@ -55,3 +57,4 @@ export default function Sidebar(){
     </div>
   )
 }
+
