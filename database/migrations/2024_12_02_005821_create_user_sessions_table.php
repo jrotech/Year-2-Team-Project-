@@ -11,20 +11,21 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('image')->nullable(); // Path to the category image
+        Schema::create('user_sessions', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id'); 
+            $table->string('session', 255);
             $table->timestamps();
+
+            
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
-    
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('user_sessions');
     }
 };

@@ -1,26 +1,30 @@
 <?php
-/********************************
-Developer: Abdullah Alharbi
-University ID: 230046409
-Function:
- ********************************/
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use mysql_xdevapi\Table;
 
 class Basket extends Model
 {
-    //
-    protected $fillable = ['customer_id', 'product_id', 'quantity'];
-    protected $table = 'baskets';
-    public function product()
+    use HasFactory;
+
+    protected $table = 'basket';
+
+    protected $fillable = ['invoice_number', 'product_cost', 'product_id', 'quantity', 'customer_id'];
+
+    public function invoice()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Invoice::class, 'invoice_number');
     }
 
-    public function user()
+    public function product()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
 }

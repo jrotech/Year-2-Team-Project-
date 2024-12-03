@@ -1,17 +1,14 @@
 <?php
-/********************************
-Developer: Abdullah Alharbi
-University ID: 230046409
-: Invoices Model
- ********************************/
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Invoice extends Model
 {
-    use SoftDeletes;
+    use HasFactory;
+
+    protected $table = 'invoices';
 
     protected $fillable = [
         'date',
@@ -19,18 +16,38 @@ class Invoice extends Model
         'invoice_number',
         'invoice_amount',
         'delivery_option',
-        'status'
+        'status',
+        'deleted',
     ];
 
-    protected $dates = ['date', 'deleted_at'];
 
-    public function orderItems()
-    {
-        return $this->hasMany(InvoiceOrder::class, 'invoice_id');
-    }
-
+    // Relation with Customer
     public function customer()
     {
-        return $this->belongsTo(User::class); // or User::class depending on your setup
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
+
+    // Relation with Delivery
+    public function delivery()
+    {
+        return $this->hasOne(Delivery::class, 'invoice_number');
+    }
+
+    // Relation with Payments
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'invoice_number');
+    }
+
+    // Relation with Basket
+    public function basket()
+    {
+        return $this->hasMany(Basket::class, 'invoice_number');
+    }
+
+    // Relation with InvoiceOrder (if needed)
+    public function invoiceOrders()
+    {
+        return $this->hasMany(InvoiceOrder::class, 'invoice_number');
     }
 }

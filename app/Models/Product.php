@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,10 +8,40 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'price', 'image', 'is_best_seller', 'category_id'];
+    protected $table = 'products';
 
-    public function category()
+    protected $fillable = [
+        'name',
+        'price',
+        'description',
+        'in_stock',
+        'deleted',
+    ];
+
+    /**
+     * Relationships
+     */
+
+    // Relation with Stock
+    public function stock()
     {
-        return $this->belongsTo(Category::class);
+        return $this->hasOne(Stock::class, 'product_id');
+    }
+
+    // Relation with Basket
+    public function baskets()
+    {
+        return $this->hasMany(Basket::class, 'product_id');
+    }
+
+    // Relation with Product Categories (many-to-many)
+    public function categories()
+    {
+        return $this->belongsToMany(
+            Category::class,
+            'product_categories',
+            'product_id',
+            'category_id'
+        );
     }
 }
