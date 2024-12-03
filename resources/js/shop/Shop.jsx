@@ -1,34 +1,43 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import Product from './Product'
-import Sidebar from './Sidebar'
+import Product from './Product';
+import Sidebar from './Sidebar';
 import { MantineProvider, Flex } from '@mantine/core';
 import { theme } from '../mantine';
 
-function ProductsList(props){
+function ProductsList(props) {
+  const products = JSON.parse(props.products);
 
-	 // Parse products from props
-	 const products = JSON.parse(props.products);
+  const [filteredProducts, setFilteredProducts] = React.useState(products);
+  const [selectedCategory, setSelectedCategory] = React.useState('All');
+  const [priceRange, setPriceRange] = React.useState([10, 5000]); // Default price range
 
-	 const [filteredProducts, setFilteredProducts] = React.useState(products); // State for filtered products
-	 const [selectedCategory, setSelectedCategory] = React.useState('All'); // Default category
-   
-	 // Handler for filtering products based on category
-	 const handleCategoryChange = (category) => {
-		setSelectedCategory(category);
-	  
-		if (category === 'All') {
-		  setFilteredProducts(products); // Show all products
-		} else {
-		  setFilteredProducts(
-			products.filter((product) =>
-			  product.categories.some((cat) => cat.name === category)
-			)
-		  );
-		}
-	  };
-   
-  console.log(props)
+  // Filter products based on category and price range
+  const filterProducts = (category, range) => {
+    setFilteredProducts(
+      products.filter((product) => {
+        const matchesCategory =
+          category === 'All' ||
+          product.categories.some((cat) => cat.name === category);
+        const matchesPrice =
+          product.price >= range[0] && product.price <= range[1];
+        return matchesCategory && matchesPrice;
+      })
+    );
+  };
+
+  // Handler for category change
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+    filterProducts(category, priceRange);
+  };
+
+  // Handler for price range change
+  const handlePriceRangeChange = (range) => {
+    setPriceRange(range);
+    filterProducts(selectedCategory, range);
+  };
+
   return (
     <MantineProvider theme={theme}>
       <Flex className="max-w-screen justify-between m-24 relative">
@@ -39,7 +48,7 @@ function ProductsList(props){
                 key={product.id}
                 name={product.name}
                 img={product.image}
-                rating={product.rating || 0} // Default rating if not present
+                rating={product.rating || 0}
                 price={product.price}
                 inStock={product.in_stock}
                 wishList={false}
@@ -48,7 +57,12 @@ function ProductsList(props){
             ))}
           </Flex>
         </Flex>
-        <Sidebar onCategoryChange={handleCategoryChange} selectedCategory={selectedCategory} />
+        <Sidebar
+          onCategoryChange={handleCategoryChange}
+          onPriceRangeChange={handlePriceRangeChange}
+          selectedCategory={selectedCategory}
+          priceRange={priceRange}
+        />
       </Flex>
     </MantineProvider>
   );
@@ -56,9 +70,7 @@ function ProductsList(props){
 
 export default ProductsList;
 
-const rootElement = document.getElementById('products')
+const rootElement = document.getElementById('products');
 const root = createRoot(rootElement);
 
 root.render(<ProductsList {...Object.assign({}, rootElement.dataset)} />);
-
-

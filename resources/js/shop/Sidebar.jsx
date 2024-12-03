@@ -1,7 +1,7 @@
 import React from "react";
 import { Stack, RangeSlider, Title, Checkbox } from "@mantine/core";
 
-export default function Sidebar({ onCategoryChange, selectedCategory }) {
+export default function Sidebar({ onCategoryChange, onPriceRangeChange, selectedCategory, priceRange, }) {
   const toggleSidebarRef = React.useRef(null);
 
   const categories = [
@@ -20,7 +20,11 @@ export default function Sidebar({ onCategoryChange, selectedCategory }) {
       onCategoryChange(category); // Notify parent
     }
   };
-
+  const handlePriceChange = (value) => {
+    if (onPriceRangeChange) {
+      onPriceRangeChange(value); // Notify parent of price range changes
+    }
+  };
   return (
     <div>
       {/* Hamburger */}
@@ -51,6 +55,8 @@ export default function Sidebar({ onCategoryChange, selectedCategory }) {
             min={10}
             max={5000}
             step={10}
+            value={priceRange}
+            onChange={handlePriceChange}
             defaultValue={[10, 5000]}
             marks={[
               { value: 10, label: "10" },
