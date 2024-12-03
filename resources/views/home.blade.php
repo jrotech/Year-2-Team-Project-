@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    @vite(['resources/css/app.css', 'resources/js/app.js','resources/js/shop/page.js'])
 </head>
 <style>
     *{
@@ -170,34 +173,7 @@ margin-right: 20px;
 }
 </style>
 <body>
-    <div class="BlueNavBar">
-    <ul class="NavBar">
-        <li><a href="login">Login</a></li>
-        <li><a href="basket">Basket</a></li>
-        <li><a href="About Us">AboutUs</a></li>
-        <li><a href="pcBuilder">PC Builder</a></li>
-        <li><a href="wishlist">Wishlist</a></li>
-        <li class="searchBar">
-        <input type="text" placeholder="Search">  </input>
-        </li>
-    </ul>
-    <div class="techForgeImage">
-        <img src="{{ asset('img/techForge.png') }}" alt="TechForge">
-    </div>
-</div>
-    <div class="GreyNavbar">
-        <ul class="SecondBar">
-            <li> <a href="cases">Cases</a></li>
-            <li> <a href="cooling">Cooling</a></li>
-            <li> <a href="cpu">CPU</a></li>
-            <li> <a href="gpu">GPU</a></li>
-            <li> <a href="motherboard">Motherboard</a></li>
-            <li> <a href="psu">PSU</a></li>
-            <li> <a href="memory">Memory</a></li>
-            <li> <a href="monitors">Monitors</a></li>
-            <li> <a href="peripherals">Peripherals</a></li>
-        </ul>
-</div>
+  <div id="nav"></div>
 <div class="pcSetup">
     <img src="{{ asset('img/pcSetup.jpg') }}" alt="PC Setup">
 </div>
