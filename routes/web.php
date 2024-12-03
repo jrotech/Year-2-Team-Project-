@@ -12,8 +12,8 @@ use App\Http\Controllers\NavController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ChangePasswordController;
-use App\Http\Controllers\ChangeAddressController;
-use App\Http\Controllers\ChangePersonalDetailsController;
+use App\Http\Controllers\ChangeAddressDetails;
+use App\Http\Controllers\ChangePersonalDetails;
 
 // Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -35,18 +35,7 @@ Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
 
 // Product
 Route::get('/shop/product/{id}', [ProductController::class, 'show'])->name('product.show');
-// Change Of Password
-Route::middleware('auth')->controller(ChangePasswordController::class)->group(function () {
-    Route::get('/profile/change-password', 'showChangePasswordForm')->name('profile.change-password');
-    Route::post('/profile/change-password', 'updatePassword')->name('profile.update-password');
 
-    //Change Address Details
-    Route::get('/profile/change-address', [ChangeAddressController::class, 'showChangeAddressForm'])->name('profile.change-address');
-    Route::post('/profile/change-address', [ChangeAddressController::class, 'updateAddress'])->name('profile.update-address');
-
-    //Change Personal Details
-    Route::get('/profile/change-personal-details', [ChangePersonalDetailsController::class, 'showChangePersonalDetailsForm'])->name('profile.change-personal-details');
-Route::post('/profile/change-personal-details', [ChangePersonalDetailsController::class, 'updatePersonalDetails'])->name('profile.update-personal-details');
 
 // Submit Contact Form
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
@@ -65,6 +54,18 @@ Route::get('/authenticate/google/callback',[GoogleAuthController::class,'callbac
 
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/profile/change-password', [ChangePasswordController::class, 'showChangePasswordForm'])->name('profile.change-password');
+    Route::post('/profile/change-password', [ChangePasswordController::class, 'updatePassword'])->name('profile.update-password');
+    Route::post('/profile/change-personal-details', [ChangePasswordController::class, 'updatePersonalDetails'])->name('profile.update-personal-details');
+
+    //Change Address Details
+    Route::get('/profile/change-address', [ChangeAddressDetails::class, 'showChangeAddressForm'])->name('profile.change-address');
+    Route::post('/profile/change-address', [ChangeAddressDetails::class, 'updateAddress'])->name('profile.update-address');
+
+    //Change Personal Details
+    Route::get('/profile/change-personal-details', [ChangePersonalDetails::class, 'showChangePersonalDetailsForm'])->name('profile.change-personal-details');
+    
+    
     Route::get('/cart', [BasketController::class, 'index'])->name('cart.index');
     Route::post('/cart/add/{product}', [BasketController::class, 'add'])->name('cart.add');
     Route::put('/cart/{cartItem}', [BasketController::class, 'update'])->name('cart.update');
