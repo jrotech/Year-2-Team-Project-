@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    @vite(['resources/css/app.css', 'resources/js/app.js','resources/js/home/page.js'])
 </head>
 <style>
     *{
@@ -169,7 +170,8 @@ margin-right: 20px;
     cursor: pointer;
 }
 </style>
-<body>
+<body class="h-[200vh] bg-main-bg">
+    <!--
     <div class="BlueNavBar">
     <ul class="NavBar">
         <li><a href="login">Login</a></li>
@@ -198,6 +200,9 @@ margin-right: 20px;
             <li> <a href="peripherals">Peripherals</a></li>
         </ul>
 </div>
+-->
+
+      <div id="nav"></div>
 <div class="pcSetup">
     <img src="{{ asset('img/pcSetup.jpg') }}" alt="PC Setup">
 </div>
