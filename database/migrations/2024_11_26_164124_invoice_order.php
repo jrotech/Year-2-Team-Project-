@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('invoice_orders', function (Blueprint $table) {
-            $table->unsignedBigInteger('invoice_number'); // Foreign key to invoices table
-            $table->unsignedBigInteger('product_id'); // Foreign key to products table
+            $table->unsignedInteger('invoice_number'); // Foreign key to invoices table
+            $table->unsignedInteger('product_id'); // Foreign key to products table
             $table->decimal('product_cost', 5, 2); // Cost of the product
             $table->decimal('quantity', 7, 2); // Quantity of the product ordered
             $table->timestamps();

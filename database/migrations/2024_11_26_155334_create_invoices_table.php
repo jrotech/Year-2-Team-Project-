@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->string('status', 20)->default('pending'); // status: pending, paid
             $table->unsignedBigInteger('customer_id'); // foreign key -> customers table
-            $table->unsignedBigInteger('invoice_number', 50)->autoIncrement();
+            $table->unsignedInteger('invoice_number', 50)->autoIncrement();
             $table->date(column: 'paid_date')->nullable();
             $table->decimal('amount', 10, 2);
             $table->date('due_date')->nullable();

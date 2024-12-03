@@ -14,9 +14,9 @@ return new class extends Migration
     Schema::create('basket', function (Blueprint $table) {
         $table->integer('invoice_number')->unsigned();
         $table->decimal('product_cost', 5, 2);
-        $table->integer('product_id')->unsigned();
+        $table->unsignedInteger('product_id')->unsigned();
         $table->decimal('quantity', 7, 2);
-        $table->integer('customer_id')->unsigned();
+        $table->unsignedBigInteger('customer_id')->unsigned();
         $table->timestamps();
 
         $table->foreign('invoice_number')->references('invoice_number')->on('invoices')->onDelete('cascade');

@@ -9,14 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id'); // Primary key
+            $table->string('name', 50);
+            $table->decimal('price', 10, 2);
+            $table->string('description', 10000);
+            $table->boolean('in_stock');
+            $table->tinyInteger('deleted')->default(0); // For soft deletes or inactive products
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */

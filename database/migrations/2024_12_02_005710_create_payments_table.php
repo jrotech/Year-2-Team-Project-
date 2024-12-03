@@ -15,7 +15,7 @@ return new class extends Migration
         $table->increments('id');
         $table->date('date');
         $table->integer('invoice_number')->unsigned();
-        $table->integer('customer_id')->unsigned();
+        $table->unsignedBigInteger('customer_id')->unsigned();
         $table->integer('transaction_id');
         $table->dateTime('deleted')->nullable();
         $table->timestamps();
