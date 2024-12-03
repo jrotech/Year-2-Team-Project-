@@ -11,11 +11,12 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id(); // primary key
             $table->string('customer_name', 100);
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->string('phone_number', 15)->nullable();
             $table->string('email', 100)->unique();
             $table->boolean('email_confirmed')->default(false);
             $table->decimal('prev_balance', 10, 2)->default(0.00); // outstanding balance
+            $table->string('google_id')->nullable(); 
             $table->timestamps();
         });
     }
