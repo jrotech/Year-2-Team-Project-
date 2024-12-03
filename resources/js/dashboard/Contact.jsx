@@ -3,6 +3,8 @@ import { Stack, Avatar, Title, Flex, CopyButton, ActionIcon, Tooltip, rem, Input
 
 export default function Contact(props){
   return (
+    <Stack>
+      <Title order={1}>Contact</Title>
     <Flex className="bg-white rounded-md p-10 gap-24">
       <Stack>
 	<Flex gap="20">
@@ -39,5 +41,6 @@ export default function Contact(props){
 	<Title order={4}>Address: {props.address}</Title>
       </Stack>
     </Flex>
+    </Stack>
   )
 }

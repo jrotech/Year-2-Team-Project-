@@ -18,6 +18,7 @@ function Dashboard(props){
 	    <Profile name="asdf" email="asdf@sadf@" address="asdf" phone="432423432" orders="5" spent="1353" points="104343" />
 
 	    <Title className="text-main-accent underline" mt="40">Recent Orders</Title>
+	    <Stack gap="50">
 	    {
 	    Array.from({length: 3}, (_,i) => <Order key={i}
 							name={"Nvidia Gforce Rtx 3070 TI"}
@@ -74,6 +75,7 @@ function Dashboard(props){
 							id={i}
 					       />)
 	    }
+	    </Stack>
 	    <Contact/>
 	  </Stack>
 	</Flex>
