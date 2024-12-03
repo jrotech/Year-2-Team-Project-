@@ -10,7 +10,10 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $bestSellers = Product::where('is_best_seller', true)->get();
+        $bestSellers = Stock::with('product')
+         ->orderBy('quantity', 'asc')
+         ->limit(3)
+         ->get();
         $categories = Category::all();
 
         return view('home', compact('bestSellers', 'categories'));
