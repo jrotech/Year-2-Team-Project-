@@ -7,10 +7,12 @@ use App\Models\Product;
 
 class ShopController extends Controller
 {
-    public function shop(Request $request)
+    public function shop()
     {
-
-        $products = Product::all(); // Retrieve all products from the database
-        return view('shop', ['products' => $products]); // Pass products to the view
+        // Fetch products with their categories
+        $products = Product::with('categories')->get();
+    
+        // Return view with products data
+        return view('shop', ['products' => $products]);
     }
 }

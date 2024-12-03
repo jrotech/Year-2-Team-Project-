@@ -1,23 +1,23 @@
 import React from "react";
 import { Stack, RangeSlider, Title, Checkbox } from "@mantine/core";
 
-export default function Sidebar({ onCategoryChange }) {
+export default function Sidebar({ onCategoryChange, selectedCategory }) {
   const toggleSidebarRef = React.useRef(null);
 
   const categories = [
-    { name: "All", href: "/" },
-    { name: "GPUs", href: "/category1" },
-    { name: "CPUs", href: "/category2" },
-    { name: "RAM", href: "/category3" },
-    { name: "Motherboards", href: "/category4" },
-    { name: "Storage", href: "/category5" },
-    { name: "Cooling", href: "/category6" },
+    { name: "All" },
+    { name: "GPU"},
+    { name: "CPU"},
+    { name: "RAM"},
+    { name: "Motherboard"},
+    { name: "Storage"},
+    { name: "Cooling" },
   ];
 
-  // Handler for checkbox change
-  const handleCategoryChange = (name) => {
+  // Handle category selection
+  const handleCategorySelect = (category) => {
     if (onCategoryChange) {
-      onCategoryChange(name); // Notify parent
+      onCategoryChange(category); // Notify parent
     }
   };
 
@@ -44,30 +44,6 @@ export default function Sidebar({ onCategoryChange }) {
 
       {/* Sidebar */}
       <Stack className="max-w-[500px] min-w-[300px] sm:w-[400px] w-[300px] bg-white rounded-md pt-7 px-14 gap-7 h-screen sticky top-10 max-[960px]:peer-checked:translate-x-[-80%] max-[960px]:translate-x-[100%] transition-all duration-300 max-[960px]:absolute z-20">
-        <button
-          onClick={() => toggleSidebarRef.current.click()}
-          className="min-[960px]:hidden"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="35"
-            height="35"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="icon icon-tabler icons-tabler-outline icon-tabler-xbox-x"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M12 21a9 9 0 0 0 9 -9a9 9 0 0 0 -9 -9a9 9 0 0 0 -9 9a9 9 0 0 0 9 9z" />
-            <path d="M9 8l6 8" />
-            <path d="M15 8l-6 8" />
-          </svg>
-        </button>
-
-        {/* Price Filter */}
         <div className="mb-7">
           <Title order={3}>Price</Title>
           <RangeSlider
@@ -85,7 +61,6 @@ export default function Sidebar({ onCategoryChange }) {
 
         <hr />
 
-        {/* Availability Filter */}
         <div>
           <Title order={3}>Availability</Title>
           <Checkbox label="Only show products in stock" />
@@ -93,15 +68,14 @@ export default function Sidebar({ onCategoryChange }) {
 
         <hr />
 
-        {/* Categories */}
         <Stack className="gap-0">
           <Title order={3}>Categories</Title>
           {categories.map((category) => (
             <Checkbox
               key={category.name}
-              defaultChecked={category.name === "All"} // "All" is checked by default
+              checked={selectedCategory === category.name}
+              onChange={() => handleCategorySelect(category.name)}
               label={category.name}
-              onChange={() => handleCategoryChange(category.name)} // Handle category change
             />
           ))}
         </Stack>
