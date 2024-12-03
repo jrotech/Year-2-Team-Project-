@@ -219,52 +219,45 @@ margin-right: 20px;
 <img src="{{asset('img/whiteTechForge.png')}}" alt="techforge">
 </div>
 </div>
-    <div class="BestSellers">
+<div class="BestSellers">
         <h1>Best Sellers</h1>
         <div class="NicePcImg">
+            @foreach ($bestSellers as $bestSeller)
             <figure>
-        <img src="{{'img/NicePc.jpg'}}" alt="pc">
-        <figcaption>Nice PC</figcaption>
-        <div class="NicePcrating">
-            <i class="fas fa-star starred"></i>
-            <i class="fas fa-star starred"></i>
-            <i class="fas fa-star starred"></i>
-            <i class="fas fa-star starred"></i>
-            <i class="far fa-star starred"></i>
-        </div>
-        <button class="SeeMore">See more</button>
-        </figure>
-        <figure>
-        <img src="{{'img/ExtremePc.png'}}" alt="extremePc">
-        <figcaption>Extreme Prebuilt</figcaption>
-        <div class="ExtremePcrating">
-            <i class="fas fa-star starred"></i>
-            <i class="fas fa-star starred"></i>
-            <i class="fas fa-star starred"></i>
-            <i class="fas fa-star starred"></i>
-            <i class="far fa-star starred"></i>
-        </div>
-        <button class="SeeMore">See more</button>
-        </figure>
-        <figure>
-        <img src="{{'img/NicerPc.jpg'}}" alt="NicerPc">
-        <figcaption>Nicer Prebuilt</figcaption>
-        <div class="NicerPCrating">
-            <i class="fas fa-star starred"></i>
-            <i class="fas fa-star starred"></i>
-            <i class="fas fa-star starred"></i>
-            <i class="far fa-star starred"></i>
-            <i class="far fa-star starred"></i>
-        </div>
-        <button class="SeeMore">See more</button>
-        </figure>
+                <img src="{{ asset('storage/' . $bestSeller->product->image) }}" alt="{{ $bestSeller->product->name }}">
+                <figcaption>{{ $bestSeller->product->name }}</figcaption>
+                <p>${{ number_format($bestSeller->product->price, 2) }}</p>
+                <div class="NicePcrating">
+                    <!-- Example rating logic -->
+                    @php
+                        $rating = rand(3, 5); // Replace with actual rating if available
+                    @endphp
+                    @for ($i = 1; $i <= 5; $i++)
+                        @if ($i <= $rating)
+                            <i class="fas fa-star starred"></i>
+                        @else
+                            <i class="far fa-star"></i>
+                        @endif
+                    @endfor
+                </div>
+                <button class="SeeMore">See more</button>
+            </figure>
+            @endforeach
         </div>
     </div>
-<div class="Categories">
-    <h1>Categories</h1>
-    <div class="CategoryImages">
+ <!-- Categories Section -->
+ <div class="Categories">
+        <h1>Categories</h1>
+        <div class="CategoryImages">
+            @foreach ($categories as $category)
+            <div class="CategoryCard">
+                <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}">
+                <h3>{{ $category->name }}</h3>
+                <p>{{ $category->description }}</p>
+            </div>
+            @endforeach
+        </div>
     </div>
-</div>
 </body>
 </html>
 
