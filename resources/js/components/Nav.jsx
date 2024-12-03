@@ -97,20 +97,28 @@ function SearchBar(){
 function Categories(){
   const categories = [
 		{
-			name:"cases",
+			name:"GPUs",
 			href:"/category1"
 		},
 		{
-			name:"PC components",
+			name:"CPUs",
 			href:"/category2"
 		},
 		{
-			name:"Peripherals",
+			name:"RAM",
 			href:"/category3"
 		},
 		{
-			name:"monitors",
+			name:"Motherboards",
 			href:"/category4"
+		},
+    {
+			name:"Storage",
+			href:"/category5"
+		},
+    {
+			name:"Cooling",
+			href:"/category6"
 		},
 	];
   return (
