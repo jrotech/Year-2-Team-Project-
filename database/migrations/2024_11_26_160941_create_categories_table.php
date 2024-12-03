@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id(); // Primary key
             $table->string('name', 20);
             $table->text('description')->nullable();
+            $table->string('image')->nullable(); 
             $table->integer('delete'); 
             $table->timestamps();
         });

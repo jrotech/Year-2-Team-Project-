@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('description', 10000);
             $table->boolean('in_stock');
             $table->tinyInteger('deleted')->default(0); // For soft deletes or inactive products
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
