@@ -11,7 +11,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NavController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ShopController;
-
+use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\ChangeAddressController;
+use App\Http\Controllers\ChangePersonalDetailsController;
 
 // Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -33,6 +35,18 @@ Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
 
 // Product
 Route::get('/shop/product/{id}', [ProductController::class, 'show'])->name('product.show');
+// Change Of Password
+Route::middleware('auth')->controller(ChangePasswordController::class)->group(function () {
+    Route::get('/profile/change-password', 'showChangePasswordForm')->name('profile.change-password');
+    Route::post('/profile/change-password', 'updatePassword')->name('profile.update-password');
+
+    //Change Address Details
+    Route::get('/profile/change-address', [ChangeAddressController::class, 'showChangeAddressForm'])->name('profile.change-address');
+    Route::post('/profile/change-address', [ChangeAddressController::class, 'updateAddress'])->name('profile.update-address');
+
+    //Change Personal Details
+    Route::get('/profile/change-personal-details', [ChangePersonalDetailsController::class, 'showChangePersonalDetailsForm'])->name('profile.change-personal-details');
+Route::post('/profile/change-personal-details', [ChangePersonalDetailsController::class, 'updatePersonalDetails'])->name('profile.update-personal-details');
 
 // Submit Contact Form
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
