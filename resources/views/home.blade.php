@@ -1,4 +1,4 @@
-<!--/ 
+<!--/
     developer : Amen Alhousieni
     university id : 230237878
     fucntion : my aim to do the fisrt half of code for home page till signiup blocks
@@ -181,7 +181,7 @@ margin-right: 20px;
     <ul class="NavBar">
         <li><a href="login">Login</a></li>
         <li><a href="basket">Basket</a></li>
-        <li><a href="About Us">AboutUs</a></li>
+        <li><a href="{{ route('about') }}">About Us</a></li>
         <li><a href="pcBuilder">PC Builder</a></li>
         <li><a href="wishlist">Wishlist</a></li>
         <li class="searchBar">
