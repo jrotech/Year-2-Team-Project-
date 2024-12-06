@@ -21,7 +21,7 @@ class register extends Controller
         if(Auth::check()){
             return redirect('/');
         }
-        return view('Registration');
+        return view('registration');
     }
 
     // store the customer information
