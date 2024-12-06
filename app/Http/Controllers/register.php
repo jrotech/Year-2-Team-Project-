@@ -34,7 +34,7 @@ class register extends Controller
         ]);
         $info['customer_name'] = $request->CustomerName;
         $info['email'] = $request->CustomerEmail;
-        $info['password'] = $request->CustomerPassword;
+        $info['password'] = Hash::make($request->CustomerPassword);
         $info["phone_number"] = $request->CustomerPhone;
         $customer = Customer::create($info);
 

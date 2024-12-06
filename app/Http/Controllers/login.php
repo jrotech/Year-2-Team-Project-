@@ -16,9 +16,6 @@ class login extends Controller
 {
     // display the login page
     public function create(){
-        if(Auth::check()){
-            return redirect('/');
-        }
         return view('login');
     }
 
@@ -34,8 +31,7 @@ class login extends Controller
 
         // try to login the customer
         if(Auth::attempt(['email' => $email, 'password' => $password])){
-
-            return redirect('/');
+            return redirect()->intended('/');
         }
         // redirect if the login failed
         return redirect('/login')->with('error','Email or Password is Incorrect');

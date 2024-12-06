@@ -152,7 +152,8 @@
         </div>
 
         <!-- Login Form -->
-        <form action="/login" method="POST">
+        <form action="/login"  method="POST" >
+            @csrf
             <!-- Username -->
             <div class="form-group">
                 <label for="CustomerEmail">Email</label>

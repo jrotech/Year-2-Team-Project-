@@ -73,6 +73,7 @@
         <h1>Register with us</h1>
         <div class="RegisterInputs">
             <form method="post" action="/register">
+                @csrf
             <input type="text" name="CustomerName" placeholder="Name">
             <input type="text" name="CustomerEmail" placeholder="Email">
             <input type="text" name="CustomerPassword" placeholder="Password">
