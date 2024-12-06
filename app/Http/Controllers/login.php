@@ -16,32 +16,28 @@ class login extends Controller
 {
     // display the login page
     public function create(){
-        if(Auth::check()){
-            return redirect('/');
-        }
         return view('login');
     }
 
     // login a registered user
     public function login(Request $request){
         $request->validate([
-            'email'=>'required',
-            'password'=>'required'
+            'CustomerEmail'=>'required',
+            'CustomerPassword'=>'required'
         ]);
 
-        $email  = $request->email;
-        $password = $request->password;
+        $email  = $request->CustomerEmail;
+        $password = $request->CustomerPassword;
 
-        // try to login the user
+        // try to login the customer
         if(Auth::attempt(['email' => $email, 'password' => $password])){
-
-            return redirect('/');
+            return redirect()->intended('/');
         }
         // redirect if the login failed
         return redirect('/login')->with('error','Email or Password is Incorrect');
     }
 
-    // logout the user
+    // logout the customer
     function logout(){
         Session::flush();
         Auth::logout();

@@ -12,7 +12,7 @@
         margin: 0;
         padding: 0;
         min-height: 100vh;
-        background-image: linear-gradient(to bottom right,blue,red);       
+        background-image: linear-gradient(to bottom right,blue,red);
     }
 
 
@@ -29,7 +29,7 @@
         padding: 70px 30px;
         box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
         text-align: center;
-        
+
     }
 
     .RegistrationBox h1{
@@ -47,7 +47,7 @@
         margin-left: auto;
         margin-right: auto;
         padding: 10px;
-        gap: 35px; 
+        gap: 35px;
         border-radius: 45px;
         }
 
@@ -58,7 +58,7 @@
         margin-left: auto;
         margin-right: auto;
         padding: 10px;
-        gap: 35px; 
+        gap: 35px;
         border-radius: 45px;
         background: #010035;
         color: #fff;
@@ -72,13 +72,16 @@
     <div class="RegistrationBox">
         <h1>Register with us</h1>
         <div class="RegisterInputs">
+            <form method="post" action="/register">
+                @csrf
             <input type="text" name="CustomerName" placeholder="Name">
             <input type="text" name="CustomerEmail" placeholder="Email">
             <input type="text" name="CustomerPassword" placeholder="Password">
             <input type="text" name="CustomerPhone" placeholder="Phone">
-            <input type="button" name="Register" value="Register" placeholder="Register">
+            <input type="submit" name="Register" value="Register" placeholder="Register">
+            </form>
         </div>
-        
+
     </div>
 </body>
 </html>

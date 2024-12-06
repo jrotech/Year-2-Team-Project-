@@ -1,17 +1,35 @@
 import { COMPANY_NAME } from "../constants";
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-
+import { useState, useEffect } from 'react'
 function NavWrapp(){
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  useEffect(() => {
+    async function checkAuth() {
+      try {
+        const response = await fetch("/api/auth-status", {
+          credentials: "include", // Include cookies
+        });
+        const data = await response.json();
+        setIsAuthenticated(data.isAuthenticated);
+      } catch (error) {
+        console.error("Failed to check auth status", error);
+      }
+    }
+    checkAuth();
+  }, []);
   return (
     <div className="relative top-0 z-[1] box-border w-screen text-white">
-      <NavBar/>
+      <NavBar isAuthenticated={isAuthenticated}/>
       <Categories/>
     </div>
   )
 }
 
-function NavBar() {
+function NavBar({ isAuthenticated }) {
+
+  
   const links = [
     {
       name:"home",
@@ -68,7 +86,7 @@ function NavBar() {
 	    </li>
 
             <li className="p-4 font-normal hover:text-main-accent transition-color duration-300">
-              {false ? (
+              {isAuthenticated ? (
                 <a href="/dashboard">Dashboard</a>
               ) : (
                 <a
