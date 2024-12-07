@@ -11,7 +11,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    @vite(['resources/css/app.css', 'resources/js/app.js','resources/js/home/page.js'])
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    @vite(['resources/css/app.css', 'resources/js/app.js','resources/js/shop/page.js'])
 </head>
 <style>
     *{
@@ -175,39 +177,8 @@ margin-right: 20px;
     cursor: pointer;
 }
 </style>
-<body class="h-[200vh] bg-main-bg">
-    <!--
-    <div class="BlueNavBar">
-    <ul class="NavBar">
-        <li><a href="login">Login</a></li>
-        <li><a href="basket">Basket</a></li>
-        <li><a href="About Us">AboutUs</a></li>
-        <li><a href="pcBuilder">PC Builder</a></li>
-        <li><a href="wishlist">Wishlist</a></li>
-        <li class="searchBar">
-        <input type="text" placeholder="Search">  </input>
-        </li>
-    </ul>
-    <div class="techForgeImage">
-        <img src="{{ asset('img/techForge.png') }}" alt="TechForge">
-    </div>
-</div>
-    <div class="GreyNavbar">
-        <ul class="SecondBar">
-            <li> <a href="cases">Cases</a></li>
-            <li> <a href="cooling">Cooling</a></li>
-            <li> <a href="cpu">CPU</a></li>
-            <li> <a href="gpu">GPU</a></li>
-            <li> <a href="motherboard">Motherboard</a></li>
-            <li> <a href="psu">PSU</a></li>
-            <li> <a href="memory">Memory</a></li>
-            <li> <a href="monitors">Monitors</a></li>
-            <li> <a href="peripherals">Peripherals</a></li>
-        </ul>
-</div>
--->
-
-      <div id="nav"></div>
+<body>
+  <div id="nav"></div>
 <div class="pcSetup">
     <img src="{{ asset('img/pcSetup.jpg') }}" alt="PC Setup">
 </div>
@@ -229,45 +200,52 @@ margin-right: 20px;
 <img src="{{asset('img/whiteTechForge.png')}}" alt="techforge">
 </div>
 </div>
-<div class="BestSellers">
+    <div class="BestSellers">
         <h1>Best Sellers</h1>
         <div class="NicePcImg">
-            @foreach ($bestSellers as $bestSeller)
             <figure>
-                <img src="{{ asset('storage/' . $bestSeller->product->image) }}" alt="{{ $bestSeller->product->name }}">
-                <figcaption>{{ $bestSeller->product->name }}</figcaption>
-                <p>${{ number_format($bestSeller->product->price, 2) }}</p>
-                <div class="NicePcrating">
-                    <!-- Example rating logic -->
-                    @php
-                        $rating = rand(3, 5); // Replace with actual rating if available
-                    @endphp
-                    @for ($i = 1; $i <= 5; $i++)
-                        @if ($i <= $rating)
-                            <i class="fas fa-star starred"></i>
-                        @else
-                            <i class="far fa-star"></i>
-                        @endif
-                    @endfor
-                </div>
-                <button class="SeeMore">See more</button>
-            </figure>
-            @endforeach
+        <img src="{{'img/NicePc.jpg'}}" alt="pc">
+        <figcaption>Nice PC</figcaption>
+        <div class="NicePcrating">
+            <i class="fas fa-star starred"></i>
+            <i class="fas fa-star starred"></i>
+            <i class="fas fa-star starred"></i>
+            <i class="fas fa-star starred"></i>
+            <i class="far fa-star starred"></i>
+        </div>
+        <button class="SeeMore">See more</button>
+        </figure>
+        <figure>
+        <img src="{{'img/ExtremePc.png'}}" alt="extremePc">
+        <figcaption>Extreme Prebuilt</figcaption>
+        <div class="ExtremePcrating">
+            <i class="fas fa-star starred"></i>
+            <i class="fas fa-star starred"></i>
+            <i class="fas fa-star starred"></i>
+            <i class="fas fa-star starred"></i>
+            <i class="far fa-star starred"></i>
+        </div>
+        <button class="SeeMore">See more</button>
+        </figure>
+        <figure>
+        <img src="{{'img/NicerPc.jpg'}}" alt="NicerPc">
+        <figcaption>Nicer Prebuilt</figcaption>
+        <div class="NicerPCrating">
+            <i class="fas fa-star starred"></i>
+            <i class="fas fa-star starred"></i>
+            <i class="fas fa-star starred"></i>
+            <i class="far fa-star starred"></i>
+            <i class="far fa-star starred"></i>
+        </div>
+        <button class="SeeMore">See more</button>
+        </figure>
         </div>
     </div>
- <!-- Categories Section -->
- <div class="Categories">
-        <h1>Categories</h1>
-        <div class="CategoryImages">
-            @foreach ($categories as $category)
-            <div class="CategoryCard">
-                <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}">
-                <h3>{{ $category->name }}</h3>
-                <p>{{ $category->description }}</p>
-            </div>
-            @endforeach
-        </div>
+<div class="Categories">
+    <h1>Categories</h1>
+    <div class="CategoryImages">
     </div>
+</div>
 </body>
 </html>
 

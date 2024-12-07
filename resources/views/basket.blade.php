@@ -11,13 +11,11 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Styles / Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js','resources/js/shop/page.js'])
+        @vite(['resources/css/app.css', 'resources/js/app.js','resources/js/basket/page.js'])
     </head>
     <body class="min-h-[100vh] bg-main-bg">
       <div id="nav"></div>
-      <div id="products"
-     data-products="{{ json_encode($products) }}"  
-      ></div>
+      <div id="basket"></div>
 
       
     </body>

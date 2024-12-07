@@ -1,32 +1,35 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { createRoot } from 'react-dom/client';
 import Product from './Product';
 import Sidebar from './Sidebar';
-import { MantineProvider, Flex } from '@mantine/core';
+import { MantineProvider, Flex, Stack, Title } from '@mantine/core';
 import { theme } from '../mantine';
 
 function ProductsList(props) {
-  const products = JSON.parse(props.products);
-
-  const [filteredProducts, setFilteredProducts] = React.useState(products);
+  const [products,setProducts] = React.useState(JSON.parse(props.products));
+  const [filteredProducts, setFilteredProducts] = React.useState([]);
   const [selectedCategory, setSelectedCategory] = React.useState('All');
+  
   const [priceRange, setPriceRange] = React.useState([10, 5000]); // Default price range
 
+  React.useEffect(() => {
+    setFilteredProducts(products);
+  }, []);
+
   // Filter products based on category and price range
-  const filterProducts = (category, range) => {
+  const filterProducts = useCallback( (category, range) => {
     setFilteredProducts(
       products.filter((product) => {
-        const matchesCategory =
+        const matchescategory =
           category === 'All' ||
           product.categories.some((cat) => cat.name === category);
-        const matchesPrice =
+        const matchesprice =
           product.price >= range[0] && product.price <= range[1];
-        return matchesCategory && matchesPrice;
+        return matchescategory && matchesprice;
       })
     );
-  };
+  },[selectedCategory, products])
 
-  // Handler for category change
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
     filterProducts(category, priceRange);
@@ -43,6 +46,7 @@ function ProductsList(props) {
       <Flex className="max-w-screen justify-between m-24 relative">
         <Flex className="items-center justify-center w-full">
           <Flex className="gap-20 flex-wrap max-w-[1200px] justify-center">
+	    {filteredProducts.length === 0 && <NotFound />}
             {filteredProducts.map((product) => (
               <Product
                 key={product.id}
@@ -66,6 +70,14 @@ function ProductsList(props) {
       </Flex>
     </MantineProvider>
   );
+}
+
+function NotFound(){
+  return (
+    <Stack>
+      <Title>No products found</Title>
+    </Stack>
+  )
 }
 
 export default ProductsList;
