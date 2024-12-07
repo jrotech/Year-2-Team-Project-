@@ -8,7 +8,25 @@ class ProductController extends Controller
 {
     public function show($id)
     {
-        return view('product');
+        $product = Product::with(['categories', 'images'])->findOrFail($id);
+
+        $productInfo = [
+            'id' => $product->id,
+            'name' => $product->name,
+            'description' => $product->description,
+            'price' => $product->price,
+            'in_stock' => $product->in_stock,
+            'categories' => $product->categories,
+            'images' => $product->images->map(function ($image) {
+                return [
+                    'url' => asset('storage/' . $image->url),
+                    'alt' => $image->alt ?? 'Product Image',
+                ];
+            }),
+        ];
+
+        return view('product', ['product' => $productInfo]);
+        
     }
     
     public function getProduct($id)

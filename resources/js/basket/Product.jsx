@@ -4,6 +4,7 @@ import { Stack, Flex, NumberInput, Title, Text } from '@mantine/core';
 export default function Product({
   id,
   name,
+  onChangeProduct,
   price,
   description,
   category,
@@ -38,6 +39,7 @@ export default function Product({
       .then(() => {
         setQty(integerQuantity); // Update local state
         setLoading(false);
+	onChangeProduct();
 
         // Notify parent about the quantity change
         onQuantityChange(id, integerQuantity);

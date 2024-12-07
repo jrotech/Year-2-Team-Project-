@@ -1,37 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { MantineProvider, Flex, Stack, Title } from '@mantine/core';
+import { theme } from '../mantine';
+import { MantineProvider, Flex, Stack, Title, Button, Center } from '@mantine/core';
 import Product from './Product';
 import Sidebar from './Sidebar'; 
-import { theme } from '../mantine';
+import { fetchBasket as getBasket } from './fetchBasket';
 
 function Basket() {
   const [basketItems, setBasketItems] = useState([]);
   const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(true);
+
+  const fetchBasket = async () => {
+    const basket = await getBasket();
+    setBasketItems(basket.cartItems);
+    setTotal(res.total)
+  }
+
+  const clearBasket = async () => {
+      try{
+	const req = await fetch('/api/basket', {
+	  headers: {
+	    'Accept': 'application/json', 
+	  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+	},
+	  method: "DELETE",
+	})
+	const res = await req.json();
+	fetchBasket();
+      }catch(e){
+	console.log(e)
+      }
+    }
+
 
   useEffect(() => {
-    // Fetch basket contents from the API
-    fetch('/api/basket', {
-      headers: {
-        'Accept': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch basket');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setBasketItems(data.cartItems);
-        setTotal(data.total);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching basket:', error);
-        setLoading(false);
-      });
+    fetchBasket()
   }, []);
 
   const handleQuantityChange = (id, newQuantity) => {
@@ -52,35 +55,39 @@ function Basket() {
     setTotal(newTotal);
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (basketItems.length === 0) {
-    return <Title>Your basket is empty</Title>;
-  }
 
   return (
     <MantineProvider theme={theme}>
+      <Stack>
       <Flex className="max-w-screen justify-center relative mt-28" gap="30">
         <Stack>
-          {basketItems.map((item) => (
+	  {basketItems.length === 0 && <Title>Your basket is empty</Title>}
+          {basketItems.map((item) => {
+
+	    if(item.price == 0) return null
+	    return (
             <Product
+	      onChangeProduct={fetchBasket}
               key={item.id}
               id={item.id}
               name={item.name}
               price={item.price}
               description={item.description}
-              category={item.category.join(', ')}
+              category={item.category}
               img_url={item.img_url}
               quantity={item.quantity}
               onQuantityChange={handleQuantityChange} // Pass the callback
             />
-          ))}
+	    )
+          })}
           <Title>Total: ${total.toFixed(2)}</Title>
         </Stack>
-        <Sidebar />
+        <Sidebar total={total} vat={total*0.2} delivery_cost={total*0.1} subtotal={total*0.7 } />
       </Flex>
+      <Center>
+	<Button onClick={clearBasket} color="red">Clear Basket</Button>
+      </Center>
+      </Stack>
     </MantineProvider>
   );
 }

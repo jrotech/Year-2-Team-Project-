@@ -16,7 +16,6 @@
     </head>
     <body class="h-[200vh] bg-main-bg">
       <div id="nav"></div>
-      <div id="product"></div>
-      
+      <div id="product" data-product="{{ json_encode($product) }}" ></div>
     </body>
 </html>

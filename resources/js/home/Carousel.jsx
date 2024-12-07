@@ -7,7 +7,8 @@ export default function CarouselWrap(){
     <div className="h-[70vh] flex w-screen">
       <Carousel withIndicators height="100%" width="100%" loop>
 	{
-	[	    {src: "https://images.firstpost.com/wp-content/uploads/2019/10/Intel-Core-i9-9900KS-5-GHz.jpg?im=FitAndFill=(1200,675)",alt: "cpu"},
+	  [
+	    {src: "https://images.firstpost.com/wp-content/uploads/2019/10/Intel-Core-i9-9900KS-5-GHz.jpg?im=FitAndFill=(1200,675)",alt: "cpu"},
 	    {src: "https://www.pcworld.com/wp-content/uploads/2023/10/cpu-hub-100758206-orig.jpg?quality=50&strip=all",alt: "cpu"},
 	    {src: "https://www.trustedreviews.com/wp-content/uploads/sites/54/2021/03/Intel-Rocker-Lake-2-e1615908186584.jpg",alt: "cpu"},
 	    {src: "https://cdn.mos.cms.futurecdn.net/Ria5erNerXX8q9PbzyAZvG-1200-80.jpg",alt: "cpu"},
