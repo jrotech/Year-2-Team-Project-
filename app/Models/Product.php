@@ -23,6 +23,12 @@ class Product extends Model
      * Relationships
      */
 
+    // Relation with images
+    public function images()
+    {
+        return $this->hasMany(Image::class, 'product_id');
+    }
+    
     // Relation with Stock
     public function stock()
     {

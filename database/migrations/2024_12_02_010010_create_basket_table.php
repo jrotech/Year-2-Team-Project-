@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up()
 {
-    Schema::create('basket', function (Blueprint $table) {
+    Schema::create('baskets', function (Blueprint $table) {
         $table->id(); // Add an ID column for the basket
         $table->unsignedBigInteger('customer_id');
         $table->timestamps();
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('basket');
+        Schema::dropIfExists('baskets');
     }
 };
