@@ -13,23 +13,13 @@ import Feedback from './Feedback';
 function Product(props){
   const [product, setProduct] = React.useState(JSON.parse(props.product))
 
+  console.log(product)
+
   return (
     <MantineProvider theme={theme}>
       <Stack className="bg-main-bg py-24 px-16 justify-center w-screen">
 	<Flex gap="50" wrap="wrap" justify="center">
-	  <Images images={[
-	    {src: `../../storage/${product.image}`,alt: "cpu"},
-	    {src: "https://www.pcworld.com/wp-content/uploads/2023/10/cpu-hub-100758206-orig.jpg?quality=50&strip=all",alt: "cpu"},
-	    {src: "https://www.trustedreviews.com/wp-content/uploads/sites/54/2021/03/Intel-Rocker-Lake-2-e1615908186584.jpg",alt: "cpu"},
-	    {src: "https://cdn.mos.cms.futurecdn.net/Ria5erNerXX8q9PbzyAZvG-1200-80.jpg",alt: "cpu"},
-	    {src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpy7JuBoA2XoJkg7PaYSxJfbftdZ7mP_DDYQ&s",alt: "cpu"},
-	    {src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKt-AiHYU2Ai2_jcRhqCmwD_O8wWxHuD_CDA&s",alt: "cpu"},
-	    {src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRw7VjNIGCKxcwZWjvZtiurmi1JWvCMqpXmZA&s",alt: "cpu"},
-	    {src: "https://static0.gamerantimages.com/wordpress/wp-content/uploads/2023/08/best-budget-cpus-for-gaming-gamerant-recommended-feature-1.jpg",alt: "cpu"},
-	    {src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnUZ2WS1LU0prKPg-asXmwNJMxfrq8sMaB-A&s",alt: "cpu"},
-	    
-	    
-	  ]} />
+	  <Images images={product.images.map( img => ({src: img.url, alt: img.alt}))} />
 	  <ModalsProvider>
 	    <Info productName={product.name} inStock={product.in_stock} rating={3}
 			       price={product.price} id={product.id}

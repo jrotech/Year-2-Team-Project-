@@ -40,6 +40,7 @@ class BasketController extends Controller
         }
 
         $cartItems = $basket->products->map(function ($product) {
+            $product->primary_image = $product->images->first()->url ?? null;
             return [
                 'id' => $product->id,
                 'name' => $product->name,
@@ -125,14 +126,17 @@ class BasketController extends Controller
     public function clear()
     {
         $basket = Basket::where('customer_id', Auth::id())->first();
-
+        
         if ($basket) {
             $basket->products()->detach();
         }
-
-        return redirect()->route('cart.index')->with('success', 'Basket cleared!');
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Basket cleared.',
+        ]);
     }
-
+    
     /**
      * Proceed to checkout.
      */

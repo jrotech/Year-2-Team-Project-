@@ -32,7 +32,7 @@ Route::get('/login', [NavController::class, 'login'])->name('login');
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
 
 // Product
-Route::get('/shop/product/{id}', [ProductController::class, 'show'])->name('product.show');
+Route::get('/shop/product/{id}', [ProductController::class, 'show'])->name('product.getProduct');
 Route::get('/api/products/{id}', [ProductController::class, 'getProduct'])->name('api.product.show');
 
 
@@ -58,7 +58,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/basket/add/{product}', [BasketController::class, 'add'])->name('basket.add');
     Route::put('/basket/{basketItem}', [BasketController::class, 'update'])->name('basket.update');
     Route::delete('/basket/{basketItem}', [BasketController::class, 'remove'])->name('basket.remove');
-    Route::delete('/basket', [BasketController::class, 'clear'])->name('basket.clear');
+    Route::delete('/api/basket', [BasketController::class, 'clear'])->name('basket.clear');
     Route::get('/api/basket', [BasketController::class, 'getBasket'])->name('api.basket.get');
 
 
@@ -84,7 +84,4 @@ Route::get('/dashboard/orders/{id}', function () {
 Route::get('/checkout', function () {
     return view('checkout');
 });
-
-
-
 
