@@ -11,7 +11,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NavController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ShopController;
-use App\Http\Controllers\APIRoutesController;
+use App\Http\Controllers\LoggedInAPI;
 
 
 // Homepage
@@ -38,7 +38,7 @@ Route::get('/shop/product/{id}', [ProductController::class, 'show'])->name('prod
 // Submit Contact Form
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 
-Route::get('/api/auth-status', [APIRoutesController::class, 'loggedin']) -> name('isloggedin');
+Route::get('/api/auth-status', [LoggedInAPI::class, 'loggedin']) -> name('isloggedin');
 
 Route::get('/register', [register::class,'create'])->name('register');
 Route::post('/register', [register::class,'store'])->name('register');
