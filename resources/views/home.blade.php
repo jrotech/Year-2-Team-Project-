@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.bunny.net">
-    @vite(['resources/css/app.css', 'resources/js/app.js','resources/js/shop/page.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js','resources/js/home/page.js'])
 </head>
 <style>
     *{
@@ -179,9 +179,7 @@ margin-right: 20px;
 </style>
 <body>
   <div id="nav"></div>
-<div class="pcSetup">
-    <img src="{{ asset('img/pcSetup.jpg') }}" alt="PC Setup">
-</div>
+  <div id="home"></div>
 <div class="signupText">
     <h1>Please sign up if you do <br> not have an account with us already</h1>
     <p>Having an account will allow you to save items to basket and create wishlists</p>
