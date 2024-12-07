@@ -15,7 +15,6 @@ class ShopController extends Controller
             ->map(function ($product) {
                 // Add a 'primary_image' field for convenience
                 $product->primary_image = $product->images->first()->url ?? null;
-                \Log::info($product->primary_image);
                 return $product;
             });
 
