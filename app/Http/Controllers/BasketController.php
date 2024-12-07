@@ -14,6 +14,7 @@ class BasketController extends Controller
      */
     public function index()
     {
+        
         $basket = Basket::where('customer_id', Auth::id())->first();
 
         if (!$basket) {
@@ -34,9 +35,10 @@ class BasketController extends Controller
      */
     public function add(Request $request, Product $product)
     {
+        \Log::info("Got here");
         // Fetch stock for the product
         $stock = Stock::where('product_id', $product->id)->first();
-
+        \Log::info("Product is" . $product);
         if (!$stock) {
             return redirect()->back()->withErrors(['error' => 'Stock information not found for this product.']);
         }
@@ -57,7 +59,7 @@ class BasketController extends Controller
             $basket->products()->attach($product->id, ['quantity' => $request->quantity]);
         }
 
-        return redirect()->route('products.index')->with('success', 'Product added to basket successfully!');
+        return redirect()->route('shop')->with('success', 'Product added to basket successfully!');
     }
 
     /**

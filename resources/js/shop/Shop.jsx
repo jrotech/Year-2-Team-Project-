@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { createRoot } from 'react-dom/client';
 import Product from './Product';
 import Sidebar from './Sidebar';
-import { MantineProvider, Flex, Stack, Title } from '@mantine/core';
+import { MantineProvider, Flex, Stack, Title, Notification } from '@mantine/core';
 import { theme } from '../mantine';
 
 function ProductsList(props) {
@@ -10,6 +10,7 @@ function ProductsList(props) {
   const [filteredProducts, setFilteredProducts] = React.useState([]);
   const [selectedCategory, setSelectedCategory] = React.useState('All');
   const [priceRange, setPriceRange] = React.useState([10, 5000]); // Default price range
+  const [successMessage, setSuccessMessage] = React.useState(props.successMessage || null);
 
   React.useEffect(() => {
     setFilteredProducts(products);
@@ -42,30 +43,41 @@ function ProductsList(props) {
 
   return (
     <MantineProvider theme={theme}>
+      {successMessage && (
+            <Notification
+              onClose={() => setSuccessMessage(null)}
+              color="teal"
+              title="Success"
+            >
+              {successMessage}
+            </Notification>
+          )}
       <Flex className="max-w-screen justify-between m-24 relative">
-        <Flex className="items-center justify-center w-full">
-          <Flex className="gap-20 flex-wrap max-w-[1200px] justify-center">
-            {filteredProducts.length === 0 && <NotFound />}
-            {filteredProducts.map((product) => (
-              <Product
-                key={product.id}
-                name={product.name}
-                primary_image={product.primary_image}
-                rating={product.rating || 0}
-                price={product.price}
-                inStock={product.in_stock}
-                wishList={false}
-                id={product.id}
-              />
-            ))}
+        
+          
+          <Flex className="items-center justify-center w-full">
+            <Flex className="gap-20 flex-wrap max-w-[1200px] justify-center">
+              {filteredProducts.length === 0 && <NotFound />}
+              {filteredProducts.map((product) => (
+                <Product
+                  key={product.id}
+                  name={product.name}
+                  primary_image={product.primary_image}
+                  rating={product.rating || 0}
+                  price={product.price}
+                  inStock={product.in_stock}
+                  wishList={false}
+                  id={product.id}
+                />
+              ))}
+            </Flex>
           </Flex>
-        </Flex>
-        <Sidebar
-          onCategoryChange={handleCategoryChange}
-          onPriceRangeChange={handlePriceRangeChange}
-          selectedCategory={selectedCategory}
-          priceRange={priceRange}
-        />
+          <Sidebar
+            onCategoryChange={handleCategoryChange}
+            onPriceRangeChange={handlePriceRangeChange}
+            selectedCategory={selectedCategory}
+            priceRange={priceRange}
+          />
       </Flex>
     </MantineProvider>
   );

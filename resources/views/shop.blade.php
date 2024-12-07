@@ -16,7 +16,8 @@
     <body class="min-h-[100vh] bg-main-bg">
       <div id="nav"></div>
       <div id="products"
-      data-products="{{ json_encode($products) }}"
+      data-products='@json($products)'  
+      data-success-message="{{ session('success') }}"
       ></div>
 
       
