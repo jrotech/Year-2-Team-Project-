@@ -75,6 +75,14 @@ Route::get('/dashboard/orders/{id}', function () {
     return view('order');
 });
 
+Route::get('/basket', function () {
+    return view('basket');
+});
+
+Route::get('/checkout', function () {
+    return view('checkout');
+});
+
 
 
 
