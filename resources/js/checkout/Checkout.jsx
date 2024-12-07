@@ -22,7 +22,7 @@ function Checkout(props){
     <MantineProvider theme={theme}>
       <Flex className="max-w-screen justify-center relative mt-28" gap="50">
 	<Form />
-	<Sidebar vat={total*0.2} total={total} basketItems={basketItems} />
+	<Sidebar vat={total*0.2} total={total*1.3} basketItems={basketItems} delivery_cost={total*0.1}/>
       </Flex>
     </MantineProvider>
   )
