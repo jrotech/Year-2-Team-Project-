@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('basket_product', function (Blueprint $table) {
             $table->unsignedBigInteger('basket_id'); // Foreign key to the basket
             $table->unsignedInteger('product_id'); // Foreign key to the product
-            $table->decimal('quantity', 7, 2); // Quantity of the product in the basket
+            $table->unsignedInteger('quantity'); // Quantity of the product in the basket
             $table->timestamps();
 
             // Foreign key constraints

@@ -39,7 +39,7 @@ Route::get('/api/products/{id}', [ProductController::class, 'getProduct'])->name
 // Submit Contact Form
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 
-Route::get('/api/auth-status', [LoggedInAPI::class, 'loggedin']) -> name('isloggedin');
+Route::get('/api/auth-status', [LoggedInAPI::class, 'loggedin']) -> name('is.logged.in');
 
 Route::get('/register', [register::class,'create'])->name('register');
 Route::post('/register', [register::class,'store'])->name('register');
@@ -53,11 +53,14 @@ Route::get('/authenticate/google/callback',[GoogleAuthController::class,'callbac
 
 
 Route::middleware(['auth'])->group(function () {
+    
     Route::get('/basket', [BasketController::class, 'index'])->name('basket');
     Route::post('/basket/add/{product}', [BasketController::class, 'add'])->name('basket.add');
     Route::put('/basket/{basketItem}', [BasketController::class, 'update'])->name('basket.update');
     Route::delete('/basket/{basketItem}', [BasketController::class, 'remove'])->name('basket.remove');
     Route::delete('/basket', [BasketController::class, 'clear'])->name('basket.clear');
+    Route::get('/api/basket', [BasketController::class, 'getBasket'])->name('api.basket.get');
+
 
     Route::get('/checkout', [CheckoutController::class, 'showCheckout'])->name('checkout.show');
     Route::post('/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
