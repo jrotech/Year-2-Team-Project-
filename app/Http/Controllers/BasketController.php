@@ -1,83 +1,104 @@
 <?php
-/********************************
-Developer: Abdullah Alharbi
-University ID: 230046409
-Function: This controller adds the basket feature
- ********************************/
 namespace App\Http\Controllers;
 
 use App\Models\Basket;
 use App\Models\Product;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BasketController extends Controller
 {
-    // display basket
+    /**
+     * Display basket items.
+     */
     public function index()
     {
-        $cartItems = Basket::with('product')
-            ->where('customer_id', Auth::id())
-            ->get();
+        $basket = Basket::where('customer_id', Auth::id())->first();
+
+        if (!$basket) {
+            return view('basket', ['cartItems' => [], 'total' => 0]);
+        }
+
+        $cartItems = $basket->products;
 
         $total = $cartItems->sum(function ($item) {
-            return $item->product->price * $item->quantity;
+            return $item->price * $item->pivot->quantity;
         });
 
         return view('basket', compact('cartItems', 'total'));
     }
-    //add to the basket
+
+    /**
+     * Add product to basket.
+     */
     public function add(Request $request, Product $product)
     {
-        $request->validate([
-            'quantity' => 'required|integer|min:1|max:' . $product->stock,
-        ]);
+        // Fetch stock for the product
+        $stock = Stock::where('product_id', $product->id)->first();
 
-        $cartItem = Basket::where('customer_id', Auth::id())
-            ->where('product_id', $product->id)
-            ->first();
-
-        if ($cartItem) {
-            $cartItem->increment('quantity', $request->quantity);
-        } else {
-            Basket::create([
-                'customer_id' => Auth::id(),
-                'product_id' => $product->id,
-                'quantity' => $request->quantity,
-            ]);
+        if (!$stock) {
+            return redirect()->back()->withErrors(['error' => 'Stock information not found for this product.']);
         }
 
-        return redirect()->route('products.index')->with('success', 'Product added to cart successfully!');
-    }
-
-    // update the basket
-    public function update(Request $request, Basket $cartItem)
-    {
         $request->validate([
-            'quantity' => 'required|integer|min:1|max:' . $cartItem->product->stock,
+            'quantity' => 'required|numeric|min:1|max:' . $stock->quantity,
         ]);
 
-        $cartItem->update(['quantity' => $request->quantity]);
+        $basket = Basket::firstOrCreate(['customer_id' => Auth::id()]);
 
-        return redirect()->route('cart.index')->with('success', 'Cart updated!');
+        $existingItem = $basket->products()->where('product_id', $product->id)->first();
+
+        if ($existingItem) {
+            $basket->products()->updateExistingPivot($product->id, [
+                'quantity' => $existingItem->pivot->quantity + $request->quantity,
+            ]);
+        } else {
+            $basket->products()->attach($product->id, ['quantity' => $request->quantity]);
+        }
+
+        return redirect()->route('products.index')->with('success', 'Product added to basket successfully!');
     }
 
-    //remove from the basket
-    public function remove(Basket $cartItem)
+    /**
+     * Update product quantity in the basket.
+     */
+    public function update(Request $request, $productId)
     {
-        $cartItem->delete();
-
-        return redirect()->route('cart.index')->with('success', 'Item removed from cart!');
+        $basket = Basket::where('customer_id', Auth::id())->firstOrFail();
+    
+        $request->validate([
+            'quantity' => 'required|numeric|min:0|max:' . Stock::where('product_id', $productId)->value('quantity'),
+        ]);
+    
+        if ($request->quantity == 0) {
+            // Remove the product from the basket if quantity is set to zero
+            $basket->products()->detach($productId);
+        } else {
+            // Update the product's quantity in the basket
+            $basket->products()->updateExistingPivot($productId, ['quantity' => $request->quantity]);
+        }
+    
+        return redirect()->route('cart.index')->with('success', 'Basket updated!');
     }
-
-    // clear the basket
+    
+    /**
+     * Clear all items from the basket.
+     */
     public function clear()
     {
-        Basket::where('customer_id', Auth::id())->delete();
+        $basket = Basket::where('customer_id', Auth::id())->first();
 
-        return redirect()->route('cart.index')->with('success', 'Cart cleared!');
+        if ($basket) {
+            $basket->products()->detach();
+        }
+
+        return redirect()->route('cart.index')->with('success', 'Basket cleared!');
     }
 
+    /**
+     * Proceed to checkout.
+     */
     public function proceedToCheckout()
     {
         return redirect()->route('checkout.show');
