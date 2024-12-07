@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { MantineProvider, Flex, Stack, Title } from '@mantine/core';
-import Product from './Product'; // Ensure correct path
-import Sidebar from './Sidebar'; // Optional
+import Product from './Product';
+import Sidebar from './Sidebar'; 
+import { theme } from '../mantine';
 
 function Basket() {
   const [basketItems, setBasketItems] = useState([]);
@@ -60,7 +61,7 @@ function Basket() {
   }
 
   return (
-    <MantineProvider>
+    <MantineProvider theme={theme}>
       <Flex className="max-w-screen justify-center relative mt-28" gap="30">
         <Stack>
           {basketItems.map((item) => (

@@ -104,6 +104,10 @@ class BasketController extends Controller
         if ($request->quantity == 0) {
             // Remove the product from the basket if quantity is set to zero
             $basket->products()->detach($productId);
+            return response()->json([
+                'success' => true,
+                'message' => 'Item Removed from basket',
+            ]);
         } else {
             // Update the product's quantity in the basket
             $basket->products()->updateExistingPivot($productId, ['quantity' => $request->quantity]);
