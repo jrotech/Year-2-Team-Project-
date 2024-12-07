@@ -6,10 +6,9 @@ import { MantineProvider, Flex, Stack, Title } from '@mantine/core';
 import { theme } from '../mantine';
 
 function ProductsList(props) {
-  const [products,setProducts] = React.useState(JSON.parse(props.products));
+  const [products, setProducts] = React.useState(JSON.parse(props.products));
   const [filteredProducts, setFilteredProducts] = React.useState([]);
   const [selectedCategory, setSelectedCategory] = React.useState('All');
-  
   const [priceRange, setPriceRange] = React.useState([10, 5000]); // Default price range
 
   React.useEffect(() => {
@@ -17,7 +16,7 @@ function ProductsList(props) {
   }, []);
 
   // Filter products based on category and price range
-  const filterProducts = useCallback( (category, range) => {
+  const filterProducts = useCallback((category, range) => {
     setFilteredProducts(
       products.filter((product) => {
         const matchescategory =
@@ -28,7 +27,7 @@ function ProductsList(props) {
         return matchescategory && matchesprice;
       })
     );
-  },[selectedCategory, products])
+  }, [selectedCategory, products])
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
@@ -46,12 +45,12 @@ function ProductsList(props) {
       <Flex className="max-w-screen justify-between m-24 relative">
         <Flex className="items-center justify-center w-full">
           <Flex className="gap-20 flex-wrap max-w-[1200px] justify-center">
-	    {filteredProducts.length === 0 && <NotFound />}
+            {filteredProducts.length === 0 && <NotFound />}
             {filteredProducts.map((product) => (
               <Product
                 key={product.id}
                 name={product.name}
-                img={product.image}
+                primary_image={product.primary_image}
                 rating={product.rating || 0}
                 price={product.price}
                 inStock={product.in_stock}
@@ -72,7 +71,7 @@ function ProductsList(props) {
   );
 }
 
-function NotFound(){
+function NotFound() {
   return (
     <Stack>
       <Title>No products found</Title>
