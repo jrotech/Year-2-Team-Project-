@@ -11,12 +11,15 @@ function Basket() {
 
   const clearBasket = async () => {
       try{
-	const req = await fetch('/api/basket', {headers: {
-	  'Accept': 'application/json', method: "DELETE"
+	const req = await fetch('/api/basket', {
+	  headers: {
+	    'Accept': 'application/json', 
+	  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
 	},
+	  method: "DELETE",
 	})
 	const res = await req.json();
-	console.log(res)
+	fetchBakset();
       }catch(e){
 	console.log(e)
       }
@@ -87,7 +90,7 @@ function Basket() {
         <Sidebar total={total} vat={total*0.2} delivery_cost={total*0.1} subtotal={total*0.7 } />
       </Flex>
       <Center>
-	<Button onClick={clearBasket} fill="red">Clear Basket</Button>
+	<Button onClick={clearBasket} color="red">Clear Basket</Button>
       </Center>
       </Stack>
     </MantineProvider>

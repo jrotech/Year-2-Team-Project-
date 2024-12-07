@@ -125,6 +125,7 @@ class BasketController extends Controller
      */
     public function clear()
     {
+        \Log::info('Clear basket request received.');
         $basket = Basket::where('customer_id', Auth::id())->first();
         
         if ($basket) {
