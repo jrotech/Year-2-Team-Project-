@@ -4,10 +4,17 @@ import { theme } from '../mantine';
 import { MantineProvider, Flex, Stack, Title, Button, Center } from '@mantine/core';
 import Product from './Product';
 import Sidebar from './Sidebar'; 
+import { fetchBasket as getBasket } from './fetchBasket';
 
 function Basket() {
   const [basketItems, setBasketItems] = useState([]);
   const [total, setTotal] = useState(0);
+
+  const fetchBasket = async () => {
+    const basket = await getBasket();
+    setBasketItems(basket.cartItems);
+    setTotal(res.total)
+  }
 
   const clearBasket = async () => {
       try{
@@ -19,27 +26,15 @@ function Basket() {
 	  method: "DELETE",
 	})
 	const res = await req.json();
-	fetchBakset();
+	fetchBasket();
       }catch(e){
 	console.log(e)
       }
     }
 
-  const fetchBakset = async () => {
-    try {
-      const req = await fetch('/api/basket', {headers: {'Accept': 'application/json',},})
-      const res = await req.json();
-      console.log(res)
-      setBasketItems(res.cartItems)
-      setTotal(res.total)
-    }catch(e){
-      console.log(e)
-    }
-
-  }
 
   useEffect(() => {
-    fetchBakset()
+    fetchBasket()
   }, []);
 
   const handleQuantityChange = (id, newQuantity) => {
@@ -72,7 +67,7 @@ function Basket() {
 	    if(item.price == 0) return null
 	    return (
             <Product
-	      onChangeProduct={fetchBakset}
+	      onChangeProduct={fetchBasket}
               key={item.id}
               id={item.id}
               name={item.name}
