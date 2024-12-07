@@ -24,7 +24,7 @@ class BasketController extends Controller
             return $item->product->price * $item->quantity;
         });
 
-        return view('cart.index', compact('cartItems', 'total'));
+        return view('basket', compact('cartItems', 'total'));
     }
     //add to the basket
     public function add(Request $request, Product $product)
