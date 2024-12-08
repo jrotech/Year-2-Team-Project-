@@ -15,7 +15,7 @@ class CheckoutController extends Controller
 {
     public function showCheckout()
     {
-        $cartItems = Basket::with('product')
+        $cartItems = Basket::with('products')
             ->where('customer_id', Auth::id())
             ->get();
 
