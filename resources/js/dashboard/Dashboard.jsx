@@ -20,7 +20,7 @@ function Dashboard(props) {
 
 						<Title className="text-main-accent underline">Profile</Title>
 						<Profile
-							name={customer.name}
+							name={customer.customer_name}
 							email={customer.email}
 							address={customer.address}
 							phone={customer.phone_number}
@@ -33,27 +33,34 @@ function Dashboard(props) {
 						<Stack gap="50">
 							{console.log(invoices)}
 							{invoices.length > 0 ? (
-								invoices.map((invoice) => (
-									<Order
-										key={invoice.invoice_id}
-										name={`Invoice #${invoice.invoice_id}`}
-										id={invoice.invoice_id}
-										order_date={invoice.created_at}
-										total={invoice.invoice_amount}
-										products={invoice.invoiceOrders.map((order) => ({
+								invoices.map((invoice) => {
+									const products = Array.isArray(invoice.invoiceOrders)
+										? invoice.invoiceOrders.map((order) => ({
 											name: order.product.name,
 											order_date: invoice.created_at,
-											delivery_date: '2025-10-15', // Adjust to actual delivery date if available
+											delivery_date: '2025-10-15', // Placeholder or dynamic value
 											quantity: order.quantity,
 											unit_price: order.product_cost,
-											img_url: order.product.primary_img, // Now available
-										}))}
-									/>
-								))
+											img_url: order.product.primary_img,
+										}))
+										: []; // Fallback to empty array
+
+									return (
+										<Order
+											key={invoice.invoice_id}
+											name={`Invoice #${invoice.invoice_id}`}
+											id={invoice.invoice_id}
+											order_date={invoice.created_at}
+											total={invoice.invoice_amount}
+											products={products} // Pass products array
+										/>
+									);
+								})
 							) : (
 								<p>No orders available.</p>
 							)}
 						</Stack>
+
 						<Stack className="py-10">
 							<Title className="text-center !text-5xl" mb="10" order={1}>Reviews</Title>
 							<Review img_url="https://www.broadberry.co.uk/img/gpu-compare/titanrtx.png" name="Nvidia Gforce Rtx 3070 TI" />
@@ -73,7 +80,7 @@ function Dashboard(props) {
 				</Flex>
 				<Sidebar />
 			</Flex>
-		</MantineProvider>
+		</MantineProvider >
 	)
 }
 

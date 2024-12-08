@@ -14,11 +14,10 @@ class DashboardController extends Controller
     {
         $customer = Customer::findOrFail(Auth::id());
         $invoices = Invoice::with([
-            'invoiceOrders' // Ensure products and their images are loaded
+            'invoiceOrders.product.images' // Ensure products and their images are loaded
         ])
         ->where('customer_id', $customer->id)
         ->get();
-        
         // Add primary_img to each product inside invoiceOrders
         $invoices->each(function ($invoice) {
             $invoice->invoiceOrders->each(function ($order) {
