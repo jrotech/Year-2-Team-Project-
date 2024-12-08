@@ -11,7 +11,7 @@ class Basket extends Model
 
     protected $table = 'baskets';
 
-    protected $fillable = ['invoice_number', 'customer_id'];
+    protected $fillable = ['invoice_id', 'customer_id'];
 
     /**
      * Relationships
@@ -20,7 +20,7 @@ class Basket extends Model
     // Relation with Invoice
     public function invoice()
     {
-        return $this->belongsTo(Invoice::class, 'invoice_number');
+        return $this->belongsTo(Invoice::class, 'invoice_id');
     }
 
     // Relation with Customer
