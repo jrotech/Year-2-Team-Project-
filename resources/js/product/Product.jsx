@@ -1,5 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { useEffect, useState } from 'react';
+
 import Images from './Image';
 import { Flex, MantineProvider, Stack } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
@@ -9,32 +11,19 @@ import Footer from './Footer';
 import Feedback from './Feedback';
 
 function Product(props){
-  console.log(props)
+  const [product, setProduct] = React.useState(JSON.parse(props.product))
+
+  console.log(product)
+
   return (
     <MantineProvider theme={theme}>
       <Stack className="bg-main-bg py-24 px-16 justify-center w-screen">
 	<Flex gap="50" wrap="wrap" justify="center">
-	  <Images images={[
-	    {src: "https://images.firstpost.com/wp-content/uploads/2019/10/Intel-Core-i9-9900KS-5-GHz.jpg?im=FitAndFill=(1200,675)",alt: "cpu"},
-	    {src: "https://www.pcworld.com/wp-content/uploads/2023/10/cpu-hub-100758206-orig.jpg?quality=50&strip=all",alt: "cpu"},
-	    {src: "https://www.trustedreviews.com/wp-content/uploads/sites/54/2021/03/Intel-Rocker-Lake-2-e1615908186584.jpg",alt: "cpu"},
-	    {src: "https://cdn.mos.cms.futurecdn.net/Ria5erNerXX8q9PbzyAZvG-1200-80.jpg",alt: "cpu"},
-	    {src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpy7JuBoA2XoJkg7PaYSxJfbftdZ7mP_DDYQ&s",alt: "cpu"},
-	    {src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKt-AiHYU2Ai2_jcRhqCmwD_O8wWxHuD_CDA&s",alt: "cpu"},
-	    {src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRw7VjNIGCKxcwZWjvZtiurmi1JWvCMqpXmZA&s",alt: "cpu"},
-	    {src: "https://static0.gamerantimages.com/wordpress/wp-content/uploads/2023/08/best-budget-cpus-for-gaming-gamerant-recommended-feature-1.jpg",alt: "cpu"},
-	    {src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnUZ2WS1LU0prKPg-asXmwNJMxfrq8sMaB-A&s",alt: "cpu"},
-	    
-	    
-	  ]} />
+	  <Images images={product.images.map( img => ({src: img.url, alt: img.alt}))} />
 	  <ModalsProvider>
-	    <Info productName="InterCore I9" inStock={true} rating={3}
-			       price={9999999999}
-			       description={`
-	  Neque laoreet suspendisse interdum consectetur libero, id faucibus nisl tincidunt eget nullam non nisi est, sit amet facilisis? Viverra aliquet eget sit amet tellus cras adipiscing enim eu turpis egestas.
-	  Aliquam vestibulum morbi blandit cursus risus, at ultrices mi tempus imperdiet nulla. Enim ut tellus elementum sagittis vitae et leo duis ut diam quam nulla porttitor massa id neque aliquam?
-	  Diam donec adipiscing tristique risus nec feugiat in fermentum posuere urna nec tincidunt praesent semper feugiat nibh sed pulvinar proin! Nibh mauris, cursus mattis molestie a, iaculis at erat pellentesque.
-			       `} />
+	    <Info productName={product.name} inStock={product.in_stock} rating={3}
+			       price={product.price} id={product.id}
+			       description={product.description} />
 	  </ModalsProvider>
 	</Flex>
 	<Footer description={`

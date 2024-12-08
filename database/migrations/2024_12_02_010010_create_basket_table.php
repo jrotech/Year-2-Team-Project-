@@ -11,18 +11,14 @@ return new class extends Migration
      */
     public function up()
 {
-    Schema::create('basket', function (Blueprint $table) {
-        $table->integer('invoice_number')->unsigned();
-        $table->decimal('product_cost', 5, 2);
-        $table->unsignedInteger('product_id')->unsigned();
-        $table->decimal('quantity', 7, 2);
-        $table->unsignedBigInteger('customer_id')->unsigned();
+    Schema::create('baskets', function (Blueprint $table) {
+        $table->id(); // Add an ID column for the basket
+        $table->unsignedBigInteger('customer_id');
         $table->timestamps();
-
-        $table->foreign('invoice_number')->references('invoice_number')->on('invoices')->onDelete('cascade');
-        $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+    
         $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
     });
+    
 }
 
 
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('basket');
+        Schema::dropIfExists('baskets');
     }
 };

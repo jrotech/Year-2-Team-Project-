@@ -12,18 +12,22 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('invoice_orders', function (Blueprint $table) {
-            $table->unsignedInteger('invoice_number'); // Foreign key to invoices table
+            $table->id(); // Add a single-column primary key
+            $table->unsignedBigInteger('invoice_id'); // Foreign key to invoices table
             $table->unsignedInteger('product_id'); // Foreign key to products table
-            $table->decimal('product_cost', 5, 2); // Cost of the product
-            $table->decimal('quantity', 7, 2); // Quantity of the product ordered
+            $table->decimal('product_cost', 10, 2); // Cost of the product
+            $table->integer('quantity'); // Quantity of the product ordered
             $table->timestamps();
 
             // Foreign key constraints
-            $table->foreign('invoice_number')->references('invoice_number')->on('invoices')->onDelete('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-
-            // Primary key
-            $table->primary(['invoice_number', 'product_id']);
+            $table->foreign('invoice_id')
+                ->references('invoice_id')
+                ->on('invoices')
+                ->onDelete('cascade');
+            $table->foreign('product_id')
+                ->references('id')
+                ->on('products')
+                ->onDelete('cascade');
         });
     }
 

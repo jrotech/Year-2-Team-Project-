@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Stock;
+use App\Models\Image;
 
 class DatabaseSeeder extends Seeder
 {
@@ -107,6 +108,15 @@ class DatabaseSeeder extends Seeder
         
                 // Add the product-category relationship (populate the product_categories table)
                 $createdProduct->categories()->attach($categoryInstances[$categoryName]->id);
+
+                // Add an image for the product
+                Image::create([
+                    'product_id' => $createdProduct->id,
+                    'url' => $product['image'], // Use the image URL from the product array
+                    'alt' => $product['name'], // Use the product name as alt text
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
             }
         }
     }

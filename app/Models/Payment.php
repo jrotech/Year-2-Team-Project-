@@ -11,11 +11,11 @@ class Payment extends Model
 
     protected $table = 'payments';
 
-    protected $fillable = ['date', 'invoice_number', 'customer_id', 'transaction_id', 'deleted'];
+    protected $fillable = ['date', 'invoice_id', 'customer_id', 'transaction_id', 'deleted'];
 
     public function invoice()
     {
-        return $this->belongsTo(Invoice::class, 'invoice_number');
+        return $this->belongsTo(Invoice::class, 'invoice_id');
     }
 
     public function customer()
