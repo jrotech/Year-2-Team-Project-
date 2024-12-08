@@ -3,7 +3,7 @@ import { Stack, TextInput, Button, Text, Flex,Stepper, Group, NumberInput, Card,
 import { useForm } from '@mantine/form';
 import confetti from 'canvas-confetti'
 
-export default function Form(){
+export default function Form({onCheckout}){
   const [active, setActive] = useState(0);
   const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
   const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
@@ -32,7 +32,7 @@ export default function Form(){
           <CardPaymentForm next={ (values) => {setCardDetails(values);nextStep()} } />
         </Stepper.Step>
         <Stepper.Step label="Finish">
-          <Finish/>
+          <Finish onCheckout={onCheckout} personalDetails={personalDetails}/>
         </Stepper.Step>
       </Stepper>
 
@@ -150,8 +150,16 @@ const CardPaymentForm = ({next,initial}) => {
 };
 
 
-function Finish(){
+function Finish({ onCheckout, personalDetails }) { // Destructure onCheckout and personalDetails
+  const handlePayNow = async () => {
+    try {
+      await onCheckout(personalDetails); // Call the parent component's checkout handler
+    } catch (error) {
+      console.error('Error processing payment:', error);
+    }
+  };
     useEffect(() => {
+    handlePayNow();
     // Trigger confetti animation
     confetti({
       particleCount: 100,

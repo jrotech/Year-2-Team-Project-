@@ -13,7 +13,7 @@ function Basket() {
   const fetchBasket = async () => {
     const basket = await getBasket();
     setBasketItems(basket.cartItems);
-    setTotal(res.total)
+    setTotal(basket.total)
   }
 
   const clearBasket = async () => {
@@ -80,9 +80,9 @@ function Basket() {
             />
 	    )
           })}
-          <Title>Total: ${total.toFixed(2)}</Title>
+          <Title>Subtotal: £{total.toFixed(2)}</Title>
         </Stack>
-        <Sidebar total={total} vat={total*0.2} delivery_cost={total*0.1} subtotal={total*0.7 } />
+        <Sidebar total={total*1.3} vat={total*0.2} delivery_cost={total*0.1} subtotal={total} />
       </Flex>
       <Center>
 	<Button onClick={clearBasket} color="red">Clear Basket</Button>

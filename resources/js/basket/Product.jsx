@@ -160,7 +160,7 @@ export default function Product({
             }
           />
         </Stack>
-        <Title>${(price * qty).toFixed(2)}</Title>
+        <Title>£{(price * qty).toFixed(2)}</Title>
       </Flex>
     </Stack>
   );

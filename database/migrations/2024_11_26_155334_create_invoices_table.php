@@ -11,14 +11,16 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->string('status', 20)->default('pending'); // status: pending, paid
             $table->unsignedBigInteger('customer_id'); // foreign key -> customers table
-            $table->unsignedInteger('invoice_number', 50)->autoIncrement();
+            $table->unsignedBigInteger('invoice_id')->autoIncrement();
             $table->date(column: 'paid_date')->nullable();
             $table->decimal('amount', 10, 2);
+            $table->string('address');
+            $table->string('postcode');
             $table->date('due_date')->nullable();
             $table->timestamps();
 
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
-            $table->primary(['invoice_number']);
+            $table->primary(['invoice_id']);
 
         });
     }

@@ -11,10 +11,10 @@ class Delivery extends Model
 
     protected $table = 'delivery';
 
-    protected $fillable = ['date', 'invoice_number', 'delivery_cost', 'status', 'postcode', 'street', 'city'];
+    protected $fillable = ['date', 'invoice_id', 'delivery_cost', 'status', 'postcode', 'street', 'city'];
 
     public function invoice()
     {
-        return $this->belongsTo(Invoice::class, 'invoice_number');
+        return $this->belongsTo(Invoice::class, 'invoice_id');
     }
 }

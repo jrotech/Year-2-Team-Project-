@@ -14,13 +14,13 @@ return new class extends Migration
     Schema::create('payments', function (Blueprint $table) {
         $table->increments('id');
         $table->date('date');
-        $table->integer('invoice_number')->unsigned();
+        $table->unsignedBigInteger('invoice_id')->unsigned();
         $table->unsignedBigInteger('customer_id')->unsigned();
         $table->integer('transaction_id');
         $table->dateTime('deleted')->nullable();
         $table->timestamps();
 
-        $table->foreign('invoice_number')->references('invoice_number')->on('invoices')->onDelete('cascade');
+        $table->foreign('invoice_id')->references('invoice_id')->on('invoices')->onDelete('cascade');
         $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
     });
 }
