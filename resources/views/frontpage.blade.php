@@ -134,7 +134,7 @@ margin-right: 20px;
     color: #010035;
 }
 .NicePcrating {
-    color: #FFD700; /* Gold color for stars */
+    color: #FFD700; 
     margin-top: 5px;
     font-size: 16px;
 }
@@ -142,7 +142,7 @@ margin-right: 20px;
     margin: 0 2px;
 }
 .ExtremePcrating {
-    color: #FFD700; /* Gold color for stars */
+    color: #FFD700; 
     margin-top: 5px;
     font-size: 16px;
 }
@@ -150,10 +150,10 @@ margin-right: 20px;
     margin: 0 2px;
 }
 .far.fa-star {
-    color: #ccc; /* Gray color for empty stars */
+    color: #ccc; 
 }
 .NicerPCrating {
-    color: #FFD700; /* Gold color for stars */
+    color: #FFD700; 
     margin-top: 5px;
     font-size: 16px;
 }
@@ -168,6 +168,109 @@ margin-right: 20px;
     border-radius: 5px;
     cursor: pointer;
 }
+
+.Categories{
+    background-color: #035a82;
+    color: white;
+    width: 98%;
+    height: 100%;
+    border-radius: 5px;
+    padding: 10px;
+    
+}
+
+
+.Categories img{
+    width: 180px;
+    height: 200px;
+    margin: 10px;
+    border-radius: 5px;
+    filter:brightness(50%);
+}
+
+.CategoryImages{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.CaseText{
+    position: absolute;
+    top: 1500px;
+    left: 60px;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.CoolingText{
+    position: absolute;
+    top: 1500px;
+    left: 260px;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.CPUText{
+    position: absolute;
+    top: 1500px;
+    left: 500px;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.GPUText{
+    position: absolute;
+    top: 1500px;
+    left: 700px;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.MonitorText{
+    position: absolute;
+    top: 1500px;
+    left: 890px;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.PeripheralsText{
+    position: absolute;
+    top: 1500px;
+    left: 1075px;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.footer{
+    background-color: black;
+    color: white;
+    padding: 10px;
+    width: 98.4%;
+    padding: 10px;
+    overflow: overlay;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 20px;
+}
+
+.FooterFeedback{
+    display: inline-block;
+    justify-content: left;
+    text-align: left;
+    align-items: left;
+}
+
+.FollowUs{
+    display: inline-block;
+    text-align: center;
+    align-items: center;
+
+}
+
 </style>
 <body>
     <div class="BlueNavBar">
@@ -260,13 +363,26 @@ margin-right: 20px;
         </figure>
         </div>
     </div>
-<div class="Categories">
-    <h1>Categories</h1>
-    <div class="CategoryImages">
-    </div>
-</div>
-</body>
-</html>
+    <footer class="footer">
+        <div class="FooterFeedback">
+            Give us your feedback
+            <p><a href="mailto:someone@example.com">DefinitelyTechForge@gmail.com</a></p>
+        </div>
+         <div class="FollowUs">
+            Follow us on social media
+            <p><a class="fab fa-facebook" href="https://www.facebook.com"></a> Facebook</p>
+            <p><a class="fab fa-twitter" href="https://www.twitter.com"></a> Twitter</p>
+            <p><a class="fab fa-instagram" href="https://www.instagram.com"></a> Instagram</p>
+        </div>
+        <div class="PaymentMethods">
+            We accept the following payment methods
+            <p><i class="fab fa-cc-visa"> </i> Visa</p>
+            <p><i class="fab fa-cc-mastercard"></i> MasterCard</p>
+            <p><i class="fab fa-cc-paypal"></i> Paypal</p>
+        </div>
+    </footer>
+    </body>
+    </html>
 
 
 
