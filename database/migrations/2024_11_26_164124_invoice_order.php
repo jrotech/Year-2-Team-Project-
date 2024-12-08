@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('invoice_orders', function (Blueprint $table) {
+            $table->id(); // Add a single-column primary key
             $table->unsignedBigInteger('invoice_id'); // Foreign key to invoices table
             $table->unsignedInteger('product_id'); // Foreign key to products table
             $table->decimal('product_cost', 10, 2); // Cost of the product
@@ -26,9 +28,6 @@ return new class extends Migration
                 ->references('id')
                 ->on('products')
                 ->onDelete('cascade');
-
-            // Composite primary key
-            $table->primary(['invoice_id', 'product_id']);
         });
     }
 
@@ -40,4 +39,3 @@ return new class extends Migration
         Schema::dropIfExists('invoice_orders');
     }
 };
-

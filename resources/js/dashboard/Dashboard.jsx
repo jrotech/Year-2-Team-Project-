@@ -31,13 +31,13 @@ function Dashboard(props) {
 
 						<Title className="text-main-accent underline" mt="40">Recent Orders</Title>
 						<Stack gap="50">
+							{console.log(invoices)}
 							{invoices.length > 0 ? (
 								invoices.map((invoice) => (
 									<Order
-										key={invoice.invoice_number}
-										name={`Invoice #${invoice.invoice_number}`}
-										img={invoice.invoiceOrders[0]?.product?.images[0]?.url || 'https://via.placeholder.com/150'}
-										id={invoice.invoice_number}
+										key={invoice.invoice_id}
+										name={`Invoice #${invoice.invoice_id}`}
+										id={invoice.invoice_id}
 										order_date={invoice.created_at}
 										total={invoice.invoice_amount}
 										products={invoice.invoiceOrders.map((order) => ({
@@ -46,7 +46,7 @@ function Dashboard(props) {
 											delivery_date: '2025-10-15', // Adjust to actual delivery date if available
 											quantity: order.quantity,
 											unit_price: order.product_cost,
-											img_url: order.product.images[0]?.url || 'https://via.placeholder.com/150',
+											img_url: order.product.primary_img, // Now available
 										}))}
 									/>
 								))
