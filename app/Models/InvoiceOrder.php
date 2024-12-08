@@ -12,10 +12,6 @@ class InvoiceOrder extends Model
 {
     public $timestamps = true;
 
-    protected $primaryKey = ['invoice_id', 'product_id']; // Composite primary key
-    public $incrementing = false; // Composite keys are not auto-incrementing
-    protected $keyType = 'string'; // Adjust based on your column types
-
     protected $fillable = [
         'invoice_id',
         'product_id',
