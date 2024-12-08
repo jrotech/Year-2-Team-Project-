@@ -12,6 +12,16 @@ import Related from '../components/Related'
 function Dashboard(props) {
 	const customer = JSON.parse(document.getElementById('dashboard').dataset.customer);
 	const invoices = JSON.parse(document.getElementById('dashboard').dataset.invoices);
+
+
+	const lastInvoice = invoices.length > 0 ? invoices[invoices.length - 1] : null;
+
+	// Get the last invoice_order in the last invoice
+	const lastInvoiceOrder = lastInvoice && lastInvoice.invoice_orders.length > 0
+		? lastInvoice.invoice_orders[lastInvoice.invoice_orders.length - 1]
+		: null;
+
+
 	return (
 		<MantineProvider theme={theme}>
 			<Flex className="max-w-screen justify-between m-32 relative">
@@ -34,16 +44,6 @@ function Dashboard(props) {
 							{console.log(invoices)}
 							{invoices.length > 0 ? (
 								invoices.map((invoice) => {
-									const products = Array.isArray(invoice.invoiceOrders)
-										? invoice.invoiceOrders.map((order) => ({
-											name: order.product.name,
-											order_date: invoice.created_at,
-											delivery_date: '2025-10-15', // Placeholder or dynamic value
-											quantity: order.quantity,
-											unit_price: order.product_cost,
-											img_url: order.product.primary_img,
-										}))
-										: []; // Fallback to empty array
 
 									return (
 										<Order
@@ -51,8 +51,8 @@ function Dashboard(props) {
 											name={`Invoice #${invoice.invoice_id}`}
 											id={invoice.invoice_id}
 											order_date={invoice.created_at}
-											total={invoice.invoice_amount}
-											products={products} // Pass products array
+											total={invoice.amount}
+											invoice_orders={invoice.invoice_orders}
 										/>
 									);
 								})
@@ -63,7 +63,15 @@ function Dashboard(props) {
 
 						<Stack className="py-10">
 							<Title className="text-center !text-5xl" mb="10" order={1}>Reviews</Title>
-							<Review img_url="https://www.broadberry.co.uk/img/gpu-compare/titanrtx.png" name="Nvidia Gforce Rtx 3070 TI" />
+							{lastInvoiceOrder ? (
+								<Review
+									img_url={lastInvoiceOrder.product.primary_img}
+									name={lastInvoiceOrder.product.name}
+									product_id={lastInvoiceOrder.product.id}
+								/>
+							) : (
+								<p>No product available for review.</p>
+							)}
 						</Stack>
 						<Stack>
 							<Title className="text-center !text-5xl" mb="10" order={1}>Related Products</Title>

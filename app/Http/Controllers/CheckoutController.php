@@ -15,20 +15,21 @@ class CheckoutController extends Controller
 {
     public function showCheckout()
     {
-        $cartItems = Basket::with('products')
+        $basket = Basket::with('products') // Load related products
             ->where('customer_id', Auth::id())
-            ->get();
+            ->first(); // Use first() since there should only be one basket
 
-        if ($cartItems->isEmpty()) {
+        if (!$basket) {
             return redirect()->route('basket')
                 ->with('error', 'Your basket is empty!');
         }
 
-        $total = $cartItems->sum(function ($item) {
-            return $item->product->price * $item->quantity;
+        // Calculate the total price of products in the basket
+        $total = $basket->products->sum(function ($product) {
+            return $product->price * $product->pivot->quantity; // Use pivot to get the quantity
         });
 
-        return view('checkout.index', compact('cartItems', 'total'));
+        return view('checkout', compact('basket', 'total'));
     }
 
     public function processCheckout(Request $request)
@@ -76,12 +77,11 @@ class CheckoutController extends Controller
                     throw new Exception("Stock entry not found for product ID: {$product->id}");
                 }
             }
-
+            
             // Clear Basket
             $cartItems->products()->detach();
 
             DB::commit();
-
             return response()->json(['success' => true, 'message' => 'Order created successfully!', 'invoice_id' => $invoice->id], 201);
         } catch (Exception $e) {
             DB::rollBack();

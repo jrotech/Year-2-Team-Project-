@@ -2,27 +2,29 @@ import React from 'react'
 import { Flex, Stack, Button, Title } from '@mantine/core';
 import {InStock} from '../components/InStock'
 
-export default function Order(props) {
+export default function Order({name,id,order_date,total,invoice_orders}) {
 	const productsContainerRef = React.useRef(null);
   
 	return (
 	  <Flex className="bg-white rounded-md p-10" gap="20">
 		<Stack>
-		  <Title order={4}>{props.order_date}</Title>
-		  <Title order={4}>Total - {props.total}</Title>
+		  <Title order={4}>{name}</Title>
+		  <Title order={4}>{order_date}</Title>
+		  <Title order={4}>Total - £{total}</Title>
 		  <Title order={4} className="flex gap-2 flex-nowrap !whitespace-nowrap">
-			Status - <InStock text="complete" />
+			Status - <InStock inStock ={true} text="complete" />
 		  </Title>
 		</Stack>
 		<div className="w-[3px] bg-black"></div>
-		<Flex className="overflow-x-hidden max-w-screen" ref={productsContainerRef}>
-		  {Array.isArray(props.products) && props.products.length > 0 ? (
-			props.products.map((product, i) => (
+		<Flex className="overflow-x-hidden max-w-screen" gap="30"ref={productsContainerRef}>
+			{console.log(invoice_orders)}
+		  {Array.isArray(invoice_orders) && invoice_orders.length > 0 ? (
+			invoice_orders.map((product, i) => (
 			  <Stack className="min-w-32" key={i} gap="5">
-				<img alt="" src={product.img_url} className="max-h-32" />
-				<Title order={6} className="m-0">{product.name}</Title>
+				<img alt="" src={"storage/"+product.product.primary_img} className="max-h-32" />
+				<Title order={6} className="m-0">{product.product.name}</Title>
 				<Title order={6} className="m-0">Quantity - {product.quantity}</Title>
-				<Title order={6} className="m-0">Price - {product.unit_price}</Title>
+				<Title order={6} className="m-0">Price - £{product.product.price}</Title>
 			  </Stack>
 			))
 		  ) : (
@@ -30,7 +32,7 @@ export default function Order(props) {
 		  )}
 		</Flex>
 		<Flex className="items-end relative">
-		  <Button radius="xl" component="a" href={`/dashboard/orders/${props.id}`}>
+		  <Button radius="xl" component="a" href={`/dashboard/orders/${id}`}>
 			Details
 			<svg
 			  xmlns="http://www.w3.org/2000/svg"

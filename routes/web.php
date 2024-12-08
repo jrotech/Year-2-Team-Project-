@@ -63,7 +63,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/checkout', [CheckoutController::class, 'showCheckout'])->name('checkout.show');
-    Route::post('/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
+    Route::post('/api/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
     Route::post('/basket/checkout', [BasketController::class, 'proceedToCheckout'])->name('basket.checkout');
 
     Route::get('/dashboard/orders', [DashboardController::class, 'orders']);
