@@ -12,7 +12,7 @@ use App\Http\Controllers\NavController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\LoggedInAPI;
-
+use App\Http\Controllers\DashboardController;
 
 // Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -64,23 +64,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/checkout', [CheckoutController::class, 'showCheckout'])->name('checkout.show');
     Route::post('/api/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
-});
+    Route::post('/basket/checkout', [BasketController::class, 'proceedToCheckout'])->name('basket.checkout');
 
-Route::get('/dashboard/orders', function () {
-    return view('orders');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-});
-
-Route::get('/dashboard/orders/{id}', function () {
-    return view('order');
-});
-
-
-
-Route::get('/checkout', function () {
-    return view('checkout');
+    Route::get('/dashboard/orders', [DashboardController::class, 'orders']);
+    Route::get('/dashboard', [DashboardController::class, 'dashboard']);
+    Route::get('/dashboard/orders/{id}', [DashboardController::class, 'order']);
 });
 

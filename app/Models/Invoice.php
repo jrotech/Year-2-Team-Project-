@@ -50,6 +50,6 @@ class Invoice extends Model
     // Relation with InvoiceOrder
     public function invoiceOrders()
     {
-        return $this->hasMany(InvoiceOrder::class, 'invoice_number');
+        return $this->hasMany(InvoiceOrder::class, 'invoice_id', 'invoice_id');
     }
 }
