@@ -38,10 +38,70 @@ class DashboardController extends Controller
         return view('orders');
     }
 
+    public function apiCategoryLastProduct()
+    {
+        // Fetch the last invoice (by invoice_id)
+        $lastInvoice = Invoice::with([
+            'invoiceOrders.product.categories', // Eager load product and categories to reduce queries
+        ])
+        ->orderBy('invoice_id', 'desc')
+        ->first();
+    
+        // Handle case: No invoices found
+        if (!$lastInvoice) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No invoices found.'
+            ], 404);
+        }
 
+        $lastInvoiceOrder = $lastInvoice->invoiceOrders->last();
 
+        if (!$lastInvoiceOrder) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No invoice orders found for the last invoice.'
+            ], 404);
+        }
+    
+        
+        $lastProduct = $lastInvoiceOrder->product;
+    
+        
+        if (!$lastProduct) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No product found for the last invoice order.'
+            ], 404);
+        }
+    
+        $category = $lastProduct->categories->first();
+    
+        if (!$category) {
+            return response()->json([
+                'success' => true,
+                'last_product' => $lastProduct,
+                'related_products' => [] // No category means no related products
+            ]);
+        }
+    
+        // Fetch up to 3 other products from the same category (exclude the last product)
+        $relatedProducts = $category->products()
+            ->where('products.id', '!=', $lastProduct->id)
+            ->take(3)
+            ->get();
+    
+        // Return JSON with last product and related products
+        return response()->json([
+            'success' => true,
+            'last_product' => $lastProduct,
+            'related_products' => $relatedProducts,
+        ]);
+    }
     public function order($id)
     {
-        return view('order', compact('id'));
+        $invoice = Invoice::with(['invoiceOrders.product.images'])->where('invoice_id', '=', $id)->first();
+
+        return view('order', compact('invoice'));
     }
 }
