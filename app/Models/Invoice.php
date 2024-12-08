@@ -16,6 +16,8 @@ class Invoice extends Model
         'invoice_number',
         'invoice_amount',
         'delivery_option',
+        'address',
+        'postcode',
         'status',
         'deleted',
     ];
@@ -36,16 +38,16 @@ class Invoice extends Model
     // Relation with Payments
     public function payments()
     {
-        return $this->hasMany(Payment::class, 'invoice_number');
+        return $this->hasOne(Payment::class, 'invoice_number');
     }
 
     // Relation with Basket
     public function basket()
     {
-        return $this->hasMany(Basket::class, 'invoice_number');
+        return $this->hasOne(Basket::class, 'invoice_number');
     }
 
-    // Relation with InvoiceOrder (if needed)
+    // Relation with InvoiceOrder
     public function invoiceOrders()
     {
         return $this->hasMany(InvoiceOrder::class, 'invoice_number');
