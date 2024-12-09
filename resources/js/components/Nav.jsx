@@ -1,5 +1,6 @@
 import { COMPANY_NAME } from "../constants";
 import React from 'react';
+import { BrowserRouter, useSearchParams } from "react-router-dom";
 import { createRoot } from 'react-dom/client';
 import { useState, useEffect } from 'react'
 function NavWrapp(){
@@ -52,7 +53,7 @@ function NavBar({ isAuthenticated }) {
     <nav className="bg-main-primary">
       <div className="flex items-center m-auto  justify-between p-4 bg-transparent flex-wrap">
         <a href="/" className="font-semibold uppercase mx-5 cursor-pointer md:block">
-	  <img alt="" src="images/logo.png" className="w-44 max-[450px]:w-28" />
+	  <img alt="" src="/images/logo.png" className="w-44 max-[450px]:w-28" />
         </a>
       <SearchBar />
         <div className="bg-none border-none outline-none cursor-pointer mx-5 select-none appearance-none z-1 flex flex-col ">
@@ -112,46 +113,30 @@ function SearchBar(){
   )
 }
 
-function Categories(){
+function Categories() {
   const categories = [
-		{
-			name:"GPUs",
-			href:"/category1"
-		},
-		{
-			name:"CPUs",
-			href:"/category2"
-		},
-		{
-			name:"RAM",
-			href:"/category3"
-		},
-		{
-			name:"Motherboards",
-			href:"/category4"
-		},
-    {
-			name:"Storage",
-			href:"/category5"
-		},
-    {
-			name:"Cooling",
-			href:"/category6"
-		},
-	];
+    { name: "GPUs", href: "/shop?categories=GPU" },
+    { name: "CPUs", href: "/shop?categories=CPU" },
+    { name: "RAM", href: "/shop?categories=RAM" },
+    { name: "Motherboards", href: "/shop?categories=Motherboard" },
+    { name: "Storage", href: "/shop?categories=Storage" },
+    { name: "Cooling", href: "/shop?categories=Cooling" },
+  ];
+
   return (
     <div className="bg-[#263238]">
       <ul className="flex items-center justify-center flex-wrap">
-	{categories.map(a => {
-	  return (
-	    <li key={a.name} className="p-4 text-lg hover:text-main-accent transition-color duration-300 font-normal">
-	      <a href={a.href}>{a.name}</a>
-	    </li>
-	  );
-	})}
+        {categories.map((category) => (
+          <li
+            key={category.name}
+            className="p-4 text-lg hover:text-main-accent transition-color duration-300 font-normal"
+          >
+            <a href={category.href}>{category.name}</a>
+          </li>
+        ))}
       </ul>
     </div>
-  )
+  );
 }
 
 
@@ -160,6 +145,6 @@ export default NavWrapp;
 const rootElement = document.getElementById('nav')
 const root = createRoot(rootElement);
 
-root.render(<NavWrapp />);
+root.render(<BrowserRouter><NavWrapp /></BrowserRouter>);
 
 
