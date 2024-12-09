@@ -15,6 +15,7 @@ function ProductsList(props) {
   );
   const [searchQuery, setSearchQuery] = React.useState(searchParams.get("search") || "");
   const [priceRange, setPriceRange] = React.useState([10, 2500]);
+  const [showInStockOnly, setShowInStockOnly] = React.useState(false);
   const [successMessage, setSuccessMessage] = React.useState(props.successMessage || null);
 
   // Sync state with URL search parameters
@@ -26,8 +27,11 @@ function ProductsList(props) {
     if (searchQuery.trim() !== "") {
       params.set("search", searchQuery.trim());
     }
+    if (showInStockOnly) {
+      params.set("inStock", "true");
+    }
     setSearchParams(params);
-  }, [selectedCategories, searchQuery, setSearchParams]);
+  }, [selectedCategories, searchQuery, showInStockOnly, setSearchParams]);
 
   // Apply filtering logic
   React.useEffect(() => {
@@ -38,11 +42,11 @@ function ProductsList(props) {
       const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
       const matchesSearch =
         searchQuery === "" || product.name.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesCategories && matchesPrice && matchesSearch;
+      const matchesStock = !showInStockOnly || product.in_stock;
+      return matchesCategories && matchesPrice && matchesSearch && matchesStock;
     });
     setFilteredProducts(filtered);
-    console.log("Filtered products:", filtered);
-  }, [selectedCategories, priceRange, searchQuery, products]);
+  }, [selectedCategories, priceRange, searchQuery, showInStockOnly, products]);
 
   // Handle search input changes
   const handleSearchChange = (e) => {
@@ -54,8 +58,6 @@ function ProductsList(props) {
     setPriceRange(range);
   };
 
-
-  // Handle category checkbox changes
   const handleCategoryChange = (category) => {
     setSelectedCategories((prev) => {
       if (category === "All") {
@@ -68,14 +70,17 @@ function ProductsList(props) {
     });
   };
 
+  const handleInStockChange = (checked) => {
+    setShowInStockOnly(checked);
+  };
+
   return (
     <MantineProvider theme={theme}>
       <Flex className="max-w-screen justify-center m-24 relative gap-20">
-       
+        
 
         {/* Main Content */}
         <Stack className="w-full max-w-[1200px]">
-
           {/* Success Notification */}
           {successMessage && (
             <Notification
@@ -106,7 +111,7 @@ function ProductsList(props) {
           />
 
           {/* Divider */}
-         <Divider size="xs" my="xs" />
+          <Divider size="xs" my="xs" />
 
           {/* Product List */}
           <Flex className="gap-20 flex-wrap justify-center">
@@ -125,12 +130,14 @@ function ProductsList(props) {
             ))}
           </Flex>
         </Stack>
-         {/* Sidebar */}
-         <Sidebar
+        {/* Sidebar */}
+        <Sidebar
           onCategoryChange={handleCategoryChange}
           onPriceRangeChange={handlePriceRangeChange}
+          onInStockChange={handleInStockChange}
           selectedCategories={selectedCategories}
           priceRange={priceRange}
+          showInStockOnly={showInStockOnly}
         />
       </Flex>
     </MantineProvider>

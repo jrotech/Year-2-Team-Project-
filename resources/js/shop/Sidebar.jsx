@@ -4,8 +4,10 @@ import { Stack, RangeSlider, Title, Checkbox } from "@mantine/core";
 export default function Sidebar({
   onCategoryChange,
   onPriceRangeChange,
+  onInStockChange,
   selectedCategories,
   priceRange,
+  showInStockOnly,
 }) {
   const toggleSidebarRef = React.useRef(null);
 
@@ -28,6 +30,12 @@ export default function Sidebar({
   const handlePriceChange = (value) => {
     if (onPriceRangeChange) {
       onPriceRangeChange(value);
+    }
+  };
+
+  const handleInStockToggle = (e) => {
+    if (onInStockChange) {
+      onInStockChange(e.target.checked);
     }
   };
 
@@ -73,7 +81,11 @@ export default function Sidebar({
 
         <div>
           <Title order={3}>Availability</Title>
-          <Checkbox label="Only show products in stock" />
+          <Checkbox
+            label="Only show products in stock"
+            checked={showInStockOnly}
+            onChange={handleInStockToggle}
+          />
         </div>
 
         <hr />
@@ -82,11 +94,11 @@ export default function Sidebar({
           <Title order={3}>Categories</Title>
           {categories.map((category) => (
             <Checkbox
-            key={category.name}
-            checked={selectedCategories.includes(category.name)}
-            onChange={() => handleCategorySelect(category.name)}
-            label={category.name}
-          />
+              key={category.name}
+              checked={selectedCategories.includes(category.name)}
+              onChange={() => handleCategorySelect(category.name)}
+              label={category.name}
+            />
           ))}
         </Stack>
       </Stack>
