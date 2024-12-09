@@ -20,9 +20,9 @@ class HomeController extends Controller
         return view('home', compact('bestSellers', 'categories'));
     }
 
-    public function socialMedia()
+    public function about()
     {
-        return redirect('https://instagram.com'); // Replace with the actual link
+        return view('about'); 
     }
 
     public function paymentMethods()

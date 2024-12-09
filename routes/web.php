@@ -22,7 +22,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Footer Buttons
 Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
-Route::get('/social-media', [HomeController::class, 'socialMedia'])->name('social-media');
+Route::get('/about', [HomeController::class, 'about'])->name('about_us');
 Route::get('/payment-methods', [HomeController::class, 'paymentMethods'])->name('payment-methods');
 
 // Nav Bar Links

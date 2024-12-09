@@ -35,7 +35,7 @@ function NavBar({ isAuthenticated, isShopPage }) {
   const links = [
     { name: "home", href: "/" },
     { name: "shop", href: "/shop" },
-    { name: "services", href: "/services" },
+    { name: "about us", href: "/about" },
     { name: "contact", href: "/contact" },
   ];
 
