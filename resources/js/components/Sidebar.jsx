@@ -55,6 +55,11 @@ export default function Sidebar() {
             Change Password
           </Title>
         </a>
+        <a href="/logout">
+          <Title order={6} className="hover:underline cursor-pointer">
+            Logout
+          </Title>
+        </a>
       </Stack>
     </div>
   )

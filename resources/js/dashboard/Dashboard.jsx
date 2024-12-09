@@ -111,7 +111,6 @@ function Dashboard(props) {
 							</Flex>
 						</Stack>
 
-						<Contact phone_number="068334" />
 					</Stack>
 				</Flex>
 				<Sidebar />
