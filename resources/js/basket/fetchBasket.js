@@ -1,3 +1,8 @@
+/********************************
+Developer: Mihail Vacarciuc , Robert Oros
+University ID: 230238428, 230237144
+********************************/
+
 export const fetchBasket = async () => {
     try {
       const req = await fetch('/api/basket', {headers: {'Accept': 'application/json',},})

@@ -1,7 +1,7 @@
 <!--/
     developer : Amen Alhousieni
     university id : 230237878
-    fucntion : my aim to do the fisrt half of code for home page till signiup blocks
+    function : my aim to do the fisrt half of code for home page till signiup blocks
 /-->
 <!DOCTYPE html>
 <html lang="en">

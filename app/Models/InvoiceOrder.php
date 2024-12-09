@@ -1,9 +1,8 @@
 <?php
 /********************************
-Developer: Abdullah Alharbi
-University ID: 230046409
-: Invoices Model
- ********************************/
+Developer: Abdullah Alharbi, Robert Oros,
+University ID: 230046409, 230237144
+********************************/
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;

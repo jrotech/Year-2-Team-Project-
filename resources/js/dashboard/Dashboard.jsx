@@ -1,3 +1,8 @@
+/********************************
+Developer: Mihail Vacarciuc , Robert Oros
+University ID: 230238428, 230237144
+********************************/
+
 import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import Order from './Order';

@@ -1,4 +1,8 @@
     <?php
+/********************************
+Developer: Abdullah Alharbi, Robert Oros,
+University ID: 230046409, 230237144
+********************************/
     use App\Models\Customer; // Correct model
 
     return [

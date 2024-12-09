@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+/********************************
+Developer: Robert Oros
+University ID: 230237144
+********************************/
 use Illuminate\Http\Request;
 use App\Models\Product;
 

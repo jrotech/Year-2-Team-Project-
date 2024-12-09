@@ -1,5 +1,8 @@
 <?php
-
+/********************************
+Developer: Abdullah Alharbi, Robert Oros, Iddrisu Musah
+University ID: 230046409, 230237144, 230222232
+********************************/
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\GoogleAuthController;

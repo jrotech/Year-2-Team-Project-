@@ -1,3 +1,10 @@
+<!--
+/********************************
+Developer: Mihail  
+University ID: 230238428
+
+********************************/ 
+-->
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>

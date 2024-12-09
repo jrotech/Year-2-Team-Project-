@@ -1,3 +1,7 @@
+/********************************
+Developer: Mihail Vacarciuc , Robert Oros
+University ID: 230238428, 230237144
+********************************/
 import React, {useState, useEffect } from 'react';
 import { Stack, TextInput, Button, Text, Flex,Stepper, Group, NumberInput, Card, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';

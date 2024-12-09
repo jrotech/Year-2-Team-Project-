@@ -1,3 +1,7 @@
+/********************************
+Developer: Mihail Vacarciuc , Robert Oros
+University ID: 230238428, 230237144
+********************************/
 import React from 'react'
 import { Stars } from "./Stars";
 

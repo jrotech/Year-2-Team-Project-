@@ -1,3 +1,8 @@
+/********************************
+Developer: Mihail Vacarciuc , Robert Oros
+University ID: 230238428, 230237144
+********************************/
+
 import { COMPANY_NAME } from "../constants";
 import React from 'react';
 import { BrowserRouter, useSearchParams } from "react-router-dom";

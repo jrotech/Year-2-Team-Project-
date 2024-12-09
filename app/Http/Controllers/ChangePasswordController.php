@@ -1,5 +1,8 @@
 <?php
-
+/********************************
+Developer: Iddrisu Musah, Robert Oros
+University ID: 230222232, 230237144
+********************************/
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;

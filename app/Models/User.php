@@ -1,5 +1,8 @@
 <?php
-
+/********************************
+Developer: Laravel
+University ID: 00000000
+********************************/
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;

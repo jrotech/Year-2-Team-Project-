@@ -1,5 +1,8 @@
 <?php
-
+/********************************
+Developer:Robert Oros
+University ID: 230237144
+********************************/
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;

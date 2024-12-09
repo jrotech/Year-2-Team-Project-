@@ -1,3 +1,7 @@
+/********************************
+Developer: Mihail Vacarciuc
+University ID: 230238428
+********************************/
 import React from 'react';
 import { useForm } from '@mantine/form';
 import { TextInput, Button, Stack, Flex } from '@mantine/core';

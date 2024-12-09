@@ -1,5 +1,8 @@
 <?php
-
+/********************************
+Developer: Kai Lowe-Jones, Robert Oros
+University ID: 230234682, 230237144
+********************************/
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

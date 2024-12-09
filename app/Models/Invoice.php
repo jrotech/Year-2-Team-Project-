@@ -1,6 +1,9 @@
 <?php
 namespace App\Models;
-
+/********************************
+Developer:Robert Oros, Kai Lowe-Jones, Abdullah Alharbi
+University ID: 230237144, 230234682, 230046409
+********************************/
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

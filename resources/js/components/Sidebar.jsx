@@ -1,3 +1,8 @@
+/********************************
+Developer: Mihail Vacarciuc , Robert Oros
+University ID: 230238428, 230237144
+********************************/
+
 // THIS IS THE SIDEBAR COMPONENT FOR THE DASHBOARD
 
 //

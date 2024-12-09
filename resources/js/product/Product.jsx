@@ -1,3 +1,7 @@
+/********************************
+Developer: Robert Oros, Hasnain Imran
+University ID: 230237144, 230209037
+********************************/
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Flex, MantineProvider, Stack, Title, Text, Paper, Divider, Container } from '@mantine/core';

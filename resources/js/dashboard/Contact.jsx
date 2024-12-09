@@ -1,3 +1,7 @@
+/********************************
+Developer: Mihail Vacarciuc
+University ID: 230238428
+********************************/
 import React from 'react'
 import { Stack, Avatar, Title, Flex, CopyButton, ActionIcon, Tooltip, rem, Input, NumberInput } from '@mantine/core'
 

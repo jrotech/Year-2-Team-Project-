@@ -1,3 +1,7 @@
+/********************************
+Developer: Mihail Vacarciuc 
+University ID: 230238428
+********************************/
 import React from 'react';
 import { MantineProvider, Flex } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';

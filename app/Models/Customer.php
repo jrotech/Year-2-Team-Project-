@@ -1,5 +1,8 @@
 <?php
-
+/********************************
+Developer:Kai Lowe-Jones
+University ID: 230234682
+********************************/
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;

@@ -1,3 +1,7 @@
+/********************************
+Developer: Mihail Vacarciuc
+University ID: 230238428
+********************************/
 import React from 'react'
 import { Stack, Flex,Title,Avatar, Text, Textarea, Button, Rating } from '@mantine/core'
 import { Stars} from '../components/Stars'
