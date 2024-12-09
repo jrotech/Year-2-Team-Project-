@@ -43,39 +43,32 @@ Route::get('/api/products/{id}', [ProductController::class, 'getProduct'])->name
 // Submit Contact Form
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 
-Route::get('/api/auth-status', [LoggedInAPI::class, 'loggedin']) -> name('is.logged.in');
+Route::get('/api/auth-status', [LoggedInAPI::class, 'loggedin'])->name('is.logged.in');
 
-Route::get('/register', [register::class,'create'])->name('register');
-Route::post('/register', [register::class,'store'])->name('register');
+Route::get('/register', [register::class, 'create'])->name('register');
+Route::post('/register', [register::class, 'store'])->name('register');
 
-Route::get('/login', [login::class,'create'])->name('login');
-Route::post('/login', [login::class,'login'])->name('login');
-Route::get('/logout', [login::class,'logout'])->name('logout');
+Route::get('/login', [login::class, 'create'])->name('login');
+Route::post('/login', [login::class, 'login'])->name('login');
+Route::get('/logout', [login::class, 'logout'])->name('logout');
 
-Route::get('/auth/google',[GoogleAuthController::class,'redirect']);
-Route::get('/authenticate/google/callback',[GoogleAuthController::class,'callback']);
+Route::get('/auth/google', [GoogleAuthController::class, 'redirect']);
+Route::get('/authenticate/google/callback', [GoogleAuthController::class, 'callback']);
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/profile/change-password', [ChangePasswordController::class, 'showChangePasswordForm'])->name('profile.change-password');
+    Route::get('/profile/manage-profile', [ChangePersonalDetails::class, 'showChangePersonalDetailsForm'])->name('profile.manage-profile');
     Route::post('/profile/change-password', [ChangePasswordController::class, 'updatePassword'])->name('profile.update-password');
-    Route::post('/profile/change-personal-details', [ChangePasswordController::class, 'updatePersonalDetails'])->name('profile.update-personal-details');
+    Route::post('/profile/change-personal-details', [ChangePersonalDetails::class, 'updatePersonalDetails'])->name('profile.update-personal-details');
 
-    //Change Address Details
-    Route::get('/profile/change-address', [ChangeAddressDetails::class, 'showChangeAddressForm'])->name('profile.change-address');
-    Route::post('/profile/change-address', [ChangeAddressDetails::class, 'updateAddress'])->name('profile.update-address');
 
-    //Change Personal Details
-    Route::get('/profile/change-personal-details', [ChangePersonalDetails::class, 'showChangePersonalDetailsForm'])->name('profile.change-personal-details');
-    
-    
     Route::get('/basket', [BasketController::class, 'index'])->name('basket');
     Route::post('/basket/add/{product}', [BasketController::class, 'add'])->name('basket.add');
     Route::put('/basket/{basketItem}', [BasketController::class, 'update'])->name('basket.update');
     Route::delete('/basket/{basketItem}', [BasketController::class, 'remove'])->name('basket.remove');
     Route::delete('/api/basket', [BasketController::class, 'clear'])->name('basket.clear');
     Route::get('/api/basket', [BasketController::class, 'getBasket'])->name('api.basket.get');
-    
+
     Route::get('/checkout', [CheckoutController::class, 'showCheckout'])->name('checkout.show');
     Route::post('/api/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
     Route::post('/basket/checkout', [BasketController::class, 'proceedToCheckout'])->name('basket.checkout');
@@ -85,4 +78,3 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard/orders/{id}', [DashboardController::class, 'order'])->name('dashboard.order');
     Route::get('/api/categorylastproduct', [DashboardController::class, 'apiCategoryLastProduct'])->name('dashoard.api');
 });
-

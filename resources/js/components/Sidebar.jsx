@@ -45,11 +45,16 @@ export default function Sidebar() {
           ))
         }
         <hr />
-        <Title order={6} className="hover:underline cursor-pointer ">Change Personal Details</Title>
-        <Title order={6} className="hover:underline cursor-pointer ">Change Address</Title>
-        <Title order={6} className="hover:underline cursor-pointer ">Change Password</Title>
-        <Title order={6} className="text-red-500">Delete Account</Title>
-
+        <a href="/profile/manage-profile">
+          <Title order={6} className="hover:underline cursor-pointer">
+            Change Personal Details
+          </Title>
+        </a>
+        <a href="/profile/manage-profile">
+          <Title order={6} className="hover:underline cursor-pointer">
+            Change Password
+          </Title>
+        </a>
       </Stack>
     </div>
   )
