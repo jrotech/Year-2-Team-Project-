@@ -8,9 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Customer extends Authenticatable
 {
-    use SoftDeletes;
 
-    protected $fillable = ['customer_name', 'email', 'phone_number', 'email_confirmed', 'prev_balance', 'password'];
+    protected $fillable = ['customer_name', 'email', 'phone_number', 'email_confirmed', 'prev_balance', 'password','google_id'];
 
     public function invoices()
     {

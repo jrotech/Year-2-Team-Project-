@@ -1,83 +1,146 @@
 <?php
-/********************************
-Developer: Abdullah Alharbi
-University ID: 230046409
-Function: This controller adds the basket feature
- ********************************/
+
 namespace App\Http\Controllers;
 
 use App\Models\Basket;
 use App\Models\Product;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BasketController extends Controller
 {
-    // display basket
+    /**
+     * Display basket items.
+     */
     public function index()
     {
-        $cartItems = Basket::with('product')
-            ->where('customer_id', Auth::id())
-            ->get();
 
-        $total = $cartItems->sum(function ($item) {
-            return $item->product->price * $item->quantity;
-        });
+        $basket = Basket::where('customer_id', Auth::id())->first();
 
-        return view('cart.index', compact('cartItems', 'total'));
-    }
-    //add to the basket
-    public function add(Request $request, Product $product)
-    {
-        $request->validate([
-            'quantity' => 'required|integer|min:1|max:' . $product->stock,
-        ]);
-
-        $cartItem = Basket::where('customer_id', Auth::id())
-            ->where('product_id', $product->id)
-            ->first();
-
-        if ($cartItem) {
-            $cartItem->increment('quantity', $request->quantity);
-        } else {
-            Basket::create([
-                'customer_id' => Auth::id(),
-                'product_id' => $product->id,
-                'quantity' => $request->quantity,
-            ]);
+        if (!$basket) {
+            return view('basket', ['cartItems' => [], 'total' => 0]);
         }
 
-        return redirect()->route('products.index')->with('success', 'Product added to cart successfully!');
+        $cartItems = $basket->products;
+
+        $total = $cartItems->sum(function ($item) {
+            return $item->price * $item->pivot->quantity;
+        });
+
+        return view('basket', compact('cartItems', 'total'));
+    }
+    // Basket API
+    public function getBasket()
+    {
+        $basket = Basket::where('customer_id', Auth::id())->first();
+
+        if (!$basket) {
+            return response()->json(['cartItems' => [], 'total' => 0]);
+        }
+
+        $cartItems = $basket->products->map(function ($product) {
+            $product->primary_image = $product->images->first()->url ?? null;
+            return [
+                'id' => $product->id,
+                'name' => $product->name,
+                'quantity' => $product->pivot->quantity,
+                'price' => $product->price,
+                'img_url' => asset('storage/' . $product->primary_image),
+                'description' => $product->description,
+                'category' => $product->categories->pluck('name'), // Assuming categories relationship exists
+            ];
+        });
+
+        $total = $cartItems->sum(function ($item) {
+            return $item['price'] * $item['quantity'];
+        });
+
+        return response()->json(['cartItems' => $cartItems, 'total' => $total]);
     }
 
-    // update the basket
-    public function update(Request $request, Basket $cartItem)
+    /**
+     * Add product to basket.
+     */
+    public function add(Request $request, Product $product)
     {
+     
+        // Fetch stock for the product
+        $stock = Stock::where('product_id', $product->id)->first();
+      
+        if (!$stock) {
+            return redirect()->back()->withErrors(['error' => 'Stock information not found for this product.']);
+        }
+
         $request->validate([
-            'quantity' => 'required|integer|min:1|max:' . $cartItem->product->stock,
+            'quantity' => 'required|numeric|min:1|max:' . $stock->quantity,
         ]);
 
-        $cartItem->update(['quantity' => $request->quantity]);
+        $basket = Basket::firstOrCreate(['customer_id' => Auth::id()]);
 
-        return redirect()->route('cart.index')->with('success', 'Cart updated!');
+        $existingItem = $basket->products()->where('product_id', $product->id)->first();
+
+        if ($existingItem) {
+            $basket->products()->updateExistingPivot($product->id, [
+                'quantity' => $existingItem->pivot->quantity + $request->quantity,
+            ]);
+        } else {
+            $basket->products()->attach($product->id, ['quantity' => $request->quantity]);
+        }
+
+        return redirect()->route('shop')->with('success', 'Product added to basket successfully!');
     }
 
-    //remove from the basket
-    public function remove(Basket $cartItem)
+    /**
+     * Update product quantity in the basket.
+     */
+    public function update(Request $request, $productId)
     {
-        $cartItem->delete();
+        $basket = Basket::where('customer_id', Auth::id())->firstOrFail();
 
-        return redirect()->route('cart.index')->with('success', 'Item removed from cart!');
+        $request->validate([
+            'quantity' => 'required|numeric|min:0|max:' . Stock::where('product_id', $productId)->value('quantity'),
+        ]);
+
+        if ($request->quantity == 0) {
+            // Remove the product from the basket if quantity is set to zero
+            $basket->products()->detach($productId);
+            return response()->json([
+                'success' => true,
+                'message' => 'Item Removed from basket',
+            ]);
+        } else {
+            // Update the product's quantity in the basket
+            $basket->products()->updateExistingPivot($productId, ['quantity' => $request->quantity]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Basket updated successfully.',
+                'updatedQuantity' => $request->quantity,
+            ]);
+        }
     }
 
-    // clear the basket
+    /**
+     * Clear all items from the basket.
+     */
     public function clear()
     {
-        Basket::where('customer_id', Auth::id())->delete();
-
-        return redirect()->route('cart.index')->with('success', 'Cart cleared!');
+        
+        $basket = Basket::where('customer_id', Auth::id())->first();
+        
+        if ($basket) {
+            $basket->products()->detach();
+        }
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Basket cleared.',
+        ]);
     }
-
+    
+    /**
+     * Proceed to checkout.
+     */
     public function proceedToCheckout()
     {
         return redirect()->route('checkout.show');

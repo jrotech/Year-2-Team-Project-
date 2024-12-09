@@ -6,6 +6,7 @@ Function: This controller register a new customer to the database
  ********************************/
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,24 +21,24 @@ class register extends Controller
         if(Auth::check()){
             return redirect('/');
         }
-        return view('register');
+        return view('registration');
     }
 
     // store the customer information
     public function store(Request $request){
         $request->validate([
-            'customer_name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'phone_number' => 'required',
+            'CustomerName' => 'required',
+            'CustomerEmail' => 'required',
+            'CustomerPassword' => 'required',
+            'CustomerPhone' => 'required',
         ]);
-        $info['customer_name'] = $request->customer_name;
-        $info['email'] = $request->email;
-        $info['password'] = $request->password;
-        $info["phone_number"] = $request->phone_number;
-        $user = User::create($info);
+        $info['customer_name'] = $request->CustomerName;
+        $info['email'] = $request->CustomerEmail;
+        $info['password'] = Hash::make($request->CustomerPassword);
+        $info["phone_number"] = $request->CustomerPhone;
+        $customer = Customer::create($info);
 
-        if(!$user){
+        if(!$customer){
             return back()->with('error','Registration failed');
         }
         return redirect('/login')->with('registered','Registration successful');

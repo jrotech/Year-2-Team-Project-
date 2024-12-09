@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>Shop</title>
 
@@ -15,7 +16,6 @@
     </head>
     <body class="h-[200vh] bg-main-bg">
       <div id="nav"></div>
-      <div id="product"></div>
-      
+      <div id="product" data-product="{{ json_encode($product) }}" ></div>
     </body>
 </html>

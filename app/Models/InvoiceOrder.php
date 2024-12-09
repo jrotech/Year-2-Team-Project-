@@ -10,23 +10,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class InvoiceOrder extends Model
 {
-    protected $table = 'invoice_order';
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'invoice_id',
-        'product_cost',
         'product_id',
-        'quantity'
+        'product_cost',
+        'quantity',
     ];
 
     public function invoice()
     {
-        return $this->belongsTo(Invoice::class);
+        return $this->belongsTo(Invoice::class, 'invoice_id');
     }
 
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'product_id');
     }
 }

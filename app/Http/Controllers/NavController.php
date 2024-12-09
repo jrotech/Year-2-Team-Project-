@@ -12,9 +12,9 @@ class NavController extends Controller
         return view('wishlist'); // Replace with actual wishlist logic
     }
 
-    public function cart()
+    public function basket()
     {
-        return view('cart'); // Replace with actual cart logic
+        return view('basket'); // Replace with actual basket logic
     }
 
   
