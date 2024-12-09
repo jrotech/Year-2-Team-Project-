@@ -1,252 +1,369 @@
-<!--/ 
-    developer : Amen Alhousieni
-    university id : 230237878
-    fucntion : my aim to do the fisrt half of code for home page till signiup blocks
-/-->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TechForge Home</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <link rel="preconnect" href="https://fonts.bunny.net">
     @vite(['resources/css/app.css', 'resources/js/app.js','resources/js/home/page.js'])
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=Inter:100,300,400,600,700&display=swap" rel="stylesheet" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000000;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Navigation placeholder */
+        .NavBar {
+            background: #010035;
+            height: 50px;
+        }
+
+
+
+        /* Sign-up & Hero Section */
+        .signup-section {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 60px 20px;
+            gap: 40px;
+            background: #111111;
+        }
+
+        .signup-text {
+            flex: 1 1 400px;
+        }
+
+        .signup-text h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .signup-text p {
+            font-size: 20px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .signupForm {
+            background: #FFFFFF;
+            color: #000;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 400px;
+            flex: 1 1 300px;
+        }
+
+        .signupForm h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #000000;
+        }
+
+        .signupForm small {
+            font-weight: 300;
+            font-size: 14px;
+            color: #000000;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .signupForm input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 30px;
+            background: #D9D9D9;
+            font-size: 16px;
+            font-weight: 600;
+            opacity: 0.8;
+        }
+
+        .signupForm button {
+            background: #010035;
+            color: #FFF;
+            border: none;
+            border-radius: 30px;
+            padding: 15px 30px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Logo Section */
+        .whiteTechForgeImg {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .whiteTechForgeImg img {
+            max-width: 300px;
+            width: 100%;
+        }
+
+        /* Best Sellers */
+        .BestSellers {
+            background: #222222;
+            padding: 60px 20px;
+        }
+
+        .BestSellers h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: left;
+            color: white;
+        }
+
+        .ProductsGrid {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .ProductCard {
+            background: #FFFFFF;
+            color: #000000;
+            border-radius: 20px;
+            width: 300px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            /* Arrange items vertically */
+            justify-content: space-between;
+            /* Ensure the "See More" button is at the bottom */
+            height: 100%;
+            /* Ensure consistent card height */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .ProductCard img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            object-fit: cover;
+            height: 200px;
+            /* Ensure consistent image height */
+        }
+
+        .ProductCard h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .rating {
+            margin: 10px 0;
+        }
+
+        .ProductCard p {
+            font-size: 16px;
+            margin-bottom: 10px;
+            flex-grow: 1;
+            /* Fills available space between the content and button */
+        }
+
+        .SeeMore {
+            display: inline-block;
+            background: #010035;
+            color: #FFFFFF;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            margin-top: auto;
+            /* Pushes the button to the bottom */
+        }
+
+        /* Categories Section */
+        .Categories {
+            background: #263238;
+            padding: 60px 20px;
+        }
+
+        .Categories h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .CategoriesGrid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .CategoryCard {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .CategoryCard img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .CategoryCard .overlay {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .CategoryCard .overlay span {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        /* Footer */
+        footer {
+            background: #111111;
+            color: #FFFFFF;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        footer h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: #FFFFFF;
+            text-decoration: underline;
+        }
+
+        .footer-sections {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .footer-section {
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .footer-social-icons,
+        .footer-payment-methods {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .footer-social-icons a i {
+            font-size: 24px;
+        }
+
+        .footer-payment-methods img {
+            height: 20px;
+        }
+    </style>
 </head>
-<style>
-    *{
-        border: 0;
-        padding: 0;
-        margin: 0;
-    }
-.NavBar{
-    padding: 0;
-    margin: 0;
-    background-color: #010035;
-    overflow: hidden;
-    height: 50px;
-}
-.NavBar li{
-display: inline;
-float: right;
-margin-right: 20px;
-}
-.NavBar a{
-    color: white;
-    display: block;
-    padding: 8px;
-    padding: 4px;
-    text-decoration: none;
-}
-    .techForgeImage img{
-         position: absolute;
-       top: 0%;
-       left: 0%;
-       height: 50px;
-    }
-    .searchBar{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-grow: 1;
-    }
-    .searchBar input[type=text]{
-       width: 100%;
-       padding: 5px;
-       border: none;
-       border-radius: 5px;
-    }
-    .GreyNavbar{
-        background-color: #263238;
-        overflow: hidden;
-        height: 50px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-.SecondBar li{
-    display: inline;
-    float: center;
-    margin-right: 20px;
-}
-.SecondBar a{
-    color: white;
-    text-decoration: none;
-}
-.pcSetup img{
-    width: 100%;
-    height: 400px;
-    max-height: 100%;
-}
-.signupForm {
-    position: absolute;
-    right: 0;
-    width: 300px; /* Adjust width as needed */
-    padding: 20px;
-    margin: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Adds space between inputs */
-}
-.signupForm input[type=text] {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-    border: none;
-    background-color: #A9A9A9;
-    color: black;
-}
-.signupForm button{
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-    border: none;
-    background-color: #010035;
-    color: white;
-}
-.whiteTechForgeImg img{
-    width: 300px;
-}
-.NicePcImg img{
-    width: 300px;
-    background-color: grey;
-}
-.NicePcImg{
-    background-color: #F5F5F5;
-    padding: 20px;
-    margin: 20px 0;
-    border-radius: 5px;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    gap: 20px;
-}
-.NicePcImg img {
-    width: 300px;
-    height: auto;
-    display: block;
-    object-fit: cover;
-}
-.NicePcImg figure {
-    text-align: center;
-    margin: 0;
-}
-.NicePcImg figcaption {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #010035;
-}
-.NicePcrating {
-    color: #FFD700; /* Gold color for stars */
-    margin-top: 5px;
-    font-size: 16px;
-}
-.NicePcrating i {
-    margin: 0 2px;
-}
-.ExtremePcrating {
-    color: #FFD700; /* Gold color for stars */
-    margin-top: 5px;
-    font-size: 16px;
-}
-.ExtremePcrating i {
-    margin: 0 2px;
-}
-.far.fa-star {
-    color: #ccc; /* Gray color for empty stars */
-}
-.NicerPCrating {
-    color: #FFD700; /* Gold color for stars */
-    margin-top: 5px;
-    font-size: 16px;
-}
-.NicerPCrating i {
-    margin: 0 2px;
-}
-.SeeMore{
-    background-color: #010035;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-</style>
+
 <body>
-  <div id="nav"></div>
-  <div id="home"></div>
-<div class="signupText">
-    <h1>Please sign up if you do <br> not have an account with us already</h1>
-    <p>Having an account will allow you to save items to basket and create wishlists</p>
-    <div class="signupForm">
-        <div class="formHeader">
-            <h2>Sign up with us</h2>
-            <small> Please provivde the required details below </small>
-        </div>
-    <input type="text" placeholder="Full Name">
-    <input type="text" placeholder="Email">
-    <input type="text" placeholder="Password">
-    <button>Submit</button>
-    </div>
-    </div>
-<div class="whiteTechForgeImg">
-<img src="{{asset('img/whiteTechForge.png')}}" alt="techforge">
-</div>
-</div>
-    <div class="BestSellers">
+    <div id="nav" class="NavBar"></div>
+    <!-- Carousel -->
+    <div id="home"></div>
+
+    <!-- Best Sellers Section -->
+    <section class="BestSellers">
         <h1>Best Sellers</h1>
-        <div class="NicePcImg">
-            <figure>
-        <img src="{{'img/NicePc.jpg'}}" alt="pc">
-        <figcaption>Nice PC</figcaption>
-        <div class="NicePcrating">
-            <i class="fas fa-star starred"></i>
-            <i class="fas fa-star starred"></i>
-            <i class="fas fa-star starred"></i>
-            <i class="fas fa-star starred"></i>
-            <i class="far fa-star starred"></i>
+        <div class="ProductsGrid">
+            @foreach($bestSellers as $stock)
+            @php
+            $product = $stock->product;
+            $image = $product->images->first(); // Get the first image for the product
+            $imagePath = $image ? 'storage/' . $image->url : 'img/placeholder.jpg'; // Use a placeholder if no image exists
+            @endphp
+            {{ \Log::info($imagePath) }} <!-- For debugging purposes -->
+            <div class="ProductCard">
+                <img src="{{ asset($imagePath) }}" alt="{{ $image ? $image->alt : $product->name }}">
+                <h2>{{ $product->name }}</h2>
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                </div>
+                <p>{{ \Illuminate\Support\Str::limit($product->description, 50) }}</p>
+                <p>{{ number_format($product->price, 2) }}$</p>
+                <a href="{{ route('product.getProduct', ['id' => $product->id]) }}" class="SeeMore">See More</a>
+            </div>
+            @endforeach
         </div>
-        <button class="SeeMore">See more</button>
-        </figure>
-        <figure>
-        <img src="{{'img/ExtremePc.png'}}" alt="extremePc">
-        <figcaption>Extreme Prebuilt</figcaption>
-        <div class="ExtremePcrating">
-            <i class="fas fa-star starred"></i>
-            <i class="fas fa-star starred"></i>
-            <i class="fas fa-star starred"></i>
-            <i class="fas fa-star starred"></i>
-            <i class="far fa-star starred"></i>
+
+    </section>
+
+    <!-- Categories Section (first 6 categories, 3 per row) -->
+    <section class="Categories">
+        <h1>Categories</h1>
+        <div class="CategoriesGrid">
+            @foreach($categories->take(6) as $category)
+            @php
+            $categoryImage = 'storage/categories/' . $category->name . '.jpg';
+            $categoryHref = '/shop?categories=' . urlencode($category->name); // Build the href dynamically
+            @endphp
+            <a href="{{ $categoryHref }}" class="CategoryCard"> <!-- Make the entire card clickable -->
+                <img src="{{ asset($categoryImage) }}" alt="{{ $category->name }}">
+                <div class="overlay">
+                    <span>{{ $category->name }}</span>
+                </div>
+            </a>
+            @endforeach
         </div>
-        <button class="SeeMore">See more</button>
-        </figure>
-        <figure>
-        <img src="{{'img/NicerPc.jpg'}}" alt="NicerPc">
-        <figcaption>Nicer Prebuilt</figcaption>
-        <div class="NicerPCrating">
-            <i class="fas fa-star starred"></i>
-            <i class="fas fa-star starred"></i>
-            <i class="fas fa-star starred"></i>
-            <i class="far fa-star starred"></i>
-            <i class="far fa-star starred"></i>
-        </div>
-        <button class="SeeMore">See more</button>
-        </figure>
-        </div>
-    </div>
-<div class="Categories">
-    <h1>Categories</h1>
-    <div class="CategoryImages">
-    </div>
-</div>
-</body>
-</html>
+    </section>
 
 
+    <!-- Footer -->
+    <footer>
+        <div class="footer-sections">
 
+            <div class="footer-section">
+                <h3>Follow us on social media</h3>
+                <div class="footer-social-icons">
+                    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Our Payment Methods</h3>
+                <div class="footer-payment-methods">
+                    <img src="{{ asset('img/mastercard.png') }}" alt="MasterCard">
+                    <img src="{{ asset('img/visa.png') }}" alt="Visa">
+                    <img src="{{ asset('img/paypal.png') }}" alt="PayPal">
+                </div>
+            </div>
+        </div>
+    </footer>
 
+    <script src="https://cdnjs.cloudflare.c
