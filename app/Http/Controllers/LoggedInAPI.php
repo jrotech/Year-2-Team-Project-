@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-class APIRoutesController extends Controller
+class LoggedInAPI extends Controller
 {
     public function loggedin()
     {

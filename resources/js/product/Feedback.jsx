@@ -1,5 +1,5 @@
 import React from 'react'
-import { Stack, Flex,Title,Avatar, Text, Textarea, Button } from '@mantine/core'
+import { Stack, Flex,Title,Avatar, Text, Textarea, Button, Rating } from '@mantine/core'
 import { Stars} from '../components/Stars'
 
 export default function Feedback(){
@@ -57,11 +57,12 @@ function FeebackCard({userName,rating,comment}){
 }
 
 function LeaveFeedback(){
+  const [rating,setRating] = React.useState(0)
   return (
     <Stack className="max-w-[400px]">
       <Title order={2}>Leave your feedback</Title>
       <Stack gap="20">
-	<Stars rating={0} />
+	<Rating defaultValue={rating} onChange={setRating} size="xl" color="#FFE100" />
 	<div contenteditable="true" className="bg-white rounded-md min-h-52 w-full focus:outline-none" >Please Leave you feedbakc here</div>
 	<Button className="!rounded-md">Submit</Button>
       </Stack>

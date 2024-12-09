@@ -13,10 +13,11 @@
         <!-- Styles / Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js','resources/js/shop/page.js'])
     </head>
-    <body class="h-[200vh] bg-main-bg">
+    <body class="min-h-[100vh] bg-main-bg">
       <div id="nav"></div>
       <div id="products"
-     data-products="{{ json_encode($products) }}"  
+      data-products='@json($products)'  
+      data-success-message="{{ session('success') }}"
       ></div>
 
       

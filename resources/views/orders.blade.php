@@ -15,7 +15,8 @@
     </head>
     <body class="h-[200vh] bg-main-bg">
       <div id="nav"></div>
-      <div id="orders"></div>
+      <div id="orders"
+      data-invoices = "{{json_encode($invoices)}}"></div>
       
     </body>
 </html>

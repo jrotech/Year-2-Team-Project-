@@ -1,9 +1,4 @@
 <?php
-/********************************
-Developer: Abdullah Alharbi
-University ID: 230046409
-Function: This controller adds the checkout feature
- ********************************/
 
 namespace App\Http\Controllers;
 
@@ -20,96 +15,79 @@ class CheckoutController extends Controller
 {
     public function showCheckout()
     {
-        $cartItems = Basket::with('product')
+        $basket = Basket::with('products') // Load related products
             ->where('customer_id', Auth::id())
-            ->get();
+            ->first(); // Use first() since there should only be one basket
 
-        if ($cartItems->isEmpty()) {
-            return redirect()->route('cart.index')
+        if (!$basket) {
+            return redirect()->route('basket')
                 ->with('error', 'Your basket is empty!');
         }
 
-        $total = $cartItems->sum(function ($item) {
-            return $item->product->price * $item->quantity;
+        // Calculate the total price of products in the basket
+        $total = $basket->products->sum(function ($product) {
+            return $product->price * $product->pivot->quantity; // Use pivot to get the quantity
         });
 
-        return view('checkout.index', compact('cartItems', 'total'));
+        return view('checkout', compact('basket', 'total'));
     }
 
     public function processCheckout(Request $request)
     {
         $request->validate([
-            'delivery_option' => 'required|in:Delivery,Pick up',
+            'address' => 'required|string|max:255',
+            'postcode' => 'required|string|max:10',
         ]);
 
-        $cartItems = Basket::with('product')
+        $cartItems = Basket::with('products')
             ->where('customer_id', Auth::id())
-            ->get();
+            ->first();
 
-        if ($cartItems->isEmpty()) {
-            return redirect()->route('cart.index')
-                ->with('error', 'Your basket is empty!');
+        if (!$cartItems || $cartItems->products->isEmpty()) {
+            return response()->json(['success' => false, 'message' => 'Your basket is empty.'], 400);
         }
 
         try {
             DB::beginTransaction();
 
-
+            // Create Invoice
             $invoice = new Invoice();
-            $invoice->date = now();
             $invoice->customer_id = Auth::id();
-            $invoice->invoice_number = $this->generateInvoiceNumber();
-            $invoice->delivery_option = $request->delivery_option;
-            $invoice->status = 'Received';
-
-
-            $totalAmount = $cartItems->sum(function ($item) {
-                return $item->product->price * $item->quantity;
+            $invoice->address = $request->address;
+            $invoice->postcode = $request->postcode;
+            $invoice->amount = $cartItems->products->sum(function ($product) {
+                return $product->price * $product->pivot->quantity;
             });
-            $invoice->invoice_amount = $totalAmount;
-
+            $invoice->status = 'pending';
             $invoice->save();
 
-
-            foreach ($cartItems as $item) {
+            // Add Items to InvoiceOrder
+            foreach ($cartItems->products as $product) {
                 InvoiceOrder::create([
                     'invoice_id' => $invoice->id,
-                    'product_id' => $item->product_id,
-                    'product_cost' => $item->product->price,
-                    'quantity' => $item->quantity
+                    'product_id' => $product->id,
+                    'product_cost' => $product->price,
+                    'quantity' => $product->pivot->quantity,
                 ]);
 
-
-                $item->product->decrement('stock', $item->quantity);
+                // Decrement stock
+                if ($product->stock) { // Check if stock relation exists
+                    $product->stock->decrement('quantity', $product->pivot->quantity ?? 0);
+                } else {
+                    throw new Exception("Stock entry not found for product ID: {$product->id}");
+                }
             }
-
-
-            Basket::where('customer_id', Auth::id())->delete();
+            
+            // Clear Basket
+            $cartItems->products()->detach();
 
             DB::commit();
-
-            return redirect()->route('cart.index')
-                ->with('success', 'Order placed successfully! Order number: ' . $invoice->invoice_number);
-
+            return response()->json(['success' => true, 'message' => 'Order created successfully!', 'invoice_id' => $invoice->id], 201);
         } catch (Exception $e) {
             DB::rollBack();
-
             Log::error('Checkout Error: ' . $e->getMessage());
 
-
-            return redirect()->back()
-                ->with('error', 'Error: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Error processing order. Please try again.'], 500);
         }
-    }
-
-
-    private function generateInvoiceNumber()
-    {
-
-        $lastInvoice = Invoice::orderBy('invoice_number', 'desc')
-            ->first();
-
-       
-        return $lastInvoice ? $lastInvoice->invoice_number + 1 : 1000;
     }
 }

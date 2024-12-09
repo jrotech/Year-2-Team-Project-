@@ -5,7 +5,8 @@ import { InStock } from '../components/InStock';
 export default function Product(props){
   return (
     <Flex className="bg-white p-6 rounded-md " gap="50">
-      <img alt="" src="https://pngimg.com/d/cpu_PNG19.png" className="h-36" />
+		{console.log(props.img)}
+      <img alt="" src={"/storage/" + props.img} className="h-36" />
       <Stack className="w-[500px] max-w-[500px]">
 	<Title order={4}>{props.title}</Title>
 	<Flex gap="20" className="items-between justify-between w-full">

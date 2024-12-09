@@ -13,9 +13,11 @@ class Invoice extends Model
     protected $fillable = [
         'date',
         'customer_id',
-        'invoice_number',
+        'invoice_id',
         'invoice_amount',
         'delivery_option',
+        'address',
+        'postcode',
         'status',
         'deleted',
     ];
@@ -30,24 +32,24 @@ class Invoice extends Model
     // Relation with Delivery
     public function delivery()
     {
-        return $this->hasOne(Delivery::class, 'invoice_number');
+        return $this->hasOne(Delivery::class, 'invoice_id');
     }
 
     // Relation with Payments
     public function payments()
     {
-        return $this->hasMany(Payment::class, 'invoice_number');
+        return $this->hasOne(Payment::class, 'invoice_id');
     }
 
     // Relation with Basket
     public function basket()
     {
-        return $this->hasMany(Basket::class, 'invoice_number');
+        return $this->hasOne(Basket::class, 'invoice_id');
     }
 
-    // Relation with InvoiceOrder (if needed)
+    // Relation with InvoiceOrder
     public function invoiceOrders()
     {
-        return $this->hasMany(InvoiceOrder::class, 'invoice_number');
+        return $this->hasMany(InvoiceOrder::class, 'invoice_id', 'invoice_id');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,16 +23,24 @@ class Product extends Model
      * Relationships
      */
 
+    // Relation with images
+    public function images()
+    {
+        return $this->hasMany(Image::class, 'product_id');
+    }
+    
     // Relation with Stock
     public function stock()
     {
         return $this->hasOne(Stock::class, 'product_id');
     }
 
-    // Relation with Basket
+    // Many-to-many relation with Basket
     public function baskets()
     {
-        return $this->hasMany(Basket::class, 'product_id');
+        return $this->belongsToMany(Basket::class, 'basket_product')
+                    ->withPivot('quantity') // Include quantity from pivot table
+                    ->withTimestamps();
     }
 
     // Relation with Product Categories (many-to-many)

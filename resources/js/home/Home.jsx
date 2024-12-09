@@ -4,6 +4,7 @@ import { MantineProvider, Flex, Stack } from '@mantine/core';
 import { theme } from '../mantine';
 import Carousel from './Carousel';
 
+
 function Home(){
   return (
     <MantineProvider theme={theme}>

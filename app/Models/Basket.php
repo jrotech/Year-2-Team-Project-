@@ -9,22 +9,31 @@ class Basket extends Model
 {
     use HasFactory;
 
-    protected $table = 'basket';
+    protected $table = 'baskets';
 
-    protected $fillable = ['invoice_number', 'product_cost', 'product_id', 'quantity', 'customer_id'];
+    protected $fillable = ['invoice_id', 'customer_id'];
 
+    /**
+     * Relationships
+     */
+
+    // Relation with Invoice
     public function invoice()
     {
-        return $this->belongsTo(Invoice::class, 'invoice_number');
+        return $this->belongsTo(Invoice::class, 'invoice_id');
     }
 
-    public function product()
-    {
-        return $this->belongsTo(Product::class, 'product_id');
-    }
-
+    // Relation with Customer
     public function customer()
     {
         return $this->belongsTo(Customer::class, 'customer_id');
+    }
+
+    // Many-to-many relation with Product
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'basket_product')
+                    ->withPivot('quantity') // Include quantity from pivot table
+                    ->withTimestamps();
     }
 }

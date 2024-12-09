@@ -5,6 +5,7 @@
 /-->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,8 +20,13 @@
         }
 
         body {
+
             font-family: Arial, sans-serif;
-            background-color: white;
+            background-image: url('{{ asset("img/loginbackground.jpg") }}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -41,21 +47,24 @@
 
         /* Heading with logo */
         .login-heading {
-            display: flex;
+            display: block;
             align-items: center;
-            justify-content: center; /* Center text */
+            justify-content: center;
+            /* Center text */
             margin-bottom: 20px;
         }
 
         .login-heading h2 {
             color: white;
-            margin-left: 20px; /* Space between logo and text */
+            margin-left: 20px;
+            /* Space between logo and text */
             font-size: 24px;
         }
 
         .login-heading img {
-            width: 60px; /* Increased size of the logo */
-            height: auto;
+            height: 90px;
+            /* Increased size of the logo */
+            width: auto;
         }
 
         /* Form styling */
@@ -70,7 +79,9 @@
             font-size: 14px;
         }
 
-        input[type="text"], input[type="password"] {
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
             width: 100%;
             padding: 12px;
             font-size: 16px;
@@ -134,25 +145,21 @@
             color: #fff;
             text-decoration: none;
         }
-
-        .forgot-password a:hover {
-            text-decoration: underline;
-        }
-
     </style>
 </head>
+
 <body>
 
     <!-- Login Form Container -->
     <div class="login-container">
         <!-- Login Heading with Logo -->
         <div class="login-heading">
-            <img src="img/techForge.png" alt="TechForge Logo"> <!-- Add your logo here -->
+            <img src='{{ asset("img/techForgeWide.jpg") }}' alt="TechForge Logo"> <!-- Add your logo here -->
             <h2>Login to Your Account</h2>
         </div>
 
         <!-- Login Form -->
-        <form action="/login"  method="POST" >
+        <form action="/login" method="POST">
             @csrf
             <!-- Username -->
             <div class="form-group">
@@ -169,6 +176,17 @@
             <!-- Submit Button -->
             <input type="submit" value="Login">
         </form>
+        <div class="forgot-password">
+            <a href="#">Don't have an account?</a>
+        </div>
+
+        <div class="google-login">
+            <a href="/register">
+                <button class="google-btn">
+                    Make an account
+                </button>
+            </a>
+        </div>
 
         <!-- Forgot Password Link -->
         <div class="forgot-password">
@@ -177,11 +195,11 @@
 
         <!-- Google Login Button -->
         <div class="google-login">
-            <a href = "/authenticate/google/callback">
-            <button class="google-btn">
-                <img src="https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000" alt="Google Logo">
-                Sign in with Google
-            </button>
+            <a href="/authenticate/google/callback">
+                <button class="google-btn">
+                    <img src="https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000" alt="Google Logo">
+                    Sign in with Google
+                </button>
             </a>
         </div>
     </div>
@@ -189,4 +207,5 @@
 
 
 </body>
+
 </html>
