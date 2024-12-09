@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use App\Models\Customer;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,91 +17,85 @@ class DashboardController extends Controller
         $invoices = Invoice::with([
             'invoiceOrders.product.images' // Ensure products and their images are loaded
         ])
-        ->where('customer_id', $customer->id)
-        ->get();
+            ->where('customer_id', $customer->id)
+            ->get();
         // Add primary_img to each product inside invoiceOrders
         $invoices->each(function ($invoice) {
             $invoice->invoiceOrders->each(function ($order) {
                 $order->product->primary_img = $order->product->images->first()?->url ?? null;
             });
         });
-       
-        
+
+
         return view('dashboard', [
             'customer' => $customer,
             'invoices' => $invoices,
         ]);
-        
     }
 
     public function orders()
     {
         $customer = Customer::findOrFail(Auth::id());
         $invoices = Invoice::with(['invoiceOrders.product.images'])->where('customer_id', '=', $customer->id)->get();
-      
+
         return view('orders', compact('invoices'));
     }
 
+
     public function apiCategoryLastProduct()
     {
-        // Fetch the last invoice (by invoice_id)
-        $lastInvoice = Invoice::with([
-            'invoiceOrders.product.categories', // Eager load product and categories to reduce queries
-        ])
-        ->orderBy('invoice_id', 'desc')
-        ->first();
-    
-        // Handle case: No invoices found
+        // Get the currently authenticated customer
+        $customer = Customer::findOrFail(Auth::id());
+
+        // Ensure the customer is logged in
+        if (!$customer) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User is not authenticated.',
+            ], 401);
+        }
+
+        
+        $lastInvoice = Invoice::where('customer_id', $customer->id)
+            ->with(['invoiceOrders.product.categories']) // Eager load product and categories
+            ->orderBy('invoice_id', 'desc')
+            ->first();
+
+
         if (!$lastInvoice) {
             return response()->json([
                 'success' => false,
-                'message' => 'No invoices found.'
+                'message' => 'No invoices found for this customer.',
             ], 404);
         }
 
-        $lastInvoiceOrder = $lastInvoice->invoiceOrders->last();
+       
+        $lastProduct = $lastInvoice->invoiceOrders->first()?->product;
 
-        if (!$lastInvoiceOrder) {
-            return response()->json([
-                'success' => false,
-                'message' => 'No invoice orders found for the last invoice.'
-            ], 404);
-        }
-    
-        
-        $lastProduct = $lastInvoiceOrder->product;
-    
         
         if (!$lastProduct) {
             return response()->json([
                 'success' => false,
-                'message' => 'No product found for the last invoice order.'
+                'message' => 'No products found in the last invoice.',
             ], 404);
         }
-    
-        $category = $lastProduct->categories->first();
-    
-        if (!$category) {
-            return response()->json([
-                'success' => true,
-                'last_product' => $lastProduct,
-                'related_products' => [] // No category means no related products
-            ]);
-        }
-    
-        // Fetch up to 3 other products from the same category (exclude the last product)
-        $relatedProducts = $category->products()
-            ->where('products.id', '!=', $lastProduct->id)
-            ->take(3)
+
+        
+        $relatedProducts = Product::whereHas('categories', function ($query) use ($lastProduct) {
+            $query->whereIn('categories.id', $lastProduct->categories->pluck('id'));
+        })
+            ->where('id', '!=', $lastProduct->id) // Exclude the last product itself
+            ->limit(5)
             ->get();
-    
-        // Return JSON with last product and related products
+
+        // Return response with the last product and related products
         return response()->json([
             'success' => true,
             'last_product' => $lastProduct,
             'related_products' => $relatedProducts,
         ]);
     }
+
     public function order($id)
     {
         $invoice = Invoice::with(['invoiceOrders.product.images'])->where('invoice_id', '=', $id)->first();

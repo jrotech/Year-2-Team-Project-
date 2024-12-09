@@ -181,7 +181,6 @@ function Finish({ onCheckout, personalDetails }) { // Destructure onCheckout and
               Thank you for your purchase. Your order has been received and is being processed.
             </p>
               <h3 className="font-semibold text-primary">Order Details:</h3>
-              <p className="text-secondary-foreground">Order #: 123456</p>
               <p className="text-secondary-foreground">Estimated Delivery: 3-5 business days</p>
           </Card>
           <footer className="flex justify-center">

@@ -38,7 +38,6 @@ function Checkout(props){
 
       if (response.ok) {
      //   alert('Order successfully created!');
-        window.location.href = '/shop';
       } else {
       //  alert('Error creating order: ' + result.message);
       }

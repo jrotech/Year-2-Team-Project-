@@ -8,7 +8,6 @@ import Profile from './Profile';
 import Contact from './Contact';
 import Review from './Rate';
 import Related from '../components/Related';
-
 function Dashboard(props) {
 	const customer = JSON.parse(document.getElementById('dashboard').dataset.customer);
 	const invoices = JSON.parse(document.getElementById('dashboard').dataset.invoices);
@@ -18,30 +17,32 @@ function Dashboard(props) {
 	const [relatedProducts, setRelatedProducts] = useState([]);
 
 	useEffect(() => {
-		// Fetch the last product and related products from the API using async/await
 		const fetchLastProductData = async () => {
 			try {
 				const response = await fetch('/api/categorylastproduct');
+				if (!response.ok) {
+					throw new Error('No data available');
+				}
 				const data = await response.json();
-
+	
 				if (data.success) {
 					setLastProduct(data.last_product);
 					setRelatedProducts(data.related_products || []);
 				} else {
-					// If not successful, handle errors or set defaults
 					setLastProduct(null);
 					setRelatedProducts([]);
 				}
 			} catch (error) {
-				console.error('Error fetching last product data:', error);
 				setLastProduct(null);
 				setRelatedProducts([]);
 			}
 		};
-
-		// Call the async function
+	
 		fetchLastProductData();
 	}, []);
+
+	// Safely access address and other invoice details
+	const address = invoices.length > 0 && invoices[0].address ? invoices[0].address : 'No address available';
 
 	return (
 		<MantineProvider theme={theme}>
@@ -53,7 +54,7 @@ function Dashboard(props) {
 						<Profile
 							name={customer.customer_name}
 							email={customer.email}
-							address={invoices[0].address}
+							address={address}
 							phone={customer.phone_number}
 							orders={invoices.length}
 							spent={invoices.reduce((total, invoice) => total + parseFloat(invoice.amount || 0), 0)}
