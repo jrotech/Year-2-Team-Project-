@@ -3,79 +3,113 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, useSearchParams } from "react-router-dom";
 import Product from "./Product";
 import Sidebar from "./Sidebar";
-import { MantineProvider, Flex, Stack, Title, Notification } from "@mantine/core";
+import { MantineProvider, Flex, Stack, Title, Notification, TextInput, Divider } from "@mantine/core";
 import { theme } from "../mantine";
 
 function ProductsList(props) {
-
   const [searchParams, setSearchParams] = useSearchParams();
-  const [products, setProducts] = React.useState(JSON.parse(props.products));
+  const [products] = React.useState(JSON.parse(props.products));
   const [filteredProducts, setFilteredProducts] = React.useState([]);
-  // Initialize selectedCategories from URL query params directly
   const [selectedCategories, setSelectedCategories] = React.useState(
     searchParams.get("categories")?.split(",") || ["All"]
   );
-  
+  const [searchQuery, setSearchQuery] = React.useState(searchParams.get("search") || "");
   const [priceRange, setPriceRange] = React.useState([10, 2500]);
   const [successMessage, setSuccessMessage] = React.useState(props.successMessage || null);
 
-  // Initially populate filteredProducts with all products
+  // Sync state with URL search parameters
   React.useEffect(() => {
-    setFilteredProducts(products);
-  }, [products]);
+    const params = new URLSearchParams();
+    if (selectedCategories.length > 0) {
+      params.set("categories", selectedCategories.join(","));
+    }
+    if (searchQuery.trim() !== "") {
+      params.set("search", searchQuery.trim());
+    }
+    setSearchParams(params);
+  }, [selectedCategories, searchQuery, setSearchParams]);
 
-  // Update URL query params whenever selectedCategories changes
-  React.useEffect(() => {
-    setSearchParams({
-      categories: selectedCategories.join(","),
-    });
-  }, [selectedCategories, setSearchParams]);
-
-  // Filter products based on categories and price range
+  // Apply filtering logic
   React.useEffect(() => {
     const filtered = products.filter((product) => {
       const matchesCategories =
         selectedCategories.includes("All") ||
         product.categories.some((cat) => selectedCategories.includes(cat.name));
-      const matchesPrice =
-        product.price >= priceRange[0] && product.price <= priceRange[1];
-      return matchesCategories && matchesPrice;
+      const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
+      const matchesSearch =
+        searchQuery === "" || product.name.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategories && matchesPrice && matchesSearch;
     });
     setFilteredProducts(filtered);
-  }, [selectedCategories, priceRange, products]);
+    console.log("Filtered products:", filtered);
+  }, [selectedCategories, priceRange, searchQuery, products]);
 
-  const handleCategoryChange = (category) => {
-    setSelectedCategories((prevCategories) => {
-      let updatedCategories;
-      if (category === "All") {
-        updatedCategories = ["All"];
-      } else {
-        updatedCategories = prevCategories.includes(category)
-          ? prevCategories.filter((cat) => cat !== category)
-          : [...prevCategories.filter((cat) => cat !== "All"), category];
-      }
-      return updatedCategories;
-    });
+  // Handle search input changes
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchQuery(value);
   };
 
   const handlePriceRangeChange = (range) => {
     setPriceRange(range);
   };
 
+
+  // Handle category checkbox changes
+  const handleCategoryChange = (category) => {
+    setSelectedCategories((prev) => {
+      if (category === "All") {
+        return ["All"];
+      } else {
+        return prev.includes(category)
+          ? prev.filter((cat) => cat !== category)
+          : [...prev.filter((cat) => cat !== "All"), category];
+      }
+    });
+  };
+
   return (
     <MantineProvider theme={theme}>
-      {successMessage && (
-        <Notification
-          onClose={() => setSuccessMessage(null)}
-          color="teal"
-          title="Success"
-        >
-          {successMessage}
-        </Notification>
-      )}
-      <Flex className="max-w-screen justify-between m-24 relative">
-        <Flex className="items-center justify-center w-full">
-          <Flex className="gap-20 flex-wrap max-w-[1200px] justify-center">
+      <Flex className="max-w-screen justify-center m-24 relative gap-20">
+       
+
+        {/* Main Content */}
+        <Stack className="w-full max-w-[1200px]">
+
+          {/* Success Notification */}
+          {successMessage && (
+            <Notification
+              onClose={() => setSuccessMessage(null)}
+              color="teal"
+              title="Success"
+              className="mb-8"
+            >
+              {successMessage}
+            </Notification>
+          )}
+
+          {/* Search Bar */}
+          <TextInput
+            value={searchQuery}
+            onChange={handleSearchChange}
+            placeholder="Search products..."
+            radius="md"
+            size="lg"
+            className="mb-8 shadow-sm"
+            styles={{
+              input: {
+                border: "1px solid #d1d5db",
+                backgroundColor: "#ffffff",
+                fontSize: "1rem",
+              },
+            }}
+          />
+
+          {/* Divider */}
+         <Divider size="xs" my="xs" />
+
+          {/* Product List */}
+          <Flex className="gap-20 flex-wrap justify-center">
             {filteredProducts.length === 0 && <NotFound />}
             {filteredProducts.map((product) => (
               <Product
@@ -90,8 +124,9 @@ function ProductsList(props) {
               />
             ))}
           </Flex>
-        </Flex>
-        <Sidebar
+        </Stack>
+         {/* Sidebar */}
+         <Sidebar
           onCategoryChange={handleCategoryChange}
           onPriceRangeChange={handlePriceRangeChange}
           selectedCategories={selectedCategories}
@@ -104,8 +139,8 @@ function ProductsList(props) {
 
 function NotFound() {
   return (
-    <Stack>
-      <Title>No products found</Title>
+    <Stack align="center" justify="center" className="mt-10">
+      <Title order={3} color="dimmed">No products found</Title>
     </Stack>
   );
 }
