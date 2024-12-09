@@ -35,7 +35,10 @@ class DashboardController extends Controller
 
     public function orders()
     {
-        return view('orders');
+        $customer = Customer::findOrFail(Auth::id());
+        $invoices = Invoice::with(['invoiceOrders.product.images'])->where('customer_id', '=', $customer->id)->get();
+      
+        return view('orders', compact('invoices'));
     }
 
     public function apiCategoryLastProduct()

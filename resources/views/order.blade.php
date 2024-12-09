@@ -16,8 +16,7 @@
     <body class="h-[200vh] bg-main-bg">
       <div id="nav"></div>
       <div id="order"
-      data-invoice="{{ json_encode($invoice)}}">
-      ></div>
+      data-invoice="{{json_encode($invoice)}}"></div>
       
     </body>
 </html>
