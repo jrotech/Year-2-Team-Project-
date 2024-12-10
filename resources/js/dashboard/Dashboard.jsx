@@ -101,7 +101,7 @@ function Dashboard(props) {
 							<Title className="text-center !text-5xl" mb="10" order={1}>Related Products</Title>
 							<Flex gap="20">
 								{relatedProducts.length > 0 ? (
-									relatedProducts.map((prod, i) => (
+									relatedProducts.slice(0,3).map((prod, i) => (
 										<Related
 											key={i}
 											name={prod.name}
