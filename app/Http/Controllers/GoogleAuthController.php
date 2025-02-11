@@ -7,7 +7,8 @@ Function: This controller allows the user to log in with Google
  ********************************/
 namespace App\Http\Controllers;
 
-use App\Models\Customer; 
+use App\Models\Customer;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -18,16 +19,18 @@ class GoogleAuthController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-    public function callback()
+    public function callback(Request $request)
     {
+        dd($request->all());
         try {
-            $googleUser = Socialite::driver('google')->user();
+//            $googleUser = Socialite::driver('google')->user();
+            $googleUser = Socialite::driver('google')->stateless()->user();
 
             // Check if the customer exists by google_id
             $findCustomer = Customer::where('google_id', $googleUser->getId())->first();
-            
+
             if ($findCustomer) {
-                
+
                 echo("Customer exists");
                 // If customer exists, log them in
                 Auth::login($findCustomer);
@@ -59,7 +62,8 @@ class GoogleAuthController extends Controller
             }
         } catch (\Exception $e) {
             // Handle the error, show a message
-            dd("Failed to log in. Please try again later. " . $e->getMessage(),$e->getTrace());
+
+            dd("Failed to log in. Please try again later. " . $e->getMessage(), $e->getTrace());
         }
     }
 }
