@@ -154,8 +154,10 @@
     <div class="login-container">
         <!-- Login Heading with Logo -->
         <div class="login-heading">
+	  <a href="/">
             <img src='{{ asset("img/techForgeWide.jpg") }}' alt="TechForge Logo"> <!-- Add your logo here -->
             <h2>Login to Your Account</h2>
+	  </a>
         </div>
 
         <!-- Login Form -->

@@ -14,6 +14,27 @@ University ID: 230367027
     <title>Registration</title>
 </head>
 <style>
+        .login-heading {
+            display: block;
+            align-items: center;
+            justify-content: center;
+            /* Center text */
+            margin-bottom: 20px;
+        }
+        .login-heading h2 {
+            color: white;
+            margin-left: 20px;
+            /* Space between logo and text */
+            font-size: 24px;
+        }
+
+        .login-heading img {
+            height: 90px;
+            /* Increased size of the logo */
+            width: auto;
+        }
+
+
     body {
         margin: 0;
         padding: 0;
@@ -94,7 +115,12 @@ University ID: 230367027
             @endforeach
         </div>
         @endif
-        <h1>Register with us</h1>
+        <div class="login-heading">
+	  <a href="/">
+            <img src='{{ asset("img/techForgeWide.jpg") }}' alt="TechForge Logo"> <!-- Add your logo here -->
+            <h2>Register</h2>
+	  </a>
+        </div>
         <div class="RegisterInputs">
             <form method="post" action="/register">
                 @csrf
