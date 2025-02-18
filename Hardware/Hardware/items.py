@@ -5,7 +5,10 @@
 
 import scrapy
 
-
+class LinkItem(scrapy.Item):
+    link = scrapy.Field()
+    category = scrapy.Field()
+    pass
 class HardwareItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
