@@ -1,9 +1,17 @@
 <!--
 /********************************
-Developer: Robert Oros  
+Developer: Robert Oros 
 University ID: 230237144
+********************************
+CSS style and design
 
-********************************/ 
+Developer: Amen Alhouseini
+University ID: 230237878
+
+Developer: Hasnain Imran
+University ID: 230209037
+
+********************************/
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -15,38 +23,47 @@ University ID: 230237144
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #010035;
-            color: #ffffff;
+            background-image: url('{{ asset("img/BG BLUR.png") }}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
             margin: 0;
             padding: 0;
+            background-size: 200%;
         }
 
         .container {
             max-width: 800px;
             margin: 50px auto;
             padding: 20px;
-            background-color: #011B54;
+            background-color: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
         }
 
         h1 {
             text-align: center;
             margin-bottom: 20px;
             font-size: 28px;
-            color: #89CFF0;
+            color: #4A90E2;
         }
 
         form {
             margin-bottom: 30px;
             padding: 20px;
-            background-color: #022366;
+            background-color: #F9FAFB;
             border-radius: 10px;
         }
 
         form h2 {
             margin-bottom: 15px;
-            color: #89CFF0;
+            color: #4A90E2;
             font-size: 22px;
         }
 
@@ -54,23 +71,23 @@ University ID: 230237144
             display: block;
             margin-bottom: 10px;
             font-weight: 600;
-            color: #ffffff;
+            color: #333333;
         }
 
         input {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
-            border: none;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            background-color: #033670;
-            color: #ffffff;
+            background-color: #ffffff;
+            color: #333333;
         }
 
         button {
             padding: 10px 20px;
-            background-color: #89CFF0;
-            color: #010035;
+            background-color: #4A90E2;
+            color: #ffffff;
             font-size: 16px;
             font-weight: 700;
             border: none;
@@ -79,7 +96,7 @@ University ID: 230237144
         }
 
         button:hover {
-            background-color: #78BEEA;
+            background-color: #357ABD;
         }
 
         .success-message {
@@ -101,7 +118,6 @@ University ID: 230237144
     <div class="container">
         <h1>Manage Your Profile</h1>
 
-        <!-- Success Messages -->
         @if(session('success_password'))
             <p class="success-message">{{ session('success_password') }}</p>
         @endif
@@ -109,7 +125,6 @@ University ID: 230237144
             <p class="success-message">{{ session('success_personal') }}</p>
         @endif
 
-        <!-- Error Messages -->
         @if($errors->any())
             <ul class="error-messages">
                 @foreach ($errors->all() as $error)
@@ -118,7 +133,6 @@ University ID: 230237144
             </ul>
         @endif
 
-        <!-- Change Personal Details Form -->
         <form action="{{ route('profile.update-personal-details') }}" method="POST">
             @csrf
             <h2>Change Personal Details</h2>
@@ -129,7 +143,6 @@ University ID: 230237144
             <button type="submit">Update Personal Details</button>
         </form>
 
-        <!-- Change Password Form -->
         <form action="{{ route('profile.update-password') }}" method="POST">
             @csrf
             <h2>Change Password</h2>
