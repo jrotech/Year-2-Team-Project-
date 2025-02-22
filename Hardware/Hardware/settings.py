@@ -88,6 +88,13 @@ ITEM_PIPELINES = {
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage"
 
+
+IMAGES_STORE = 'downloaded_images'  # Change to your preferred directory
+
+IMAGES_MIN_HEIGHT = 100
+IMAGES_MIN_WIDTH = 100
+
+
 # Set settings whose default value is deprecated to a future-proof value
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
