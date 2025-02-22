@@ -51,9 +51,10 @@ ROBOTSTXT_OBEY = False
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    "Hardware.middlewares.HardwareDownloaderMiddleware": 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+    'Hardware.middlewares.RotateUserAgentMiddleware': 400,
+    'Hardware.middlewares.RotateProxyMiddleware': 410,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
