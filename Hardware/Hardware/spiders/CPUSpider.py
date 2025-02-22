@@ -12,11 +12,13 @@ class CPUSpider(scrapy.Spider):
     def start_requests(self):
         json_file = "links.json"
         with open(json_file, "r", encoding="utf-8") as f:
-            data = json.load(f)
+            data = json.load(f)     #list of dictionaries
+
         cpulinks =[]
-        for key in data:
-            if data[key] == "CPU":
-                cpulinks.append(key)
+        for item in data: 
+            if item["category"] == "CPU":  
+                cpulinks.append(item["link"])  
+                
         for link in cpulinks:
             full_url = f"https://www.scan.co.uk{link}"
             yield scrapy.Request(url=full_url, callback=self.parse)
