@@ -20,23 +20,41 @@ class LinkextracterspiderSpider(scrapy.Spider):
     "https://www.scan.co.uk/shop/computer-hardware/cooling-air/231/232": "Cooling",
     }
     def parse(self, response):
-            category_divs = response.css("div.category")
-            num_categories = len(category_divs)  # Count how many categories we have
+        category_divs = response.css("div.category")
+        
+        # count only non-empty categories
+        non_empty_categories = [cat for cat in category_divs if cat.css("ul.product-group li.product")]
+        num_categories = len(non_empty_categories)
+
+        if num_categories == 0: 
+            return
+
+        # products to take per category
+        total_products_target = 50  
+        products_per_category = max(math.ceil(total_products_target / num_categories), 3)  
+
+        self.logger.info(f"Found {num_categories} non-empty categories, extracting {products_per_category} products per category.")
+
+        for cat in non_empty_categories:
+            product_list = cat.css("ul.product-group li.product") 
+            extracted_count = 0  
             
-            if num_categories == 0:  
-                self.logger.warning(f"No categories found on {response.url}")
-                return
-
-            # how many products to take per category
-            total_products_target = 40 
-            products_per_category = math.ceil(total_products_target / num_categories)  
-
-            self.logger.info(f"Found {num_categories} categories, extracting {products_per_category} products per category.")
-
-            for cat in category_divs:
-                product_list = cat.css("ul.product-group li.product")  # Get all products in this category
-                for li in product_list[:products_per_category]:  # Take only the required number
-                    linkitem = LinkItem()
-                    linkitem["link"] = li.css("a::attr(href)").get()
-                    linkitem["category"] = self.categories[response.url]
-                    yield linkitem
+            for li in product_list:
+                # "Notify Me" instead of a price
+                has_notify_me = li.css("div.notify-when-in-stock").get() is not None
+                
+                if has_notify_me:
+                    products_per_category += 1  # Increase the limit to get a replacement product
+                    continue  # Skip this product
+                
+                # Extract product link
+                linkitem = LinkItem()
+                linkitem["link"] = li.css("a::attr(href)").get()
+                linkitem["category"] = self.categories[response.url]
+                
+                yield linkitem
+                extracted_count += 1
+                
+                # Stop when we reach the adjusted `products_per_category`
+                if extracted_count >= products_per_category:
+                    break
