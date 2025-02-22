@@ -32,7 +32,7 @@ ROBOTSTXT_OBEY = False
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-COOKIES_ENABLED = False
+COOKIES_ENABLED = True
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
@@ -52,8 +52,9 @@ COOKIES_ENABLED = False
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    'scrapy_playwright.middleware.PlaywrightMiddleware': 800,
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': 400,
 }
+
 
 # Enable or disable extensionsS
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -94,8 +95,6 @@ IMAGES_STORE = 'downloaded_images'  # Change to your preferred directory
 IMAGES_MIN_HEIGHT = 100
 IMAGES_MIN_WIDTH = 100
 
-PLAYWRIGHT_BROWSER_TYPE = "chromium"
-PLAYWRIGHT_DEFAULT_NAVIGATION_TIMEOUT = 30000  # 30 seconds
 
 # Set settings whose default value is deprecated to a future-proof value
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"

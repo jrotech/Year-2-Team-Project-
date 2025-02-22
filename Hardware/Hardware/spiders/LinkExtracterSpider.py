@@ -1,6 +1,14 @@
 import scrapy
 import math
+import time
 from Hardware.items import LinkItem
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+
+from webdriver_manager.chrome import ChromeDriverManager
+
 
 class LinkextracterspiderSpider(scrapy.Spider):
     name = "LinkExtracterSpider"
@@ -31,6 +39,27 @@ class LinkextracterspiderSpider(scrapy.Spider):
     "https://www.scan.co.uk/shop/computer-hardware/memory-ram/4020/3953/3676/3952/3675/2571/2056/1955/2572/3490/1949": "RAM",
     "https://www.scan.co.uk/shop/computer-hardware/cooling-air/231/232": "Cooling",
     }
+
+    def __init__(self):
+        # initialize the webdriver
+        chrome_service = Service(ChromeDriverManager().install())
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")  # Run headless to avoid opening a browser window
+        options.add_argument("--disable-gpu")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        
+        self.driver = webdriver.Chrome(service=chrome_service, options=options)
+
+    def start_requests(self):
+        #fetch with selenium
+        for url in self.start_urls:
+            self.driver.get(url)
+            time.sleep(5)  # wait for JavaScript to load
+
+            response = scrapy.Selector(text=self.driver.page_source)
+            yield scrapy.Request(url, callback=self.parse, meta={"response": response})
+
     def parse(self, response):
         category_divs = response.css("div.category")
         
