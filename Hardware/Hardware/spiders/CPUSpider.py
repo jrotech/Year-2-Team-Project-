@@ -28,7 +28,7 @@ class CPUSpider(scrapy.Spider):
         loader = CPULoader(item=CPUItem(), response=response)
 
         loader.add_css("name", "h1::text")
-        loader.add_css("price", "div.price-rating-bar div.product-prices span.price::text")
+        loader.add_css("price", "div.product-prices span.price *::text")  # "*" to get all text nodes inside
         loader.add_css("description", "p.sectionText::text") # the loader will extract the first paragraph only
 
         spec_rows = response.css("div.specifications table tr") #all table rows
