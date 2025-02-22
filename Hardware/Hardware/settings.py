@@ -52,7 +52,7 @@ COOKIES_ENABLED = False
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    'Hardware.middlewares.RotateUserAgentMiddleware': 400,
+    'scrapy_playwright.middleware.PlaywrightMiddleware': 800,
 }
 
 # Enable or disable extensionsS
@@ -94,6 +94,8 @@ IMAGES_STORE = 'downloaded_images'  # Change to your preferred directory
 IMAGES_MIN_HEIGHT = 100
 IMAGES_MIN_WIDTH = 100
 
+PLAYWRIGHT_BROWSER_TYPE = "chromium"
+PLAYWRIGHT_DEFAULT_NAVIGATION_TIMEOUT = 30000  # 30 seconds
 
 # Set settings whose default value is deprecated to a future-proof value
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
