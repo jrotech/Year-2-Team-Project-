@@ -1,11 +1,13 @@
 import scrapy
 import math
 import time
+import random
 from Hardware.items import LinkItem
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+
 
 from webdriver_manager.chrome import ChromeDriverManager
 
@@ -44,10 +46,13 @@ class LinkextracterspiderSpider(scrapy.Spider):
         # initialize the webdriver
         chrome_service = Service(ChromeDriverManager().install())
         options = webdriver.ChromeOptions()
-        options.add_argument("--headless")  # Run headless to avoid opening a browser window
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--start-maximized")  # Open the browser in a real fullscreen window
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+
         
         self.driver = webdriver.Chrome(service=chrome_service, options=options)
 
@@ -55,13 +60,12 @@ class LinkextracterspiderSpider(scrapy.Spider):
         #fetch with selenium
         for url in self.start_urls:
             self.driver.get(url)
-            time.sleep(5)  # wait for JavaScript to load
 
             response = scrapy.Selector(text=self.driver.page_source)
             yield scrapy.Request(url, callback=self.parse, meta={"response": response})
 
     def parse(self, response):
-        category_divs = response.css("div.category")
+        category_divs = response.meta["response"].css("div.category")
         
         # count only non-empty categories
         non_empty_categories = [cat for cat in category_divs if cat.css("ul.product-group li.product")]
@@ -96,3 +100,5 @@ class LinkextracterspiderSpider(scrapy.Spider):
                 extracted_count += 1
                 if extracted_count >= products_per_category:
                     break
+    def closed(self, reason):
+        self.driver.quit()

@@ -3,8 +3,7 @@ from itemloaders.processors  import TakeFirst, MapCompose, Join
 import re
 
 def clean_price(value):
-    print (f"Values inside clean_prioce {value}")
-    price_str = price_str.replace("£", "").replace(",", "").strip()  
+    price_str = value.replace("£", "").replace(",", "").strip()  
     return price_str
 
 def clean_text(value):

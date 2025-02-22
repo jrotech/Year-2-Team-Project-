@@ -1,14 +1,32 @@
 import scrapy
+import time
+import random
 from scrapy.loader import ItemLoader
 from Hardware.items import CPUItem
 from Hardware.loaders import CPULoader
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+
+from webdriver_manager.chrome import ChromeDriverManager
+
 import json
 
 class CPUSpider(scrapy.Spider):
     name = "CPUSpider"
     allowed_domains = ["scan.co.uk"]
     
-
+    def __init__(self):
+        # initialize the webdriver
+        chrome_service = Service(ChromeDriverManager().install())
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")  # Run headless to avoid opening a browser window
+        options.add_argument("--disable-gpu")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        
+        self.driver = webdriver.Chrome(service=chrome_service, options=options)
     def start_requests(self):
         json_file = "links.json"
         with open(json_file, "r", encoding="utf-8") as f:
@@ -21,8 +39,10 @@ class CPUSpider(scrapy.Spider):
 
         for link in cpulinks:
             full_url = f"https://www.scan.co.uk{link}"
-            yield scrapy.Request(url=full_url, callback=self.parse)
-
+            #self.driver.get(full_url)
+            #response = scrapy.Selector(text=self.driver.page_source)
+            #yield scrapy.Request(full_url, callback=self.parse, meta={"response": response})
+            yield scrapy.Request(full_url, callback=self.parse)
 
     def parse(self, response):
         loader = CPULoader(item=CPUItem(), response=response)
@@ -49,5 +69,6 @@ class CPUSpider(scrapy.Spider):
 
         # Add URL
         loader.add_value("url", response.url)
-
         yield loader.load_item()
+    def closed(self, reason):
+        self.driver.quit()
