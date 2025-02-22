@@ -2,9 +2,9 @@ from scrapy.loader import ItemLoader
 from itemloaders.processors  import TakeFirst, MapCompose, Join
 import re
 
-def clean_price(values):    # values gives everything the loader extracted, and the function is not called on each part, just once on the whole list
-    print (f"Values inside clean_prioce {values}")
-    price_str = "".join(values).replace("£", "").replace(",", "").strip()  # Join parts first
+def clean_price(value):
+    print (f"Values inside clean_prioce {value}")
+    price_str = price_str.replace("£", "").replace(",", "").strip()  
     return price_str
 
 def clean_text(value):
@@ -20,6 +20,7 @@ class CPULoader(ItemLoader):
 
     name_in = MapCompose(clean_text)
     price_in = MapCompose(clean_price)
+    price_out = Join()
     description_in = MapCompose(clean_text)
     socket_type_in = MapCompose(clean_text)
     tdp_in = MapCompose(clean_text, extract_tdp)  
