@@ -8,16 +8,7 @@ import random
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
 
-class RotateProxyMiddleware:
-    PROXIES = [
-        "http://198.50.183.88:3128",
-        "http://95.216.33.245:9999",
-        "http://192.252.208.67:14282",
-    ]
 
-    def process_request(self, request, spider):
-        request.meta['proxy'] = random.choice(self.PROXIES)
-    
 class RotateUserAgentMiddleware:
     USER_AGENTS = [
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",

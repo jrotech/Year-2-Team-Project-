@@ -3,7 +3,7 @@ from itemloaders.processors  import TakeFirst, MapCompose, Join
 import re
 
 def clean_price(values):    # values gives everything the loader extracted, and the function is not called on each part, just once on the whole list
-    print (values)
+    print (f"Values inside clean_prioce {values}")
     price_str = "".join(values).replace("£", "").replace(",", "").strip()  # Join parts first
     return price_str
 
