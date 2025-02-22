@@ -41,16 +41,16 @@ class LinkextracterspiderSpider(scrapy.Spider):
         if num_categories == 0: 
             return
 
-        # products to take per category
-        total_products_target = 50  
-        products_per_category = max(math.ceil(total_products_target / num_categories), 3)  
+        # products to take per item type
+        total_products_target = 30  
+        products_per_category_gen = max(math.ceil(total_products_target / num_categories), 3)  
 
-        self.logger.info(f"Found {num_categories} non-empty categories, extracting {products_per_category} products per category.")
+        self.logger.info(f"Found {num_categories} non-empty categories, extracting {products_per_category_gen} products per category.")
 
         for cat in non_empty_categories:
             product_list = cat.css("ul.product-group li.product") 
             extracted_count = 0  
-            
+            products_per_category = products_per_category_gen
             for li in product_list:
                 # "Notify Me" instead of a price
                 has_notify_me = li.css("div.notify-when-in-stock").get() is not None
