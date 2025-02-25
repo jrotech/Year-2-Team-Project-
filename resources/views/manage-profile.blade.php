@@ -13,6 +13,7 @@ University ID: 230209037
 
 ********************************/
 -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,6 +46,24 @@ University ID: 230209037
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             position: relative;
             z-index: 1;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background-color: #4A90E2;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background-color: #357ABD;
         }
 
         h1 {
@@ -116,6 +135,7 @@ University ID: 230209037
 </head>
 <body>
     <div class="container">
+        <button class="back-button" onclick="history.back()">&larr; Back</button>
         <h1>Manage Your Profile</h1>
 
         @if(session('success_password'))
