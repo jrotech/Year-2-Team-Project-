@@ -13,14 +13,14 @@ class LinkExtracterSpider(scrapy.Spider):
     start_urls = ["https://www.idealo.co.uk/cat/3019/cpus.html",
                   "https://www.idealo.co.uk/cat/3019I16-15/cpus.html",
                   "https://www.idealo.co.uk/cat/16073/graphics-cards.html",
-                  "https://www.idealo.co.uk/cat/16073I16-15/graphics-cards.html"
+                  "https://www.idealo.co.uk/cat/16073I16-15/graphics-cards.html",
                   "https://www.idealo.co.uk/cat/14613/ssd.html",
                   "https://www.idealo.co.uk/cat/3011/hard-drives.html",
                   "https://www.idealo.co.uk/cat/3018/motherboards.html",
                   "https://www.idealo.co.uk/cat/3018I16-15/motherboards.html",
                   "https://www.idealo.co.uk/cat/4552/ram.html",
                   "https://www.idealo.co.uk/cat/5432/psus.html",
-                  "https://www.idealo.co.uk/cat/5432I16-15/psus.html"
+                  "https://www.idealo.co.uk/cat/5432I16-15/psus.html",
                   "https://www.idealo.co.uk/cat/5156F5259177/cpu-fans.html"
                   ]
 
@@ -56,7 +56,6 @@ class LinkExtracterSpider(scrapy.Spider):
         for url in self.start_urls:
             self.driver.get(url)
             # Give the page time to render dynamically
-            time.sleep(3)  
 
             # Grab the rendered page source and convert it to a Scrapy selector
             rendered_source = self.driver.page_source
