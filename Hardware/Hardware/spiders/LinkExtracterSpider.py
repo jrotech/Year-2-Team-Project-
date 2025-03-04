@@ -1,104 +1,85 @@
 import scrapy
-import math
 import time
-import random
 from Hardware.items import LinkItem
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-
-
 from webdriver_manager.chrome import ChromeDriverManager
 
-
-class LinkextracterspiderSpider(scrapy.Spider):
+class LinkExtracterSpider(scrapy.Spider):
     name = "LinkExtracterSpider"
-    allowed_domains = ["www.scan.co.uk"]
-    start_urls = ["https://www.scan.co.uk/shop/computer-hardware/cpu-amd-desktop/3843/3842/3275/3925/3926/3927/3645/3644/3643/3198/3197/3196/3591/3590/3864/3865",
-    "https://www.scan.co.uk/shop/computer-hardware/cpu-intel-desktop/3090/3866/3814/3667/3463/3464/3668/3815/3816/3669/3465/3527/3736",
-    "https://www.scan.co.uk/shop/computer-hardware/gpu-amd-gaming/3714/3713/3880/3810/3809/3872/3786/3219/3218/3217/3600/3601/3473/3550",
-    "https://www.scan.co.uk/shop/computer-hardware/gpu-nvidia-gaming/4039/4036/4040/4041/3646/3863/3862/3715/3861/3767/3801/3780/3787/3175/3176/3177/3257/3543/3875/3506/2192",
-    "https://www.scan.co.uk/shop/computer-hardware/hard-drives-internal/2614/837/2612/2613/166",
-    "https://www.scan.co.uk/shop/computer-hardware/solid-state-drives/2627/2375/2628/3765/3049/3841/698/2630/1766/2632",
-    "https://www.scan.co.uk/shop/computer-hardware/motherboards-amd/3847/3846/3276/3941/3944/3946/3660/3662/3657/4024/4025/4026/4027/4028/4029/3679/3680/3681/3772/3131/3132/3133/2760",
-    "https://www.scan.co.uk/shop/computer-hardware/motherboards-intel/3990/3991/3992/4032/4031/4030/4048/4049/4050/3672/3671/3670/3724/3725/3726",
-    "https://www.scan.co.uk/shop/computer-hardware/power-supplies/1278/814/2373/2372",
-    "https://www.scan.co.uk/shop/computer-hardware/memory-ram/4020/3953/3676/3952/3675/2571/2056/1955/2572/3490/1949",
-    "https://www.scan.co.uk/shop/computer-hardware/cooling-air/231/232"]
+    allowed_domains = ["idealo.co.uk", "quotes.toscrape.com"]
 
+    start_urls = ["https://www.idealo.co.uk/cat/3019/cpus.html",
+                  "https://www.idealo.co.uk/cat/3019I16-15/cpus.html",
+                  "https://www.idealo.co.uk/cat/16073/graphics-cards.html",
+                  "https://www.idealo.co.uk/cat/16073I16-15/graphics-cards.html"
+                  "https://www.idealo.co.uk/cat/14613/ssd.html",
+                  "https://www.idealo.co.uk/cat/3011/hard-drives.html",
+                  "https://www.idealo.co.uk/cat/3018/motherboards.html",
+                  "https://www.idealo.co.uk/cat/3018I16-15/motherboards.html",
+                  "https://www.idealo.co.uk/cat/4552/ram.html",
+                  "https://www.idealo.co.uk/cat/5432/psus.html",
+                  "https://www.idealo.co.uk/cat/5432I16-15/psus.html"
+                  "https://www.idealo.co.uk/cat/5156F5259177/cpu-fans.html"
+                  ]
 
     categories = {
-    "https://www.scan.co.uk/shop/computer-hardware/cpu-amd-desktop/3843/3842/3275/3925/3926/3927/3645/3644/3643/3198/3197/3196/3591/3590/3864/3865": "CPU",
-    "https://www.scan.co.uk/shop/computer-hardware/cpu-intel-desktop/3090/3866/3814/3667/3463/3464/3668/3815/3816/3669/3465/3527/3736": "CPU",
-    "https://www.scan.co.uk/shop/computer-hardware/gpu-amd-gaming/3714/3713/3880/3810/3809/3872/3786/3219/3218/3217/3600/3601/3473/3550": "GPU",
-    "https://www.scan.co.uk/shop/computer-hardware/gpu-nvidia-gaming/4039/4036/4040/4041/3646/3863/3862/3715/3861/3767/3801/3780/3787/3175/3176/3177/3257/3543/3875/3506/2192": "GPU",
-    "https://www.scan.co.uk/shop/computer-hardware/hard-drives-internal/2614/837/2612/2613/166": "Storage",
-    "https://www.scan.co.uk/shop/computer-hardware/solid-state-drives/2627/2375/2628/3765/3049/3841/698/2630/1766/2632": "Storage",
-    "https://www.scan.co.uk/shop/computer-hardware/motherboards-amd/3847/3846/3276/3941/3944/3946/3660/3662/3657/4024/4025/4026/4027/4028/4029/3679/3680/3681/3772/3131/3132/3133/2760": "Motherboard",
-    "https://www.scan.co.uk/shop/computer-hardware/motherboards-intel/3990/3991/3992/4032/4031/4030/4048/4049/4050/3672/3671/3670/3724/3725/3726": "Motherboard",
-    "https://www.scan.co.uk/shop/computer-hardware/power-supplies/1278/814/2373/2372": "PSU",
-    "https://www.scan.co.uk/shop/computer-hardware/memory-ram/4020/3953/3676/3952/3675/2571/2056/1955/2572/3490/1949": "RAM",
-    "https://www.scan.co.uk/shop/computer-hardware/cooling-air/231/232": "Cooling",
+        "https://www.idealo.co.uk/cat/3019/cpus.html": "CPU",
+        "https://www.idealo.co.uk/cat/3019I16-15/cpus.html": "CPU",
+        "https://www.idealo.co.uk/cat/16073/graphics-cards.html": "GPU",
+        "https://www.idealo.co.uk/cat/16073I16-15/graphics-cards.html": "GPU",
+        "https://www.idealo.co.uk/cat/14613/ssd.html": "Storage",
+        "https://www.idealo.co.uk/cat/3011/hard-drives.html": "Storage",
+        "https://www.idealo.co.uk/cat/3018/motherboards.html": "Motherboard",
+        "https://www.idealo.co.uk/cat/3018I16-15/motherboards.html": "Motherboard",
+        "https://www.idealo.co.uk/cat/4552/ram.html": "RAM",
+        "https://www.idealo.co.uk/cat/5432/psus.html": "PSU",
+        "https://www.idealo.co.uk/cat/5432I16-15/psus.html": "PSU",
+        "https://www.idealo.co.uk/cat/5156F5259177/cpu-fans.html": "CPU Fan"
     }
 
     def __init__(self):
-        # initialize the webdriver
+        # Set up Selenium WebDriver
         chrome_service = Service(ChromeDriverManager().install())
-        options = webdriver.ChromeOptions()
+        options = Options()
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--start-maximized")  # Open the browser in a real fullscreen window
         options.add_argument("--disable-blink-features=AutomationControlled")
-        options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+        # Feel free to add/change arguments (e.g., user-agent) as needed
 
-        
         self.driver = webdriver.Chrome(service=chrome_service, options=options)
 
     def start_requests(self):
-        #fetch with selenium
+        """Use Selenium to visit the start URL(s) and then create a Scrapy request from the page source."""
         for url in self.start_urls:
             self.driver.get(url)
+            # Give the page time to render dynamically
+            time.sleep(3)  
 
-            response = scrapy.Selector(text=self.driver.page_source)
-            yield scrapy.Request(url, callback=self.parse, meta={"response": response})
+            # Grab the rendered page source and convert it to a Scrapy selector
+            rendered_source = self.driver.page_source
+            selector = scrapy.Selector(text=rendered_source)
+
+            # Pass the selector through meta so it can be used in parse()
+            yield scrapy.Request("https://quotes.toscrape.com/", callback=self.parse, meta={"rendered_selector": selector, "url": url},dont_filter=True)
 
     def parse(self, response):
-        category_divs = response.meta["response"].css("div.category")
-        
-        # count only non-empty categories
-        non_empty_categories = [cat for cat in category_divs if cat.css("ul.product-group li.product")]
-        num_categories = len(non_empty_categories)
+        selector = response.meta["rendered_selector"]
+        product_blocks = selector.css("div.sr-resultList__item_m6xdA")
 
-        if num_categories == 0: 
-            return
+        for block in product_blocks:
+            product_link = block.css("div.sr-resultItemLink_YbJS7 a[data-testid='link']::attr(href)").get()
+            price_text = block.css("div.sr-detailedPriceInfo__price_sYVmx::text").get(default="").strip()
 
-        # products to take per item type
-        total_products_target = 30  
-        products_per_category_gen = max(math.ceil(total_products_target / num_categories), 3)  
+            link_item = LinkItem()
+            link_item["link"] = product_link
+            link_item["category"] = self.categories.get(response.meta["url"], "Unknown")
+            link_item["price"] = price_text
+            if product_link is not None:
+                yield link_item
 
-        self.logger.info(f"Found {num_categories} non-empty categories, extracting {products_per_category_gen} products per category.")
-
-        for cat in non_empty_categories:
-            product_list = cat.css("ul.product-group li.product") 
-            extracted_count = 0  
-            products_per_category = products_per_category_gen
-            for li in product_list:
-                # "Notify Me" instead of a price
-                has_notify_me = li.css("div.notify-when-in-stock").get() is not None
-                
-                if has_notify_me:
-                    products_per_category += 1  # increase the limit to get a replacement product
-                    continue  # skip
-                
-                linkitem = LinkItem()
-                linkitem["link"] = li.css("a::attr(href)").get()
-                linkitem["category"] = self.categories[response.url]
-                
-                yield linkitem
-                extracted_count += 1
-                if extracted_count >= products_per_category:
-                    break
     def closed(self, reason):
+        """Close the Selenium browser once the spider finishes or is stopped."""
         self.driver.quit()

@@ -20,6 +20,7 @@ class CPUItem(scrapy.Item):
 class LinkItem(scrapy.Item):
     link = scrapy.Field()
     category = scrapy.Field()
+    price = scrapy.Field()
     pass
 
 class HardwareItem(scrapy.Item):
