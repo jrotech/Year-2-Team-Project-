@@ -81,3 +81,26 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard/orders/{id}', [DashboardController::class, 'order'])->name('dashboard.order');
     Route::get('/api/categorylastproduct', [DashboardController::class, 'apiCategoryLastProduct'])->name('dashoard.api');
 });
+
+// Get reviews for a product (public)
+Route::get('/products/{id}/reviews', [App\Http\Controllers\ReviewController::class, 'getProductReviews'])
+    ->name('products.reviews');
+
+// Customer review operations (protected)
+Route::middleware(['auth:customer'])->prefix('reviews')->group(function () {
+    // Submit or update a review
+    Route::post('/', [App\Http\Controllers\ReviewController::class, 'store'])
+        ->name('reviews.store');
+
+    // Update an existing review
+    Route::put('/{id}', [App\Http\Controllers\ReviewController::class, 'update'])
+        ->name('reviews.update');
+
+    // Delete a review
+    Route::delete('/{id}', [App\Http\Controllers\ReviewController::class, 'destroy'])
+        ->name('reviews.destroy');
+
+    // Get the authenticated customer's reviews
+    Route::get('/my-reviews', [App\Http\Controllers\ReviewController::class, 'getCustomerReviews'])
+        ->name('reviews.my');
+});
