@@ -15,10 +15,14 @@ University ID: 230237144
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #010035; /* Dark blue background */
+
             color: #FFFFFF;
             margin: 0;
             padding: 0;
+            background-image: url('img/ContactBackground.png'); /* Background image */
+            background-repeat: no-repeat; 
+            background-size: 100%;
+            
         }
 
         .container {
@@ -54,7 +58,7 @@ University ID: 230237144
         }
 
         input, textarea {
-            width: 100%;
+            width: auto;
             padding: 10px;
             border: none;
             border-radius: 5px;
@@ -69,10 +73,10 @@ University ID: 230237144
         }
 
         textarea {
-            resize: none;
+            resize:none;
         }
 
-        button {
+        #submitButton {
             padding: 12px 20px;
             background-color: #89CFF0; /* Light blue button */
             color: #010035; /* Dark blue text for contrast */
@@ -84,7 +88,26 @@ University ID: 230237144
             transition: background-color 0.3s ease;
         }
 
-        button:hover {
+        #submitButton:hover {
+            background-color: #78BEEA; /* Slightly darker light blue on hover */
+        }
+
+        #backButton {
+            padding: 12px 20px;
+            color: #010035; /* Dark blue text for contrast */
+            background-color: #89CFF0; /* Light blue button */
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #backButton:hover {
             background-color: #78BEEA; /* Slightly darker light blue on hover */
         }
 
@@ -123,6 +146,10 @@ University ID: 230237144
             </ul>
         @endif
 
+        
+          
+        
+
         <!-- Contact Form -->
         <form action="{{ route('contact.submit') }}" method="POST">
             @csrf
@@ -135,8 +162,10 @@ University ID: 230237144
             <label for="message">Your Message:</label>
             <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required></textarea>
 
-            <button type="submit">Send Message</button>
+            <button id="submitButton" type="submit">Send Message</button>
+
         </form>
+        <button id="backButton" type="back" onclick="history.back()"> Back</button>
     </div>
 </body> 
 </html>

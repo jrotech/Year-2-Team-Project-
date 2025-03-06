@@ -15,7 +15,8 @@ University ID: 230237144
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #010035;
+           /* background-color: #010035; */
+           background-image: url('img/ContactBackground.png'); /* Background image */
             color: #ffffff;
             margin: 0;
             padding: 0;
@@ -95,6 +96,9 @@ University ID: 230237144
         .error-messages li {
             margin-left: 20px;
         }
+
+        
+        
     </style>
 </head>
 <body>
@@ -141,6 +145,5 @@ University ID: 230237144
             <input type="password" id="confirm_password" name="confirm_password" required>
             <button type="submit">Change Password</button>
         </form>
-    </div>
-</body>
+    </body>
 </html>
