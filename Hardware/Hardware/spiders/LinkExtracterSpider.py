@@ -51,18 +51,18 @@ class LinkExtracterSpider(scrapy.Spider):
 
         self.driver = webdriver.Chrome(service=chrome_service, options=options)
 
-    def start_requests(self):
-        """Use Selenium to visit the start URL(s) and then create a Scrapy request from the page source."""
-        for url in self.start_urls:
-            self.driver.get(url)
-            # Give the page time to render dynamically
+        def start_requests(self):
+            """Use Selenium to visit the start URL(s) and then create a Scrapy request from the page source."""
+            for url in self.start_urls:
+                self.driver.get(url)
+                # Give the page time to render dynamically
 
-            # Grab the rendered page source and convert it to a Scrapy selector
-            rendered_source = self.driver.page_source
-            selector = scrapy.Selector(text=rendered_source)
+                # Grab the rendered page source and convert it to a Scrapy selector
+                rendered_source = self.driver.page_source
+                selector = scrapy.Selector(text=rendered_source)
 
-            # Pass the selector through meta so it can be used in parse()
-            yield scrapy.Request("https://quotes.toscrape.com/", callback=self.parse, meta={"rendered_selector": selector, "url": url},dont_filter=True)
+                # Pass the selector through meta so it can be used in parse()
+                yield scrapy.Request("https://quotes.toscrape.com/", callback=self.parse, meta={"rendered_selector": selector, "url": url},dont_filter=True)
 
     def parse(self, response):
         selector = response.meta["rendered_selector"]

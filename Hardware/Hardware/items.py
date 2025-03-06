@@ -14,9 +14,13 @@ class CPUItem(scrapy.Item):
     tdp = scrapy.Field()
     integrated_graphics = scrapy.Field()
     image_urls = scrapy.Field()  # image links
-    images = scrapy.Field()  #downloaded image data
-    url = scrapy.Field()
-
+    
+class GPUItem(scrapy.Item):
+    name = scrapy.Field()
+    price = scrapy.Field()
+    tdp = scrapy.Field()
+    image_urls = scrapy.Field()  # image links
+  
 class LinkItem(scrapy.Item):
     link = scrapy.Field()
     category = scrapy.Field()
