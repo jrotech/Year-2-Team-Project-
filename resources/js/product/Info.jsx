@@ -15,7 +15,6 @@ export default function Info({productName,rating, inStock,description,price, id}
       <Title>{productName}</Title>
       <InStock inStock={inStock} />
       </Flex>
-      <Stars rating={rating} />
       <Description description={description} />
       <Submit id={id} price={price} />
     </Stack>
