@@ -31,7 +31,7 @@ class Product extends Model
     {
         return $this->hasMany(Image::class, 'product_id');
     }
-    
+
     // Relation with Stock
     public function stock()
     {
@@ -55,5 +55,34 @@ class Product extends Model
             'product_id',
             'category_id'
         );
+    }
+
+    // Relation with Reviews
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'product_id');
+    }
+
+    /**
+     * Get the average rating for this product
+     *
+     */
+    public function getAverageRatingAttribute()
+    {
+        // If there are no reviews, return null
+        if ($this->reviews()->count() === 0) {
+            return null;
+        }
+
+        return $this->reviews()->avg('rating');
+    }
+
+    /**
+     * Get the total number of reviews for this product
+     *
+     */
+    public function getReviewsCountAttribute()
+    {
+        return $this->reviews()->count();
     }
 }
