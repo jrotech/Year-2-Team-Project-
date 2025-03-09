@@ -98,6 +98,9 @@ class GPUSpider(scrapy.Spider):
         price = selector.css(".productOffers-listItemOfferPrice::text").get()
         if price:
             loader.add_value("price", price.strip())
+        
+        #add full title as tdp to refrence it against the gpus dict
+        loader.add_value("tdp",full_title)
 
         # Yield the cleaned item
         yield loader.load_item()

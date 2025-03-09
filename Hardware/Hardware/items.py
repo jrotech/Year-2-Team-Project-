@@ -20,6 +20,7 @@ class GPUItem(scrapy.Item):
     price = scrapy.Field()
     description = scrapy.Field()    
     image_links = scrapy.Field()  # image links
+    tdp=scrapy.Field()
   
 class LinkItem(scrapy.Item):
     link = scrapy.Field()
