@@ -64,9 +64,8 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-    "scrapy.pipelines.images.ImagesPipeline": 1,
-}
+#ITEM_PIPELINES = {
+#}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -87,13 +86,7 @@ AUTOTHROTTLE_TARGET_CONCURRENCY = 1.5
 #HTTPCACHE_EXPIRATION_SECS = 0
 #HTTPCACHE_DIR = "httpcache"
 #HTTPCACHE_IGNORE_HTTP_CODES = []
-#HTTPCACHE_STORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage"
-
-
-IMAGES_STORE = 'downloaded_images'  # Change to your preferred directory
-
-IMAGES_MIN_HEIGHT = 100
-IMAGES_MIN_WIDTH = 100
+#HTTPCACHE_STORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage
 
 
 # Set settings whose default value is deprecated to a future-proof value

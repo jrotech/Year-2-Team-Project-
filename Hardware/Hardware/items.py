@@ -13,13 +13,13 @@ class CPUItem(scrapy.Item):
     socket_type = scrapy.Field()
     tdp = scrapy.Field()
     integrated_graphics = scrapy.Field()
-    image_urls = scrapy.Field()  # image links
+    image_links = scrapy.Field()  # image links
     
 class GPUItem(scrapy.Item):
     name = scrapy.Field()
     price = scrapy.Field()
-    tdp = scrapy.Field()
-    image_urls = scrapy.Field()  # image links
+    description = scrapy.Field()    
+    image_links = scrapy.Field()  # image links
   
 class LinkItem(scrapy.Item):
     link = scrapy.Field()

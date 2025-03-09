@@ -51,7 +51,7 @@ class LinkExtracterSpider(scrapy.Spider):
 
         self.driver = webdriver.Chrome(service=chrome_service, options=options)
 
-        def start_requests(self):
+    def start_requests(self):
             """Use Selenium to visit the start URL(s) and then create a Scrapy request from the page source."""
             for url in self.start_urls:
                 self.driver.get(url)
