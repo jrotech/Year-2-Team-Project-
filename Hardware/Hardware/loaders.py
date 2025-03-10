@@ -106,6 +106,7 @@ def define_gpu_tdp(title):
     "GTX 1060 3GB": 120,
     "GTX 1050 Ti": 75,
     "GTX 1050": 75,
+    "Sparkle Arc B580": 200
     }
     for key in gpu_tdp_dict:
         if key in title:

@@ -13,20 +13,20 @@ class GPUSpider(scrapy.Spider):
     allowed_domains = ["quotes.toscrape.com"]
     extra_links = [
         "https://www.idealo.co.uk/compare/203811099/gigabyte-geforce-rtx-4080-super.html"
-        #"https://www.idealo.co.uk/compare/205622196/asus-geforce-rtx-5090.html",
-        #"https://www.idealo.co.uk/compare/205775927/msi-geforce-rtx-5090.html",
-        #"https://www.idealo.co.uk/compare/205773245/asus-geforce-rtx-5080.html",
-        #"https://www.idealo.co.uk/compare/205946607/msi-geforce-rtx-5070-ti.html",
-        #"https://www.idealo.co.uk/compare/205776244/msi-geforce-rtx-5080.html",
-        #"https://www.idealo.co.uk/compare/205796764/palit-geforce-rtx-5080.html",
-        #"https://www.idealo.co.uk/compare/205798640/gigabyte-geforce-rtx-5080.html",
-        #"https://www.idealo.co.uk/compare/205930585/asus-geforce-rtx-5070-ti.html",
-        #"https://www.idealo.co.uk/compare/203811167/asus-geforce-rtx-4080-super.html",
-        #"https://www.idealo.co.uk/compare/203811539/msi-geforce-rtx-4080-super.html"
+        "https://www.idealo.co.uk/compare/205622196/asus-geforce-rtx-5090.html",
+        "https://www.idealo.co.uk/compare/205775927/msi-geforce-rtx-5090.html",
+        "https://www.idealo.co.uk/compare/205773245/asus-geforce-rtx-5080.html",
+        "https://www.idealo.co.uk/compare/205946607/msi-geforce-rtx-5070-ti.html",
+        "https://www.idealo.co.uk/compare/205776244/msi-geforce-rtx-5080.html",
+        "https://www.idealo.co.uk/compare/205796764/palit-geforce-rtx-5080.html",
+        "https://www.idealo.co.uk/compare/205798640/gigabyte-geforce-rtx-5080.html",
+        "https://www.idealo.co.uk/compare/205930585/asus-geforce-rtx-5070-ti.html",
+        "https://www.idealo.co.uk/compare/203811167/asus-geforce-rtx-4080-super.html",
+        "https://www.idealo.co.uk/compare/203811539/msi-geforce-rtx-4080-super.html"
     ]
     def load_product_links(self):
         try:
-            with open("newlinks.json", "r") as file:
+            with open("C:\\Users\\jacob\\OneDrive - Aston University\\Programming\\Python\\HardwareSpiders\\Hardware\\newlinks.json", "r") as file:
                 data = json.load(file)  # Ensure newlinks.json contains a list of dicts with "category" and "link"
                 return [item["link"] for item in data if item.get("category") == "GPU"]
         except Exception as e:
@@ -46,7 +46,7 @@ class GPUSpider(scrapy.Spider):
         
     def start_requests(self):
         """Start requests with hardcoded extra links and dynamically loaded GPU product links"""
-        gpu_links = self.extra_links #+ self.load_product_links()
+        gpu_links =  self.load_product_links() # + self.extra_links +
 
         for url in gpu_links:
             self.driver.get(url)
