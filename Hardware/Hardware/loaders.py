@@ -8,39 +8,31 @@ def clean_price(value):
 
 def clean_text(value):
     return value.strip()
+
 def extract_cpu_tdp(value):
-    #regex for '350W' -> '350'
+   
     match = re.search(r"(\d+)\s*W", value)
-    return match.group(1) if match else value
+    return int(match.group(1)) if match else None  # Return None if no match
+
 def  hasGraphics(value):
-    return False if "N/A" in value else True
-
-class CPULoader(ItemLoader):
-    default_output_processor = TakeFirst()  
-
-    name_in = MapCompose(clean_text)
-    price_in = MapCompose(clean_price)
-    price_out = Join()
-    description_in = MapCompose(clean_text)
-    socket_type_in = MapCompose(clean_text)
-    tdp_in = MapCompose(clean_text, extract_cpu_tdp)  
-    integrated_graphics_in = MapCompose(clean_text, hasGraphics)
-    image_urls_out = Join(",")  # Joins list of image URLs into a string
+    return False if "no" in value else True
 
 def fix_image_scheme(img_url):
-    """Converts //cdn... => https://cdn... to avoid missing scheme errors."""
     img_url = img_url.strip()
     if img_url.startswith("//"):
         img_url = "https:" + img_url
     return img_url
+
 def enhance_image(img_url):
     img_url = img_url.replace("klein","max")
     return img_url
+
 def clean_description(description):
     for char in description:
         if char.isspace():
             description = description.replace(char, " ")
     return description
+
 def define_gpu_tdp(title):
     gpu_tdp_dict = {
     "RX 7900 XTX": 355,
@@ -111,6 +103,18 @@ def define_gpu_tdp(title):
     for key in gpu_tdp_dict:
         if key in title:
             return gpu_tdp_dict[key]
+def remove_boxed(name):
+    return name.replace(" Boxed", "")
+class CPULoader(ItemLoader):
+    default_output_processor = TakeFirst()  
+    name_in = MapCompose(clean_text,remove_boxed)
+    price_in = MapCompose(clean_price)
+    description_in = MapCompose(clean_text,clean_description)
+    socket_type_in = MapCompose(clean_text)
+    tdp_in = MapCompose(clean_text, extract_cpu_tdp)  
+    integrated_graphics_in = MapCompose(clean_text, hasGraphics)
+    image_links_in = MapCompose(clean_text, fix_image_scheme, enhance_image)
+    image_links_out = Identity()  # return the list as-is
 
 class GPULoader(ItemLoader):
     #we'll override where we need a list.

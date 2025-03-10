@@ -57,10 +57,10 @@ class GPUSpider(scrapy.Spider):
     
     
     def parse(self, response):
-        """Handles both variant list pages and individual GPU product pages using GPULoader."""
+        #handles both variant list pages and individual GPU product pages
         selector = response.meta["rendered_selector"]
 
-        # Check if it's a Variant List Page (contains multiple product links)
+        #if variant
         variants = selector.css(".productVariants-listItemWrapper::attr(href)").getall()
         if variants:
             for variant in variants:
@@ -74,9 +74,9 @@ class GPUSpider(scrapy.Spider):
                     meta={"rendered_selector": selector, "url": newurl},
                     dont_filter=True
                 )
-            return  # Prevent further processing for variant list pages
+            return  # stop there
 
-        # If it's an individual product page, use GPULoader to extract details
+        #individual product page, use GPULoader to extract details
         loader = GPULoader(item=GPUItem(), selector=selector)
 
         # Extract Title

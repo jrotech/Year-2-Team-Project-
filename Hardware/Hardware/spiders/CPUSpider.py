@@ -1,53 +1,109 @@
 import scrapy
-from scrapy.loader import ItemLoader
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 from Hardware.items import CPUItem
 from Hardware.loaders import CPULoader
 import json
 
 class CPUSpider(scrapy.Spider):
     name = "CPUSpider"
-    allowed_domains = ["scan.co.uk"]
-    
+    allowed_domains = ["quotes.toscrape.com"]
+    def load_product_links(self):
+        try:
+            with open("C:\\Users\\jacob\\OneDrive - Aston University\\Programming\\Python\\HardwareSpiders\\Hardware\\newlinks.json", "r") as file:
+                data = json.load(file)  # Ensure newlinks.json contains a list of dicts with "category" and "link"
+                return [item["link"] for item in data if item.get("category") == "CPU"]
+        except Exception as e:
+            self.logger.error(f"Error loading newlinks.json: {e}")
+            return []
+        
+        
+        
+    def __init__(self):
+        # Set up Selenium WebDriver
+        chrome_service = Service(ChromeDriverManager().install())
+        options = Options()
+        options.add_argument("--disable-gpu")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        self.driver = webdriver.Chrome(service=chrome_service, options=options)
 
     def start_requests(self):
-        json_file = "links.json"
-        with open(json_file, "r", encoding="utf-8") as f:
-            data = json.load(f)     #list of dictionaries
+        cpu_links =  self.load_product_links() 
 
-        cpulinks =[]
-        for item in data: 
-            if item["category"] == "CPU":  
-                cpulinks.append(item["link"])  
+        for url in cpu_links:
+            self.driver.get(url)
+            rendered_source = self.driver.page_source
+            selector = scrapy.Selector(text=rendered_source)
 
-        for link in cpulinks:
-            full_url = f"https://www.scan.co.uk{link}"
-            yield scrapy.Request(url=full_url, callback=self.parse)
+            yield scrapy.Request("https://quotes.toscrape.com/",callback=self.parse,meta={"rendered_selector": selector, "url": url},dont_filter=True)
+    
 
 
     def parse(self, response):
-        loader = CPULoader(item=CPUItem(), response=response)
+        #handles both variant list pages and individual CPU product pages
+        selector = response.meta["rendered_selector"]
+        
 
-        loader.add_css("name", "h1::text")
-        loader.add_css("price", "div.product-prices span.price *::text")  # "*" to get all text nodes inside
-        loader.add_css("description", "p.sectionText::text") # the loader will extract the first paragraph only
+         #individual product page, use CPULoader to extract details
+        loader = CPULoader(item=CPUItem(), selector=selector)
 
-        spec_rows = response.css("div.specifications table tr") #all table rows
-        for row in spec_rows:
-            key = row.css("td:first-child::text").get("")
-            value = row.css("td:last-child::text").get("")
+        # Extract Title
+        title = selector.css("#oopStage-title span::text").getall()
+        full_title = " ".join(title).strip() if title else None
 
-            if "Socket" in key:
-                loader.add_value("socket_type", value)
-            elif "TDP" in key or "Power" in key:
-                loader.add_value("tdp", value)
-            elif "Integrated Graphics" in key or "Graphics" in key:
-                loader.add_value("integrated_graphics", value)
+        #if not Boxed, drop
+        variants = selector.css(".productVariants-listItemWrapper::attr(href)").getall()
+        if variants:
+            variant = variants[0]
+            newurl = "https://www.idealo.co.uk/"+ variant
+            self.driver.get(newurl)
+            rendered_source = self.driver.page_source
+            selector = scrapy.Selector(text=rendered_source)
+            yield scrapy.Request(
+                "https://quotes.toscrape.com/",
+                callback=self.parse,
+                meta={"rendered_selector": selector, "url": newurl},
+                dont_filter=True
+            )
+            return  # stop there
+        
+        loader.add_value("name", full_title)
 
-        # Extract image URLs
-        image_urls = response.css("div.thumbnails img::attr(src)").getall()
-        loader.add_value("image_urls", [f"https:{img}" for img in image_urls[:4]])
+         # Extract Description
+        description_items = selector.css(".oopStage-productInfoTopItemWrapper .oopStage-productInfoTopItem::text").getall()
+        description = " | ".join(desc.strip() for desc in description_items)
+        loader.add_value("description", description)
 
-        # Add URL
-        loader.add_value("url", response.url)
+         # Extract Image URLs
+        image_links = selector.css(".simple-carousel-thumbnails img::attr(src)").getall()
+        # We'll let the loader's MapCompose(fix_image_scheme) handle the scheme
+        loader.add_value("image_links", image_links)
+
+        # Extract Price
+        price = selector.css(".productOffers-listItemOfferPrice::text").get()
+        if price:
+            loader.add_value("price", price.strip())
+
+        ## extract tdp, socket type and integrated graphics
+        table_rows = selector.css("table.datasheet-list tr")  # Select all table rows
+        
+        for row in table_rows:
+            row_title = row.css("td:nth-child(1)::text").get()
+            row_value = row.css("td:nth-child(2)::text").get()
+  
+            row_title = row_title.strip() if row_title else None
+            row_value = row_value.strip() if row_value else None
+
+            if row_title == "Socket":
+                loader.add_value("socket_type", row_value)
+            elif row_title == "TDP":
+                loader.add_value("tdp", row_value)
+            elif row_title == "Integrated Graphics":
+                loader.add_value("integrated_graphics", row_value)
+        
 
         yield loader.load_item()

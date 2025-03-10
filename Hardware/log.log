@@ -1,0 +1,34 @@
+ : None
+Product Type : 20 Core Processor
+Series : Intel Core i7
+Package : Boxed
+Socket : Socket 1700
+CPU Cooler : without
+None : None
+Clock Speed : 3,400 Mhz
+Number of Processor Cores : 20
+P-Cores : 8
+E-Cores : 12
+Number of Threads : 28
+Clock Frequency : 3.4 GHz
+Turbo-Boost : yes
+Max. Turbo Frequency : 5.6 GHz
+Processor Code Name : Raptor Lake Refresh
+TDP : 125 Watt
+Manufacturing Process : 7 nm
+None : None
+Integrated Graphics : yes
+Graphics Chipset : Intel UHD 770
+GPU Frequency : 300 MHz
+CPU Rate (max.) : 1,600 MHz
+None : None
+L2-Cache : 28,000 KB
+L3 Cache : 33 KB
+Memory Capacity (max.) : 192 GB
+Memory Types : DDR5-5600, DDR4-3200
+Speicherkanäle : 2
+None : None
+unterstützte Displays : 4
+For : Intel-System
+Features : Intel Gaussian & Neural Accelerator (GNA) 3.0, Intel Thread Director, Intel Deep Learning Boost (Intel DL Boost), Intel Speed Shift, Intel Turbo Boost Max 3.0, Intel HT, Intel 64, SSE4.1, SSE4.2, AVX2, Idle States, Enhanced Intel SpeedStep, Thermal Monitoring, Intel VMD, ISM, Intel Control-flow Enforcement Technology (CET), Intel AES, Secure Key, Intel OS Guard, Execute Disable Bit, Intel Boot Guard, Mode-based Execute Control (MBEC), Intel VT-x, Intel VT-d, Intel VT-x EPT
+ : None
