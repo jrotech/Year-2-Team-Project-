@@ -38,6 +38,8 @@ class StorageItem(scrapy.Item):
     description = scrapy.Field()
     image_links = scrapy.Field()  # image links
     connector_type = scrapy.Field()
+    specifications = scrapy.Field()
+    
 class LinkItem(scrapy.Item):
     link = scrapy.Field()
     category = scrapy.Field()

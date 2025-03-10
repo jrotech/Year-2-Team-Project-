@@ -13,11 +13,10 @@ class LinkExtracterSpider(scrapy.Spider):
     start_urls = [
                   #"https://www.idealo.co.uk/cat/3019/cpus.html",
                   #"https://www.idealo.co.uk/cat/3019I16-15/cpus.html",
-                  "https://www.idealo.co.uk/cat/3019I16-30/cpus.html"
+                  #"https://www.idealo.co.uk/cat/3019I16-30/cpus.html"
                   #"https://www.idealo.co.uk/cat/16073/graphics-cards.html",
                   #"https://www.idealo.co.uk/cat/16073I16-15/graphics-cards.html",
-                  #"https://www.idealo.co.uk/cat/14613/ssd.html",
-                  #"https://www.idealo.co.uk/cat/3011/hard-drives.html",
+                  "https://www.idealo.co.uk/cat/14613F1504123/ssd.html"
                   #"https://www.idealo.co.uk/cat/3018/motherboards.html",
                   #"https://www.idealo.co.uk/cat/3018I16-15/motherboards.html",
                   #"https://www.idealo.co.uk/cat/4552/ram.html",
@@ -32,8 +31,7 @@ class LinkExtracterSpider(scrapy.Spider):
         "https://www.idealo.co.uk/cat/3019I16-30/cpus.html": "CPU",
         "https://www.idealo.co.uk/cat/16073/graphics-cards.html": "GPU",
         "https://www.idealo.co.uk/cat/16073I16-15/graphics-cards.html": "GPU",
-        "https://www.idealo.co.uk/cat/14613/ssd.html": "Storage",
-        "https://www.idealo.co.uk/cat/3011/hard-drives.html": "Storage",
+        "https://www.idealo.co.uk/cat/14613F1504123/ssd.html": "Storage",
         "https://www.idealo.co.uk/cat/3018/motherboards.html": "Motherboard",
         "https://www.idealo.co.uk/cat/3018I16-15/motherboards.html": "Motherboard",
         "https://www.idealo.co.uk/cat/4552/ram.html": "RAM",

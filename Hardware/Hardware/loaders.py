@@ -1,13 +1,16 @@
 from scrapy.loader import ItemLoader
 from itemloaders.processors  import TakeFirst, MapCompose, Join, Identity
 import re
+import unicodedata
 
 def clean_price(value):
     price_str = value.replace("£", "").replace(",", "").strip()  
     return price_str
 
 def clean_text(value):
-    return value.strip()
+    value= value.strip()
+    value = unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode("ascii")
+    return value
 
 def extract_cpu_tdp(value):
    
@@ -150,3 +153,16 @@ class MotherboardLoader(ItemLoader):
     ram_type_in = MapCompose(clean_text)
     image_links_in = MapCompose(clean_text, fix_image_scheme, enhance_image)
     image_links_out = Identity()  # return the list as-is
+
+
+class StorageLoader(ItemLoader):
+
+    default_output_processor = TakeFirst()
+    name_in = MapCompose(clean_text)
+    price_in = MapCompose(clean_price)
+    description_in = MapCompose(clean_text,clean_description)
+    connector_type_in = MapCompose(clean_text )
+    ram_type_in = MapCompose(clean_text)
+    image_links_in = MapCompose(clean_text, fix_image_scheme, enhance_image)
+    image_links_out = Identity()  # return the list as-is
+    specifications_in = MapCompose(clean_text,clean_description)
