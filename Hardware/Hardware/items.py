@@ -21,7 +21,23 @@ class GPUItem(scrapy.Item):
     description = scrapy.Field()    
     image_links = scrapy.Field()  # image links
     tdp=scrapy.Field()
-  
+
+class MotherboardItem(scrapy.Item):
+    name = scrapy.Field()
+    price = scrapy.Field()  
+    description = scrapy.Field()
+    image_links = scrapy.Field()  # image links
+    socket_type = scrapy.Field()
+    SATA_storage_connectors = scrapy.Field()
+    M2_storage_connectors = scrapy.Field()
+    ram_type = scrapy.Field()
+
+class StorageItem(scrapy.Item):
+    name = scrapy.Field()
+    price = scrapy.Field()
+    description = scrapy.Field()
+    image_links = scrapy.Field()  # image links
+    connector_type = scrapy.Field()
 class LinkItem(scrapy.Item):
     link = scrapy.Field()
     category = scrapy.Field()

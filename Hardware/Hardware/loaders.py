@@ -103,8 +103,10 @@ def define_gpu_tdp(title):
     for key in gpu_tdp_dict:
         if key in title:
             return gpu_tdp_dict[key]
+        
 def remove_boxed(name):
     return name.replace(" Boxed", "")
+
 class CPULoader(ItemLoader):
     default_output_processor = TakeFirst()  
     name_in = MapCompose(clean_text,remove_boxed)
@@ -125,5 +127,26 @@ class GPULoader(ItemLoader):
     description_in = MapCompose(clean_text,clean_description)
     tdp_in = MapCompose(define_gpu_tdp)
     # keep image_urls as a list 
+    image_links_in = MapCompose(clean_text, fix_image_scheme, enhance_image)
+    image_links_out = Identity()  # return the list as-is
+
+def SATA_storage_connectors(value):
+    sata_matches = re.findall(r"(\d+)\s*x\s*S-?ATA", value, re.IGNORECASE)
+    sata_count = sum(map(int, sata_matches))
+    return sata_count
+def M2_storage_connectors(value):
+    m2_matches = re.findall(r"(\d+)\s*x\s*M\.?2", value, re.IGNORECASE)
+    m2_count = sum(map(int, m2_matches))
+    return m2_count
+
+class MotherboardLoader(ItemLoader):
+    default_output_processor = TakeFirst()
+    name_in = MapCompose(clean_text)
+    price_in = MapCompose(clean_price)
+    description_in = MapCompose(clean_text,clean_description)
+    socket_type_in = MapCompose(clean_text)
+    SATA_storage_connectors_in = MapCompose(clean_text, SATA_storage_connectors)
+    M2_storage_connectors_in = MapCompose(clean_text, M2_storage_connectors)
+    ram_type_in = MapCompose(clean_text)
     image_links_in = MapCompose(clean_text, fix_image_scheme, enhance_image)
     image_links_out = Identity()  # return the list as-is
