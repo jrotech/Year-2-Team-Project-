@@ -1,19 +1,16 @@
-/********************************
-Developer: Robert Oros, Mihail Vacarciuc
-University ID: 230237144, 230238428
-********************************/
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, useSearchParams } from "react-router-dom";
+import { Pagination } from "@mantine/core";
 import Product from "./Product";
 import Sidebar from "./Sidebar";
-import { MantineProvider, Flex, Stack, Title, Notification, TextInput, Divider, Pagination } from "@mantine/core";
+import { MantineProvider, Flex, Stack, Title, Notification, TextInput, Divider } from "@mantine/core";
 import { theme } from "../mantine";
 
 function ProductsList(props) {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // States that control what we send to the server
+  // States
   const [selectedCategories, setSelectedCategories] = React.useState(
     searchParams.get("categories")?.split(",") || ["All"]
   );
@@ -21,16 +18,15 @@ function ProductsList(props) {
   const [priceRange, setPriceRange] = React.useState([10, 2500]);
   const [showInStockOnly, setShowInStockOnly] = React.useState(false);
   const [successMessage, setSuccessMessage] = React.useState(props.successMessage || null);
-  const [pagination, setPagination] = React.useState({
-    total: 10,
-    current: 1,
-    next: 2
-  });
 
-  // This will be populated from the server response
+  // Pagination: keep track of the current page and total pages
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [totalPages, setTotalPages] = React.useState(1);
+
+  // Products from server
   const [products, setProducts] = React.useState([]);
 
-   // Whenever user changes filters, update URL
+  // Update URL whenever filters or page change
   React.useEffect(() => {
     const params = new URLSearchParams();
     if (selectedCategories.length > 0) {
@@ -42,13 +38,13 @@ function ProductsList(props) {
     if (showInStockOnly) {
       params.set("inStock", "true");
     }
-    setSearchParams(params);
-  }, [selectedCategories, searchQuery, showInStockOnly, setSearchParams]);
+    params.set("page", currentPage);
 
-  // Whenever search params change, fetch products from the backend
+    setSearchParams(params);
+  }, [selectedCategories, searchQuery, showInStockOnly, currentPage, setSearchParams]);
+
+  // Fetch from API
   React.useEffect(() => {
-    // Build the final URL with price range, etc.
-    // e.g. /api/products?categories=Electronics&search=iPhone&inStock=true&minPrice=10&maxPrice=2500
     let apiUrl = `/api/products?`;
 
     const paramsObj = {
@@ -57,45 +53,41 @@ function ProductsList(props) {
       inStock: showInStockOnly ? "true" : "",
       minPrice: priceRange[0],
       maxPrice: priceRange[1],
+      page: currentPage
     };
 
-    // Only include keys that have a value
+    // Build final query
     for (const [key, value] of Object.entries(paramsObj)) {
       if (value !== "" && value !== undefined && value !== null) {
         apiUrl += `${key}=${encodeURIComponent(value)}&`;
       }
     }
 
-    // Fetch the data
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
-        setProducts(data);
+        // 'data' is the Laravel paginator object
+        setProducts(data.data);           // The actual products
+        setCurrentPage(data.current_page);
+        setTotalPages(data.last_page);
       })
       .catch((error) => {
         console.error("Error fetching products:", error);
       });
-  }, [selectedCategories, searchQuery, showInStockOnly, priceRange]);
+  }, [selectedCategories, searchQuery, showInStockOnly, priceRange, currentPage]);
 
-  // Handle search input changes
-  const handleSearchChange = (e) => {
-    const value = e.target.value;
-    setSearchQuery(value);
-  };
-
-  const handlePriceRangeChange = (range) => {
-    setPriceRange(range);
-  };
+  // Handlers
+  const handleSearchChange = (e) => setSearchQuery(e.target.value);
+  const handlePriceRangeChange = (range) => setPriceRange(range);
 
   const handleCategoryChange = (category) => {
     setSelectedCategories((prev) => {
       if (category === "All") {
         return ["All"];
-      } else {
-        return prev.includes(category)
-          ? prev.filter((cat) => cat !== category)
-          : [...prev.filter((cat) => cat !== "All"), category];
       }
+      return prev.includes(category)
+        ? prev.filter((cat) => cat !== category)
+        : [...prev.filter((cat) => cat !== "All"), category];
     });
   };
 
@@ -103,16 +95,16 @@ function ProductsList(props) {
     setShowInStockOnly(checked);
   };
 
-  const onChangePage = async (pageN) => {
-    
-  }
+  // Mantine Pagination calls onChange(pageNumber)
+  const onChangePage = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <MantineProvider theme={theme}>
       <Flex className="max-w-screen justify-center m-24 relative gap-20">
         {/* Main Content */}
         <Stack className="w-full max-w-[1200px]">
-          {/* Success Notification */}
           {successMessage && (
             <Notification
               onClose={() => setSuccessMessage(null)}
@@ -124,7 +116,6 @@ function ProductsList(props) {
             </Notification>
           )}
 
-          {/* Search Bar */}
           <TextInput
             value={searchQuery}
             onChange={handleSearchChange}
@@ -141,10 +132,8 @@ function ProductsList(props) {
             }}
           />
 
-          {/* Divider */}
           <Divider size="xs" my="xs" />
 
-          {/* Product List */}
           <Flex className="gap-20 flex-wrap justify-center">
             {products.length === 0 && <NotFound />}
             {products.map((product) => (
@@ -160,10 +149,11 @@ function ProductsList(props) {
               />
             ))}
           </Flex>
-	  <Pagination total={pagination.total} value={pagination.current} onChange={onChangePage}/>
+
+          {/* Pagination Component */}
+          <Pagination total={totalPages} page={currentPage} onChange={onChangePage} />
         </Stack>
 
-        {/* Sidebar */}
         <Sidebar
           onCategoryChange={handleCategoryChange}
           onPriceRangeChange={handlePriceRangeChange}
@@ -189,7 +179,6 @@ export default ProductsList;
 
 const rootElement = document.getElementById("products");
 const root = createRoot(rootElement);
-
 root.render(
   <BrowserRouter>
     <ProductsList {...Object.assign({}, rootElement.dataset)} />
