@@ -56,4 +56,32 @@ class Product extends Model
             'category_id'
         );
     }
+    public function cpu(): HasOne
+    {
+        return $this->hasOne(CpuProduct::class);
+    }
+    public function gpu()
+    {
+        return $this->hasOne(GpuProduct::class);
+    }
+    public function motherboard()
+    {
+        return $this->hasOne(MotherboardProduct::class);
+    }
+    public function psu()
+    {
+        return $this->hasOne(PSUProduct::class);
+    }
+    public function ram()
+    {
+        return $this->hasOne(RAMProduct::class);
+    }
+    public function storage()
+    {
+        return $this->hasOne(StorageProduct::class);
+    }
+    public function cooler()
+    {
+        return $this->hasOne(CoolerProduct::class);
+    }
 }

@@ -12,10 +12,15 @@ return new class extends Migration
     //run the migrations
     public function up(): void
     {
-        Schema::create('Socket_Details', function (Blueprint $table) {
-            $table->id();
-            $table->string('Socket');
+        Schema::create('cooler_products', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('product_id')->unique();
             $table->timestamps();
+            
+            $table->foreign('product_id')
+            ->references('id')
+            ->on('products')
+            ->onDelete('cascade');
         });
     }
 
@@ -23,6 +28,6 @@ return new class extends Migration
      
     public function down(): void
     {
-        Schema::dropIfExists('Socket_Details');
+        Schema::dropIfExists('cooler_products');
     }
 };

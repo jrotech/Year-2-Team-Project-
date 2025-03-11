@@ -22,7 +22,9 @@ return new class extends Migration
             $table->boolean('in_stock');
             $table->tinyInteger('deleted')->default(0); // For soft deletes or inactive products
             $table->string('image')->nullable();
+            $table->json('specifications')->nullable();
             $table->timestamps();
+           
         });
     }
     /**
