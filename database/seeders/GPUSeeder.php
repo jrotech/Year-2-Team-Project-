@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\File;
 use App\Models\Product;
 use App\Models\Stock;
 use App\Models\Category;
-use App\Models\GpuProduct;
+use App\Models\GPUProduct;
 use App\Models\Image;
 
 class GpuSeeder extends Seeder
@@ -31,7 +31,10 @@ class GpuSeeder extends Seeder
 
         // 3. Loop over each GPU item and insert into database
         foreach ($gpus as $gpuData) {
-            // (a) Create the main Product
+            if(!isset($gpuData['name']) || !isset($gpuData['price']) || !isset($gpuData['description']) || !isset($gpuData['image_links'])) {
+                continue;
+            }
+            // (a) main Product
             $product = Product::create([
                 'name'          => $gpuData['name'],
                 'price'         => $gpuData['price'],
@@ -42,22 +45,22 @@ class GpuSeeder extends Seeder
                 'image'         => $gpuData['image_links'][0] ?? null, // Use first image as cover
             ]);
 
-            // (b) Create stock record
+            // (b) stock record
             Stock::create([
                 'product_id' => $product->id,
                 'quantity'   => rand(10, 100), // Random stock quantity
             ]);
 
-            // (c) Attach category (many-to-many relation)
+            // (c) attach category (many-to-many relation)
             $product->categories()->attach($gpuCategory->id);
 
-            // (d) Create GPU-specific product details
+            // (d) GPU-specific product details
             GpuProduct::create([
                 'product_id' => $product->id,
                 'tdp'        => $gpuData['tdp'] ?? 0, // Default to 0 if missing
             ]);
 
-            // (e) Create multiple images referencing this product
+            // (e) multiple images
             foreach ($gpuData['image_links'] as $imageUrl) {
                 Image::create([
                     'product_id' => $product->id,

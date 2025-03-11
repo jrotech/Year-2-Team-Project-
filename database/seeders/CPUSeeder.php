@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\File;
 use App\Models\Product;
 use App\Models\Stock;
 use App\Models\Category;
-use App\Models\CpuProduct;
+use App\Models\CPUProduct;
 use App\Models\Image;
 
 class CpuSeeder extends Seeder
@@ -32,7 +32,10 @@ class CpuSeeder extends Seeder
 
         // 3. Loop over each CPU item
         foreach ($cpus as $cpuData) {
-            // (a) Create the main Product
+            if(!isset($cpuData['name']) || !isset($cpuData['price']) || !isset($cpuData['description']) || !isset($cpuData['image_links'])) {
+                continue;
+            }
+            // (a) main Product
             $product = Product::create([
                 'name'          => $cpuData['name'],
                 'price'         => $cpuData['price'],
@@ -40,20 +43,19 @@ class CpuSeeder extends Seeder
                 'specifications'=> $cpuData['specifications'],
                 'in_stock'      => 1,
                 'deleted'       => 0,
-                // A single “cover image” or the first of the images
                 'image'         => $cpuData['image_links'][0] ?? null,
             ]);
 
-            // (b) Create the Stock record
+            // (b) Stock record
             Stock::create([
                 'product_id' => $product->id,
                 'quantity'   => 100,  // or random, e.g. rand(10,100)
             ]);
 
-            // (c) Attach category (the many-to-many pivot)
+            // (c) attach category (the many-to-many pivot)
             $product->categories()->attach($cpuCategory->id);
 
-            // (d) Create the specialized CPU sub-model
+            // (d) CPU-specific product details
             CpuProduct::create([
                 'product_id'          => $product->id,
                 'socket_type'         => $cpuData['socket_type'],
@@ -61,7 +63,7 @@ class CpuSeeder extends Seeder
                 'integrated_graphics' => $cpuData['integrated_graphics'],
             ]);
 
-            // (e) Create multiple images referencing this product
+            // (e) multiple images 
             foreach ($cpuData['image_links'] as $link) {
                 Image::create([
                     'product_id' => $product->id,

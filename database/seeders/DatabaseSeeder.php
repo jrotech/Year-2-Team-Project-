@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\File; // Import File helper
 use App\Models\Product;
 use App\Models\Stock;
 use App\Models\Category;
-use App\Models\CPUProduct;
 use App\Models\Image;
 
 class DatabaseSeeder extends Seeder
@@ -20,8 +19,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //$this->call(CPUSeeder::class);
-        $this->call(GPUSeeder::class);
+        $this->call(CpuSeeder::class);
+        $this->call(GpuSeeder::class);
+        $this->call(MotherboardSeeder::class);
+        $this->call(RamSeeder::class);
+        $this->call(PsuSeeder::class);
+        $this->call(StorageSeeder::class);
+        $this->call(CoolingSeeder::class);
         
     }
 }
