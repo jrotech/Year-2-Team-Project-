@@ -12,9 +12,12 @@ return new class extends Migration
     //run the migrations
     public function up(): void
     {
-        Schema::create('Chipset_Details', function (Blueprint $table) {
+        Schema::create('Motherboard_Details', function (Blueprint $table) {
             $table->id();
-            $table->string('Chipset');
+            $table->string('socket_Type');
+            $table->string('ram_type');
+            $table->int('M2_Slots')->nullable();
+            $table->int('SATA_Slots')->nullable();
             $table->timestamps();
         });
     }
@@ -23,6 +26,6 @@ return new class extends Migration
      
     public function down(): void
     {
-        Schema::dropIfExists('Chipset_Details');
+        Schema::dropIfExists('Motherboard_Details');
     }
 };

@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('Cooler_Details', function (Blueprint $table) {
             $table->id();
-            $table->string('Socket');
+            $table->string('socket');
             $table->int('PowerCooler');
             $table->timestamps();
         });
