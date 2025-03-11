@@ -49,6 +49,11 @@ University ID: 230046409, 230237144
         'driver' => 'session',
         'provider' => 'customers', // Ensure this matches a defined provider
     ],
+            
+    'admin' => [
+         'driver' => 'session',
+         'provider' => 'users',
+    ],
 ],
 
 
