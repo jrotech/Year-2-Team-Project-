@@ -46,7 +46,7 @@ class GPUSpider(scrapy.Spider):
         
     def start_requests(self):
         """Start requests with hardcoded extra links and dynamically loaded GPU product links"""
-        gpu_links =  self.extra_links  #self.load_product_links()  +
+        gpu_links =  self.extra_links  + self.load_product_links()
 
         for url in gpu_links:
             self.driver.get(url)
@@ -91,8 +91,10 @@ class GPUSpider(scrapy.Spider):
 
          # Extract Image URLs
         image_links = selector.css(".simple-carousel-thumbnails img::attr(src)").getall()
-        # We'll let the loader's MapCompose(fix_image_scheme) handle the scheme
         loader.add_value("image_links", image_links)
+        if not image_links:
+            image_links = selector.css(".simple-carousel-item img::attr(src)").getall()
+            loader.add_value("image_links", image_links)
 
         # Extract Price
         price = selector.css(".productOffers-listItemOfferPrice::text").get()
