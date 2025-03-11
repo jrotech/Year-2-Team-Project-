@@ -43,6 +43,20 @@ class StorageItem(scrapy.Item):
     connector_type = scrapy.Field()
     specifications = scrapy.Field()
 
+class RAMItem(scrapy.Item):
+    name = scrapy.Field()
+    price = scrapy.Field()
+    description = scrapy.Field()
+    image_links = scrapy.Field()  # image links
+    ram_type = scrapy.Field()
+    specifications = scrapy.Field()
+class PSUItem(scrapy.Item):
+    name = scrapy.Field()
+    price = scrapy.Field()
+    description = scrapy.Field()
+    image_links = scrapy.Field()  # image links
+    specifications = scrapy.Field()
+    
 class LinkItem(scrapy.Item):
     link = scrapy.Field()
     category = scrapy.Field()

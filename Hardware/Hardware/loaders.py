@@ -158,8 +158,6 @@ class MotherboardLoader(ItemLoader):
     image_links_out = Identity()  # return the list as-is
     specifications_in = MapCompose(clean_text,clean_description)
 
-
-
 class StorageLoader(ItemLoader):
     default_output_processor = TakeFirst()
     name_in = MapCompose(clean_text)
@@ -170,4 +168,17 @@ class StorageLoader(ItemLoader):
     image_links_in = MapCompose(clean_text, fix_image_scheme, enhance_image)
     image_links_out = Identity()  # return the list as-is
     specifications_in = MapCompose(clean_text,clean_description)
-
+def findout_ram_type(value):
+    if "DDR5" in value:
+        return "DDR5"
+    elif "DDR4" in value:
+        return "DDR4"
+class RAMLoader(ItemLoader):
+    default_output_processor = TakeFirst()
+    name_in = MapCompose(clean_text)
+    price_in = MapCompose(clean_price)
+    description_in = MapCompose(clean_text,clean_description)
+    ram_type_in = MapCompose(clean_text,findout_ram_type)
+    image_links_in = MapCompose(clean_text, fix_image_scheme, enhance_image)
+    image_links_out = Identity()  # return the list as-is
+    specifications_in = MapCompose(clean_text,clean_description)
