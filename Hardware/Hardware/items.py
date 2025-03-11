@@ -50,6 +50,7 @@ class RAMItem(scrapy.Item):
     image_links = scrapy.Field()  # image links
     ram_type = scrapy.Field()
     specifications = scrapy.Field()
+
 class PSUItem(scrapy.Item):
     name = scrapy.Field()
     price = scrapy.Field()
@@ -57,6 +58,14 @@ class PSUItem(scrapy.Item):
     image_links = scrapy.Field()  # image links
     specifications = scrapy.Field()
     power = scrapy.Field()
+
+class CoolingItem(scrapy.Item):
+    name = scrapy.Field()
+    price = scrapy.Field()
+    description = scrapy.Field()
+    image_links = scrapy.Field()  # image links
+    specifications = scrapy.Field()
+    compatible_sockets = scrapy.Field()
 
 class LinkItem(scrapy.Item):
     link = scrapy.Field()

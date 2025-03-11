@@ -204,3 +204,14 @@ class PSULoader(ItemLoader):
     specifications_in = MapCompose(clean_text,clean_description)
     power_in = MapCompose(clean_text,extract_power)
     power_out = max_value
+
+class CoolingLoader(ItemLoader):
+    default_output_processor = TakeFirst()
+    name_in = MapCompose(clean_text)
+    price_in = MapCompose(clean_price)
+    description_in = MapCompose(clean_text,clean_description)
+    image_links_in = MapCompose(clean_text, fix_image_scheme, enhance_image)
+    image_links_out = Identity()  # return the list as-is
+    specifications_in = MapCompose(clean_text,clean_description)
+    compatible_sockets_in = MapCompose(clean_text)
+    compatible_sockets_out = Identity()  # return the list as-is
