@@ -19,7 +19,7 @@ class ShopController extends Controller
                 // Add a 'primary_image' field for convenience
                 $product->primary_image = $product->images->first()->url ?? null;
                 return $product;
-            ;
+            });
 
         // Return view with products data
         return view('shop', ['products' => $products]);
