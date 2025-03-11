@@ -22,7 +22,7 @@ class ProductController extends Controller
             'categories' => $product->categories,
             'images' => $product->images->map(function ($image) {
                 return [
-                    'url' => asset('storage/' . $image->url),
+                    'url' => $image->url,
                     'alt' => $image->alt ?? 'Product Image',
                 ];
             }),
