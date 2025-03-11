@@ -13,7 +13,7 @@ export default function Order({name,id,order_date,total,invoice_orders}) {
 	  <Flex className="bg-white rounded-md p-10" gap="20">
 		<Stack>
 		  <Title order={4}>{name}</Title>
-		  <Title order={4}>{order_date}</Title>
+		  <Title order={4}>{new Date(order_date).toLocaleDateString()}</Title>
 		  <Title order={4}>Total - £{total}</Title>
 		  <Title order={4} className="flex gap-2 flex-nowrap !whitespace-nowrap">
 			Status - <InStock inStock ={true} text="complete" />

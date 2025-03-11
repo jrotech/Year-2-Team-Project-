@@ -19,7 +19,7 @@ export default function Sidebar() {
     { name: 'My Profile', href: '/dashboard' },
     { name: 'My Orders', href: '/dashboard/orders' },
     { name: 'My Cart', href: '/basket' },
-    { name: 'Contact Us', href: '/dashboard/contact' },
+    { name: 'Contact Us', href: '/contact' },
   ];
   return (
     <div>

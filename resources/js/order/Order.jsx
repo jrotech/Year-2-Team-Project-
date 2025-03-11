@@ -5,13 +5,13 @@ University ID: 230238428, 230237144
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import Sidebar from '../components/Sidebar'
-import { MantineProvider, Flex, Stack, Title, Text } from '@mantine/core';
+import { MantineProvider, Flex, Stack, Title, Text, Button } from '@mantine/core';
+
 import { theme } from '../mantine';
 import Product from './Product';
 
 function Order(props) {
 	const invoice = JSON.parse(props.invoice)
-	console.log(invoice)
 
 
 	const transformDate = (pdate) => {
@@ -57,7 +57,30 @@ function Order(props) {
 									quantity={invoice_order.quantity}
 									total={invoice_order.quantity * invoice_order.product.price}
 									unit_price={invoice_order.product.price}
-								/>))
+								>
+								  <Flex>
+								    <Button variant="transparent">
+								      <div  className="flex items-center relative hover:text-main-accent transition-color duration-300 before:content-[''] before:absolute before:h-[2px] before:w-full before:bottom-0 before:left-0 hover:before:right-0 before:bg-main-accent before:scale-x-0 before:transition-all before:ease-linear before:duration-300 hover:before:scale-x-100 capitalize text-inherit">
+									Return
+									<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  strokeWidth="2"  strokeLinecap="round"  strokeLinejoin="round"  className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M13 18l6 -6" /><path d="M13 6l6 6" /></svg>
+								      </div>
+								    </Button>
+								    <Button variant="transparent">
+								      <div  className="flex items-center relative hover:text-main-accent transition-color duration-300 before:content-[''] before:absolute before:h-[2px] before:w-full before:bottom-0 before:left-0 hover:before:right-0 before:bg-main-accent before:scale-x-0 before:transition-all before:ease-linear before:duration-300 hover:before:scale-x-100 capitalize text-inherit">
+									Rate
+									<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  strokeWidth="2"  strokeLinecap="round"  strokeLinejoin="round"  className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M13 18l6 -6" /><path d="M13 6l6 6" /></svg>
+								      </div>
+								    </Button>
+								    <Button variant="transparent" >
+								      <div  className="flex items-center relative hover:text-main-accent transition-color duration-300 before:content-[''] before:absolute before:h-[2px] before:w-full before:bottom-0 before:left-0 hover:before:right-0 before:bg-main-accent before:scale-x-0 before:transition-all before:ease-linear before:duration-300 hover:before:scale-x-100 capitalize text-inherit">
+									Order Again
+									<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  strokeWidth="2"  strokeLinecap="round"  strokeLinejoin="round"  className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M13 18l6 -6" /><path d="M13 6l6 6" /></svg>
+								      </div>
+								    </Button>
+
+	</Flex>
+								</Product>
+							))
 						}
 						<Title>Payments</Title>
 					</Stack>
