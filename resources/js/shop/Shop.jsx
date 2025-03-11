@@ -7,7 +7,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, useSearchParams } from "react-router-dom";
 import Product from "./Product";
 import Sidebar from "./Sidebar";
-import { MantineProvider, Flex, Stack, Title, Notification, TextInput, Divider } from "@mantine/core";
+import { MantineProvider, Flex, Stack, Title, Notification, TextInput, Divider, Pagination } from "@mantine/core";
 import { theme } from "../mantine";
 
 function ProductsList(props) {
@@ -21,6 +21,11 @@ function ProductsList(props) {
   const [priceRange, setPriceRange] = React.useState([10, 2500]);
   const [showInStockOnly, setShowInStockOnly] = React.useState(false);
   const [successMessage, setSuccessMessage] = React.useState(props.successMessage || null);
+  const [pagination, setPagination] = React.useState({
+    total: 10,
+    current: 1,
+    next: 2
+  });
 
   // This will be populated from the server response
   const [products, setProducts] = React.useState([]);
@@ -98,6 +103,10 @@ function ProductsList(props) {
     setShowInStockOnly(checked);
   };
 
+  const onChangePage = async (pageN) => {
+    
+  }
+
   return (
     <MantineProvider theme={theme}>
       <Flex className="max-w-screen justify-center m-24 relative gap-20">
@@ -151,6 +160,7 @@ function ProductsList(props) {
               />
             ))}
           </Flex>
+	  <Pagination total={pagination.total} value={pagination.current} onChange={onChangePage}/>
         </Stack>
 
         {/* Sidebar */}
