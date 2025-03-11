@@ -12,8 +12,8 @@ import { theme } from "../mantine";
 
 function ProductsList(props) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [products] = React.useState(JSON.parse(props.products));
-  const [filteredProducts, setFilteredProducts] = React.useState([]);
+
+  // States that control what we send to the server
   const [selectedCategories, setSelectedCategories] = React.useState(
     searchParams.get("categories")?.split(",") || ["All"]
   );
@@ -22,7 +22,10 @@ function ProductsList(props) {
   const [showInStockOnly, setShowInStockOnly] = React.useState(false);
   const [successMessage, setSuccessMessage] = React.useState(props.successMessage || null);
 
-  // Sync state with URL search parameters
+  // This will be populated from the server response
+  const [products, setProducts] = React.useState([]);
+
+   // Whenever user changes filters, update URL
   React.useEffect(() => {
     const params = new URLSearchParams();
     if (selectedCategories.length > 0) {
@@ -37,20 +40,37 @@ function ProductsList(props) {
     setSearchParams(params);
   }, [selectedCategories, searchQuery, showInStockOnly, setSearchParams]);
 
-  // Apply filtering logic
+  // Whenever search params change, fetch products from the backend
   React.useEffect(() => {
-    const filtered = products.filter((product) => {
-      const matchesCategories =
-        selectedCategories.includes("All") ||
-        product.categories.some((cat) => selectedCategories.includes(cat.name));
-      const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
-      const matchesSearch =
-        searchQuery === "" || product.name.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesStock = !showInStockOnly || product.in_stock;
-      return matchesCategories && matchesPrice && matchesSearch && matchesStock;
-    });
-    setFilteredProducts(filtered);
-  }, [selectedCategories, priceRange, searchQuery, showInStockOnly, products]);
+    // Build the final URL with price range, etc.
+    // e.g. /api/products?categories=Electronics&search=iPhone&inStock=true&minPrice=10&maxPrice=2500
+    let apiUrl = `/api/products?`;
+
+    const paramsObj = {
+      categories: selectedCategories.join(","),
+      search: searchQuery.trim(),
+      inStock: showInStockOnly ? "true" : "",
+      minPrice: priceRange[0],
+      maxPrice: priceRange[1],
+    };
+
+    // Only include keys that have a value
+    for (const [key, value] of Object.entries(paramsObj)) {
+      if (value !== "" && value !== undefined && value !== null) {
+        apiUrl += `${key}=${encodeURIComponent(value)}&`;
+      }
+    }
+
+    // Fetch the data
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        setProducts(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching products:", error);
+      });
+  }, [selectedCategories, searchQuery, showInStockOnly, priceRange]);
 
   // Handle search input changes
   const handleSearchChange = (e) => {
@@ -81,8 +101,6 @@ function ProductsList(props) {
   return (
     <MantineProvider theme={theme}>
       <Flex className="max-w-screen justify-center m-24 relative gap-20">
-        
-
         {/* Main Content */}
         <Stack className="w-full max-w-[1200px]">
           {/* Success Notification */}
@@ -119,8 +137,8 @@ function ProductsList(props) {
 
           {/* Product List */}
           <Flex className="gap-20 flex-wrap justify-center">
-            {filteredProducts.length === 0 && <NotFound />}
-            {filteredProducts.map((product) => (
+            {products.length === 0 && <NotFound />}
+            {products.map((product) => (
               <Product
                 key={product.id}
                 name={product.name}
@@ -134,6 +152,7 @@ function ProductsList(props) {
             ))}
           </Flex>
         </Stack>
+
         {/* Sidebar */}
         <Sidebar
           onCategoryChange={handleCategoryChange}

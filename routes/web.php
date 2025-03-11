@@ -36,6 +36,8 @@ Route::get('/login', [NavController::class, 'login'])->name('login');
 
 // Search / Shop Page
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
+// API endpoint for filtering
+Route::get('/api/products', [ShopController::class, 'apiShop'])->name('api.shop');
 
 // Product
 Route::get('/shop/product/{id}', [ProductController::class, 'show'])->name('product.getProduct');

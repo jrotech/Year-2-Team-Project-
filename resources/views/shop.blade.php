@@ -22,7 +22,6 @@ University ID: 230238428, 230237144
     <body class="min-h-[100vh] bg-main-bg">
       <div id="nav"></div>
       <div id="products"
-      data-products='@json($products)'  
       data-success-message="{{ session('success') }}"
       ></div>
 
