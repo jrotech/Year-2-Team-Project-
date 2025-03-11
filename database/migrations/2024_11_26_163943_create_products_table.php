@@ -16,13 +16,15 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id'); // Primary key
-            $table->string('name', 50);
+            $table->string('name', 200);
             $table->decimal('price', 10, 2);
             $table->string('description', 10000);
             $table->boolean('in_stock');
             $table->tinyInteger('deleted')->default(0); // For soft deletes or inactive products
             $table->string('image')->nullable();
+            $table->json('specifications')->nullable();
             $table->timestamps();
+           
         });
     }
     /**
