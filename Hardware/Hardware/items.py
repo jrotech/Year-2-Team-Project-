@@ -56,7 +56,8 @@ class PSUItem(scrapy.Item):
     description = scrapy.Field()
     image_links = scrapy.Field()  # image links
     specifications = scrapy.Field()
-    
+    power = scrapy.Field()
+
 class LinkItem(scrapy.Item):
     link = scrapy.Field()
     category = scrapy.Field()

@@ -168,11 +168,13 @@ class StorageLoader(ItemLoader):
     image_links_in = MapCompose(clean_text, fix_image_scheme, enhance_image)
     image_links_out = Identity()  # return the list as-is
     specifications_in = MapCompose(clean_text,clean_description)
+
 def findout_ram_type(value):
     if "DDR5" in value:
         return "DDR5"
     elif "DDR4" in value:
         return "DDR4"
+    
 class RAMLoader(ItemLoader):
     default_output_processor = TakeFirst()
     name_in = MapCompose(clean_text)
@@ -182,3 +184,23 @@ class RAMLoader(ItemLoader):
     image_links_in = MapCompose(clean_text, fix_image_scheme, enhance_image)
     image_links_out = Identity()  # return the list as-is
     specifications_in = MapCompose(clean_text,clean_description)
+
+def max_value(values):
+    values = [v for v in values if v is not None]  
+    return max(values) if values else None  
+
+def extract_power(value):
+    """Extracts wattage as an integer from a string (title or table)."""
+    match = re.search(r"(\d+)\s*W", value, re.IGNORECASE)
+    return int(match.group(1)) if match else None  # Return None if no match
+
+class PSULoader(ItemLoader):
+    default_output_processor = TakeFirst()
+    name_in = MapCompose(clean_text)
+    price_in = MapCompose(clean_price)
+    description_in = MapCompose(clean_text,clean_description)
+    image_links_in = MapCompose(clean_text, fix_image_scheme, enhance_image)
+    image_links_out = Identity()  # return the list as-is
+    specifications_in = MapCompose(clean_text,clean_description)
+    power_in = MapCompose(clean_text,extract_power)
+    power_out = max_value

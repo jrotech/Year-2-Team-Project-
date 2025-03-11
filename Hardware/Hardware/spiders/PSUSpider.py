@@ -3,23 +3,24 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-from Hardware.items import RAMItem
-from Hardware.loaders import RAMLoader
+from Hardware.items import PSUItem
+from Hardware.loaders import PSULoader
+from Hardware.loaders import extract_power
 import json
 
-class RAMSpider(scrapy.Spider):
-    name = "RAMSpider"
+class PSUSpider(scrapy.Spider):
+    name = "PSUSpider"
     allowed_domains = ["quotes.toscrape.com"]
 
     def load_product_links(self):
         try:
             with open("C:\\Users\\jacob\\OneDrive - Aston University\\Programming\\Python\\HardwareSpiders\\Hardware\\fruits\\newlinks.json", "r") as file:
                 data = json.load(file)  # Ensure newlinks.json contains a list of dicts with "category" and "link"
-                return [item["link"] for item in data if item.get("category") == "RAM"]
+                return [item["link"] for item in data if item.get("category") == "PSU"]
         except Exception as e:
             self.logger.error(f"Error loading newlinks.json: {e}")
             return []
-    
+        
     def __init__(self):
         # Set up Selenium WebDriver
         chrome_service = Service(ChromeDriverManager().install())
@@ -31,9 +32,9 @@ class RAMSpider(scrapy.Spider):
         self.driver = webdriver.Chrome(service=chrome_service, options=options)
 
     def start_requests(self):
-        ram_links = self.load_product_links()
+        psu_links = self.load_product_links()
 
-        for url in ram_links:
+        for url in psu_links:
             self.driver.get(url)
             rendered_source = self.driver.page_source
             selector = scrapy.Selector(text=rendered_source)
@@ -41,8 +42,8 @@ class RAMSpider(scrapy.Spider):
 
     def parse(self, response):
         selector = response.meta["rendered_selector"]
-        loader = RAMLoader(item=RAMItem(), selector=selector)
-        
+        loader = PSULoader(item=PSUItem(), selector=selector)
+
         variants = selector.css(".productVariants-listItemWrapper::attr(href)").getall()
      
         if variants:
@@ -59,15 +60,27 @@ class RAMSpider(scrapy.Spider):
                 )
             return  # stop there
         
-        # Extract Title
+        # extract Title
         title = selector.css("#oopStage-title span::text").getall()
         full_title = " ".join(title).strip() if title else None
-        loader.add_value("name", full_title)
+        
 
-        # Extract Description
+        # extract Description
         description_items = selector.css(".oopStage-productInfoTopItemWrapper .oopStage-productInfoTopItem::text").getall()
         description = " | ".join(desc.strip() for desc in description_items)
+
+        # skip server PSUs
+        if "server" in description or "Server" in description:
+            return
+
+        loader.add_value("name", full_title)
         loader.add_value("description", description)
+
+        #stupid table misses out power, so extract from title
+        title_power = extract_power(full_title)  
+        if title_power:
+            loader.add_value("power", f"{title_power} W")  
+
 
         # Extract Image URLs
         image_links = selector.css(".simple-carousel-thumbnails img::attr(src)").getall()
@@ -98,8 +111,8 @@ class RAMSpider(scrapy.Spider):
                 row_value = row_value.strip() if row_value else None
                 table_data[current_header][row_title] = row_value
 
-                if row_title == "Product Type":
-                    loader.add_value("ram_type", row_value)
+            if row_title in ["Power","Power Output", "Wattage", "Combined Power 12V", "Total Power"]:
+                    loader.add_value("power", row_value)  # Add table values for power extraction
 
         json_table = json.dumps(table_data, ensure_ascii=False)
         loader.add_value("specifications", json_table)
