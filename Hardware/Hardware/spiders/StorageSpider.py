@@ -12,7 +12,7 @@ class StoragespiderSpider(scrapy.Spider):
     allowed_domains = ["quotes.toscrape.com"]
     def load_product_links(self):
         try:
-            with open("C:\\Users\\jacob\\OneDrive - Aston University\\Programming\\Python\\HardwareSpiders\\Hardware\\newlinks.json", "r") as file:
+            with open("C:\\Users\\jacob\\OneDrive - Aston University\\Programming\\Python\\HardwareSpiders\\Hardware\\fruits\\newlinks.json", "r") as file:
                 data = json.load(file)  # Ensure newlinks.json contains a list of dicts with "category" and "link"
                 return [item["link"] for item in data if item.get("category") == "Storage"]
         except Exception as e:
@@ -107,6 +107,7 @@ class StoragespiderSpider(scrapy.Spider):
                 row_value = row_value.strip() if row_value else None
 
                 table_data[current_header][row_title] = row_value
+                
                 if row_title.upper() == "BUS" and "SATA" in row_value:
                     loader.add_value("connector_type", "SATA")
                 if row_title == "Form Factor" and row_value == "M.2":

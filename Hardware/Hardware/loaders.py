@@ -108,7 +108,7 @@ def define_gpu_tdp(title):
             return gpu_tdp_dict[key]
         
 def remove_boxed(name):
-    return name.replace(" Boxed", "")
+    return re.sub(r"\s*Box.*$", "", name).strip()
 
 class CPULoader(ItemLoader):
     default_output_processor = TakeFirst()  
@@ -120,6 +120,7 @@ class CPULoader(ItemLoader):
     integrated_graphics_in = MapCompose(clean_text, hasGraphics)
     image_links_in = MapCompose(clean_text, fix_image_scheme, enhance_image)
     image_links_out = Identity()  # return the list as-is
+    specifications_in = MapCompose(clean_text,clean_description)
 
 class GPULoader(ItemLoader):
     #we'll override where we need a list.
@@ -132,15 +133,17 @@ class GPULoader(ItemLoader):
     # keep image_urls as a list 
     image_links_in = MapCompose(clean_text, fix_image_scheme, enhance_image)
     image_links_out = Identity()  # return the list as-is
+    specifications_in = MapCompose(clean_text,clean_description)
 
 def SATA_storage_connectors(value):
     sata_matches = re.findall(r"(\d+)\s*x\s*S-?ATA", value, re.IGNORECASE)
     sata_count = sum(map(int, sata_matches))
     return sata_count
 def M2_storage_connectors(value):
-    m2_matches = re.findall(r"(\d+)\s*x\s*M\.?2", value, re.IGNORECASE)
-    m2_count = sum(map(int, m2_matches))
-    return m2_count
+    # capture variations of M.2 like "Hyper M.2", "Ultra M.2"
+    m2_matches = re.findall(r"(\d+)\s*[xX]\s*(?:Hyper\s+|Ultra\s+)?M\.?2", value, re.IGNORECASE)
+    return sum(map(int, m2_matches))
+
 
 class MotherboardLoader(ItemLoader):
     default_output_processor = TakeFirst()
@@ -153,10 +156,11 @@ class MotherboardLoader(ItemLoader):
     ram_type_in = MapCompose(clean_text)
     image_links_in = MapCompose(clean_text, fix_image_scheme, enhance_image)
     image_links_out = Identity()  # return the list as-is
+    specifications_in = MapCompose(clean_text,clean_description)
+
 
 
 class StorageLoader(ItemLoader):
-
     default_output_processor = TakeFirst()
     name_in = MapCompose(clean_text)
     price_in = MapCompose(clean_price)
@@ -166,3 +170,4 @@ class StorageLoader(ItemLoader):
     image_links_in = MapCompose(clean_text, fix_image_scheme, enhance_image)
     image_links_out = Identity()  # return the list as-is
     specifications_in = MapCompose(clean_text,clean_description)
+

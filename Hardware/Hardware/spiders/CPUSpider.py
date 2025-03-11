@@ -12,7 +12,7 @@ class CPUSpider(scrapy.Spider):
     allowed_domains = ["quotes.toscrape.com"]
     def load_product_links(self):
         try:
-            with open("C:\\Users\\jacob\\OneDrive - Aston University\\Programming\\Python\\HardwareSpiders\\Hardware\\newlinks.json", "r") as file:
+            with open("C:\\Users\\jacob\\OneDrive - Aston University\\Programming\\Python\\HardwareSpiders\\Hardware\\fruits\\newlinks.json", "r") as file:
                 data = json.load(file)  # Ensure newlinks.json contains a list of dicts with "category" and "link"
                 return [item["link"] for item in data if item.get("category") == "CPU"]
         except Exception as e:
@@ -90,20 +90,28 @@ class CPUSpider(scrapy.Spider):
 
         ## extract tdp, socket type and integrated graphics
         table_rows = selector.css("table.datasheet-list tr")  # Select all table rows
-        
+        table_data ={}
+        current_header ="Name"
+        table_data[current_header] = {}
         for row in table_rows:
-            row_title = row.css("td:nth-child(1)::text").get()
-            row_value = row.css("td:nth-child(2)::text").get()
-  
-            row_title = row_title.strip() if row_title else None
-            row_value = row_value.strip() if row_value else None
+            if row.css("th::text").get():
+                current_header = row.css("th::text").get().strip()
+                table_data[current_header] = {}
+            else:
+                row_title = row.css("td:nth-child(1)::text").get()
+                row_value = row.css("td:nth-child(2)::text").get()
+                row_title = row_title.strip() if row_title else None
+                row_value = row_value.strip() if row_value else None
+                table_data[current_header][row_title] = row_value
 
-            if row_title == "Socket":
-                loader.add_value("socket_type", row_value)
-            elif row_title == "TDP":
-                loader.add_value("tdp", row_value)
-            elif row_title == "Integrated Graphics":
-                loader.add_value("integrated_graphics", row_value)
+                if row_title == "Socket":
+                    loader.add_value("socket_type", row_value)
+                elif row_title == "TDP":
+                    loader.add_value("tdp", row_value)
+                elif row_title == "Integrated Graphics":
+                    loader.add_value("integrated_graphics", row_value)
         
-
+        json_table = json.dumps(table_data,ensure_ascii=False)
+        loader.add_value("specifications", json_table)
+        
         yield loader.load_item()

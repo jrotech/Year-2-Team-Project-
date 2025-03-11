@@ -26,7 +26,7 @@ class GPUSpider(scrapy.Spider):
     ]
     def load_product_links(self):
         try:
-            with open("C:\\Users\\jacob\\OneDrive - Aston University\\Programming\\Python\\HardwareSpiders\\Hardware\\newlinks.json", "r") as file:
+            with open("C:\\Users\\jacob\\OneDrive - Aston University\\Programming\\Python\\HardwareSpiders\\Hardware\\fruits\\newlinks.json", "r") as file:
                 data = json.load(file)  # Ensure newlinks.json contains a list of dicts with "category" and "link"
                 return [item["link"] for item in data if item.get("category") == "GPU"]
         except Exception as e:
@@ -46,7 +46,7 @@ class GPUSpider(scrapy.Spider):
         
     def start_requests(self):
         """Start requests with hardcoded extra links and dynamically loaded GPU product links"""
-        gpu_links =  self.load_product_links() # + self.extra_links +
+        gpu_links =  self.extra_links  #self.load_product_links()  +
 
         for url in gpu_links:
             self.driver.get(url)
@@ -101,6 +101,27 @@ class GPUSpider(scrapy.Spider):
         
         #add full title as tdp to refrence it against the gpus dict
         loader.add_value("tdp",full_title)
+
+        table_rows = selector.css("table.datasheet-list tr")  # Select all table rows
+        table_data ={}
+        current_header ="Name"
+        table_data[current_header] = {}
+        for row in table_rows:
+
+            if row.css("th::text").get():
+                current_header = row.css("th::text").get().strip()
+                table_data[current_header] = {}
+            else:
+                row_title = row.css("td:nth-child(1)::text").get()
+                row_value = row.css("td:nth-child(2)::text").get()
+    
+                row_title = row_title.strip() if row_title else None
+                row_value = row_value.strip() if row_value else None
+                table_data[current_header][row_title] = row_value
+
+        json_table = json.dumps(table_data,ensure_ascii=False)
+        loader.add_value("specifications", json_table)
+
 
         # Yield the cleaned item
         yield loader.load_item()
