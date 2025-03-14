@@ -104,3 +104,42 @@ Route::middleware(['auth:customer'])->prefix('reviews')->group(function () {
     Route::get('/my-reviews', [App\Http\Controllers\ReviewController::class, 'getCustomerReviews'])
         ->name('reviews.my');
 });
+
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::middleware('guest:admin')->group(function () {
+        Route::get('/login', [App\Http\Controllers\Admin\AdminAuthController::class, 'loginForm'])->name('login');
+        Route::post('/login', [App\Http\Controllers\Admin\AdminAuthController::class, 'login']);
+    });
+
+    Route::middleware('auth:admin')->group(function () {
+
+        Route::get('/', [App\Http\Controllers\Admin\AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/profile', [App\Http\Controllers\Admin\AdminDashboardController::class, 'profile'])->name('profile');
+
+        Route::get('/change-password', [App\Http\Controllers\Admin\AdminAuthController::class, 'changePasswordForm'])->name('change-password');
+        Route::post('/change-password', [App\Http\Controllers\Admin\AdminAuthController::class, 'changePassword']);
+        Route::post('/logout', [App\Http\Controllers\Admin\AdminAuthController::class, 'logout'])->name('logout');
+
+        Route::resource('products', App\Http\Controllers\Admin\AdminProductController::class);
+        Route::post('/products/{product}/stock', [App\Http\Controllers\Admin\AdminProductController::class, 'updateStock'])->name('products.stock.update');
+
+
+        Route::resource('categories', App\Http\Controllers\Admin\AdminCategoryController::class);
+
+        Route::get('/orders', [App\Http\Controllers\Admin\AdminOrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/{order}', [App\Http\Controllers\Admin\AdminOrderController::class, 'show'])->name('orders.show');
+        Route::post('/orders/{order}/status', [App\Http\Controllers\Admin\AdminOrderController::class, 'updateStatus'])->name('orders.status.update');
+        Route::post('/orders/{order}/ship', [App\Http\Controllers\Admin\AdminOrderController::class, 'processShipment'])->name('orders.ship');
+        Route::post('/orders/{order}/cancel', [App\Http\Controllers\Admin\AdminOrderController::class, 'cancelOrder'])->name('orders.cancel');
+        Route::get('/orders/{order}/invoice', [App\Http\Controllers\Admin\AdminOrderController::class, 'generateInvoice'])->name('orders.invoice');
+
+        Route::resource('customers', App\Http\Controllers\Admin\AdminCustomerController::class);
+
+        Route::resource('users', App\Http\Controllers\Admin\AdminUserController::class);
+
+        Route::get('/reports/sales', [App\Http\Controllers\Admin\AdminReportController::class, 'salesReport'])->name('reports.sales');
+        Route::get('/reports/inventory', [App\Http\Controllers\Admin\AdminReportController::class, 'inventoryReport'])->name('reports.inventory');
+        Route::get('/reports/customers', [App\Http\Controllers\Admin\AdminReportController::class, 'customerReport'])->name('reports.customers');
+    });
+});
