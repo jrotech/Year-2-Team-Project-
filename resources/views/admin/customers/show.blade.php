@@ -1,12 +1,16 @@
-<!-- resources/views/admin/customers/show.blade.php -->
+<!-- Developer: Abdullah Alharbi
+    University ID: 230046409  -->
 @extends('admin.layouts.admin')
 
 @section('title', 'Customer Details')
+
 @section('header', 'Customer Details')
 
 @section('content')
     <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-        <!-- Customer Information -->
+
+
+
         <div class="md:col-span-4">
             <div class="bg-white shadow-md rounded-lg overflow-hidden">
                 <div class="p-6">
@@ -22,10 +26,14 @@
                         <p class="text-gray-900">{{ $customer->email }}</p>
                     </div>
 
+
+
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
                         <p class="text-gray-900">{{ $customer->phone_number ?? 'N/A' }}</p>
                     </div>
+
+
 
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Registered On</label>
@@ -42,6 +50,9 @@
                             Edit Customer
                         </a>
 
+
+
+
                         <form action="{{ route('admin.customers.destroy', $customer->id) }}" method="POST" class="inline">
                             @csrf
                             @method('DELETE')
@@ -54,7 +65,9 @@
             </div>
         </div>
 
-        <!-- Customer Orders -->
+
+
+
         <div class="md:col-span-8">
             <div class="bg-white shadow-md rounded-lg overflow-hidden">
                 <div class="p-6">
@@ -65,17 +78,23 @@
                             <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
+
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+
+
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                             </tr>
                             </thead>
+
                             <tbody class="bg-white divide-y divide-gray-200">
                             @forelse($customer->invoices as $order)
+
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm font-medium text-gray-900">#{{ $order->invoice_id }}</div>
+
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-500">{{ $order->created_at->format('M d, Y') }}</div>
@@ -87,9 +106,13 @@
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                                                 @if($order->status == 'pending') bg-yellow-100 text-yellow-800
                                                 @elseif($order->status == 'processing') bg-blue-100 text-blue-800
+
+
                                                 @elseif($order->status == 'paid') bg-green-100 text-green-800
+
                                                 @elseif($order->status == 'shipped') bg-purple-100 text-purple-800
                                                 @elseif($order->status == 'delivered') bg-green-100 text-green-800
+
                                                 @else bg-red-100 text-red-800
                                                 @endif">
                                                 {{ ucfirst($order->status) }}
@@ -107,6 +130,8 @@
                             </tbody>
                         </table>
                     </div>
+
+
                 </div>
             </div>
         </div>

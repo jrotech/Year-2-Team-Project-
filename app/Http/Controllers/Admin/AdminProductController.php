@@ -1,7 +1,7 @@
 <?php
 /********************************
-Developer: [Your Name]
-University ID: [Your ID]
+Developer: Abdullah Alharbi
+University ID: 230046409
  ********************************/
 namespace App\Http\Controllers\Admin;
 

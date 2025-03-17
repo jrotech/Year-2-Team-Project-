@@ -1,4 +1,5 @@
-<!-- resources/views/admin/reports/sales.blade.php -->
+<!-- Developer: Abdullah Alharbi
+    University ID: 230046409  -->
 @extends('admin.layouts.admin')
 
 @section('title', 'Sales Report')

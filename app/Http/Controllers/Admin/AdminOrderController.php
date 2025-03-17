@@ -1,7 +1,7 @@
 <?php
 /********************************
-Developer: Abdullah Alharbi, Iddrisu Musah
-University ID: 230046409, 230222232
+Developer: Abdullah Alharbi
+University ID: 230046409
  ********************************/
 namespace App\Http\Controllers\Admin;
 

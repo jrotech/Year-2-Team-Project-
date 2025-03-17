@@ -260,7 +260,7 @@ class AdminReportController extends Controller
                 ];
             });
 
-        
+
         $customerChartData = [
             'labels' => $newCustomersByMonth->pluck('month'),
             'datasets' => [

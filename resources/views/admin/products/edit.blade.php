@@ -1,8 +1,12 @@
-<!-- resources/views/admin/products/edit.blade.php -->
+<!-- Developer: Abdullah Alharbi
+    University ID: 230046409  -->
 @extends('admin.layouts.admin')
 
 @section('title', 'Edit Product')
+
 @section('header', 'Edit Product')
+
+
 
 @section('content')
     <div class="bg-white shadow-md rounded-lg overflow-hidden">
@@ -14,13 +18,20 @@
                         Back to Products
                     </a>
                     <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this product?');">
+
                         @csrf
+
                         @method('DELETE')
+
                         <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+
                             Delete Product
                         </button>
+
                     </form>
+
                 </div>
+
             </div>
 
             @if ($errors->any())
@@ -28,47 +39,71 @@
                     <p class="font-bold">Validation Error</p>
                     <ul>
                         @foreach ($errors->all() as $error)
+
                             <li>{{ $error }}</li>
+
                         @endforeach
                     </ul>
                 </div>
+
             @endif
 
+
             <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+
                 @csrf
+
                 @method('PUT')
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Basic Information -->
+
+
                     <div>
+
                         <h4 class="text-lg font-medium text-gray-700 mb-4">Basic Information</h4>
 
+
                         <div class="mb-4">
+
                             <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
+
+
                             <input type="text" name="name" id="name" value="{{ old('name', $product->name) }}" required
                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
                         </div>
 
+
+
                         <div class="mb-4">
                             <label for="price" class="block text-sm font-medium text-gray-700 mb-2">Price ($)</label>
+
                             <input type="number" name="price" id="price" value="{{ old('price', $product->price) }}" step="0.01" min="0" required
                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+
                         </div>
 
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+
+
                             <textarea name="description" id="description" rows="6" required
                                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">{{ old('description', $product->description) }}</textarea>
                         </div>
 
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Categories</label>
+
+
                             <div class="grid grid-cols-2 gap-4">
                                 @foreach($categories as $category)
+
                                     <div class="flex items-center">
+
                                         <input type="checkbox" name="categories[]" id="category-{{ $category->id }}" value="{{ $category->id }}"
                                                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+
                                             {{ (in_array($category->id, old('categories', $product->categories->pluck('id')->toArray()))) ? 'checked' : '' }}>
+
                                         <label for="category-{{ $category->id }}" class="ml-2 text-sm text-gray-700">{{ $category->name }}</label>
                                     </div>
                                 @endforeach
@@ -76,33 +111,52 @@
                         </div>
                     </div>
 
-                    <!-- Stock and Images -->
+
+
+
                     <div>
                         <h4 class="text-lg font-medium text-gray-700 mb-4">Stock & Images</h4>
 
                         <div class="mb-4">
                             <label for="in_stock" class="block text-sm font-medium text-gray-700 mb-2">Stock Status</label>
+
                             <select name="in_stock" id="in_stock" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+
                                 <option value="1" {{ old('in_stock', $product->in_stock) == 1 ? 'selected' : '' }}>In Stock</option>
+
                                 <option value="0" {{ old('in_stock', $product->in_stock) == 0 ? 'selected' : '' }}>Out of Stock</option>
+
                             </select>
+
                         </div>
 
+
                         <div class="mb-6">
+
                             <label for="stock_quantity" class="block text-sm font-medium text-gray-700 mb-2">Stock Quantity</label>
+
                             <input type="number" name="stock_quantity" id="stock_quantity" value="{{ old('stock_quantity', $product->stock ? $product->stock->quantity : 0) }}" min="0" required
                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+
                         </div>
 
                         <div class="mb-6">
+
                             <label class="block text-sm font-medium text-gray-700 mb-2">Current Images</label>
 
+
                             @if($product->images->count() > 0)
+
                                 <div class="grid grid-cols-3 gap-4 mb-4">
+
                                     @foreach($product->images as $image)
+
                                         <div class="relative group">
+
                                             <img src="{{ asset('storage/' . $image->url) }}" alt="{{ $product->name }}" class="h-32 w-full object-cover rounded">
+
                                             <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+
                                                 <div class="flex space-x-2">
                                                     <label class="cursor-pointer bg-white text-gray-800 p-1 rounded">
                                                         <input type="checkbox" name="delete_images[]" value="{{ $image->id }}" class="sr-only">
@@ -131,39 +185,79 @@
                 </div>
 
                 <div class="mt-6 border-t border-gray-200 pt-6">
+
+
                     <h4 class="text-lg font-medium text-gray-700 mb-4">Stock Management</h4>
 
+
+
                     <div class="bg-gray-50 p-4 rounded-md mb-6">
+
                         <h5 class="font-medium text-gray-800 mb-2">Update Stock Quantity</h5>
+
                         <p class="text-sm text-gray-600 mb-4">Use this form to add or remove stock. Enter a positive number to add stock or a negative number to remove stock.</p>
 
+
                         <form action="{{ route('admin.products.stock.update', $product->id) }}" method="POST" class="flex flex-wrap items-end gap-4">
+
                             @csrf
+
                             <div class="flex-1">
+
                                 <label for="quantity_change" class="block text-sm font-medium text-gray-700 mb-2">Quantity Change</label>
+
                                 <input type="number" name="quantity_change" id="quantity_change" required
+
                                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+
                             </div>
+
+
                             <div class="flex-1">
+
+
                                 <label for="note" class="block text-sm font-medium text-gray-700 mb-2">Note (Optional)</label>
+
                                 <input type="text" name="note" id="note"
                                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+
                             </div>
+
+
                             <div>
+
+
                                 <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
                                     Update Stock
+
                                 </button>
+
+
                             </div>
+
                         </form>
+
                     </div>
                 </div>
 
+
+
                 <div class="mt-6 flex justify-end">
+
+
+
                     <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">
+
+
                         Update Product
                     </button>
+
                 </div>
+
+
             </form>
+
         </div>
+
     </div>
 @endsection

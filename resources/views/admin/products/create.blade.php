@@ -1,48 +1,76 @@
-<!-- resources/views/admin/products/create.blade.php -->
+<!-- Developer: Abdullah Alharbi
+    University ID: 230046409  -->
+
 @extends('admin.layouts.admin')
 
 @section('title', 'Add New Product')
+
 @section('header', 'Add New Product')
 
 @section('content')
     <div class="bg-white shadow-md rounded-lg overflow-hidden">
         <div class="p-6">
             <div class="flex justify-between items-center mb-6">
+
+
                 <h3 class="text-lg font-medium text-gray-900">Create New Product</h3>
+
+
                 <a href="{{ route('admin.products.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                     Back to Products
                 </a>
+
+
             </div>
 
             @if ($errors->any())
                 <div class="mb-6 bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
+
+
                     <p class="font-bold">Validation Error</p>
+
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
                     </ul>
+
+
+
                 </div>
             @endif
 
             <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
+
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Basic Information -->
+
                     <div>
+
                         <h4 class="text-lg font-medium text-gray-700 mb-4">Basic Information</h4>
 
-                        <div class="mb-4">
-                            <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
-                            <input type="text" name="name" id="name" value="{{ old('name') }}" required
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                        </div>
 
                         <div class="mb-4">
+
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
+
+                            <input type="text" name="name" id="name" value="{{ old('name') }}" required
+
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+
+
+                        </div>
+
+
+                        <div class="mb-4">
+
+
                             <label for="price" class="block text-sm font-medium text-gray-700 mb-2">Price ($)</label>
+
                             <input type="number" name="price" id="price" value="{{ old('price') }}" step="0.01" min="0" required
                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+
                         </div>
 
                         <div class="mb-4">

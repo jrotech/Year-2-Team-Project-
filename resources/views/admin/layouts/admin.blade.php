@@ -1,3 +1,6 @@
+<!-- Developer: Abdullah Alharbi
+    University ID: 230046409  -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,16 +10,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Admin Dashboard') - {{ config('app.name') }}</title>
 
-    <!-- Include Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Alpine.js -->
+
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-    <!-- Chart.js -->
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Custom CSS -->
+
     <style>
         [x-cloak] { display: none !important; }
     </style>
@@ -24,7 +26,7 @@
     @yield('styles')
 </head>
 <body class="bg-gray-100 h-screen flex overflow-hidden">
-<!-- Sidebar -->
+
 <aside class="w-64 bg-gray-800 text-white py-4 flex flex-col h-full" x-data="{ open: false }">
     <div class="px-4 py-4 flex items-center justify-between">
         <span class="text-2xl font-bold">Admin Panel</span>
@@ -142,9 +144,9 @@
     </div>
 </aside>
 
-<!-- Main Content -->
+
 <main class="flex-1 flex flex-col overflow-hidden">
-    <!-- Top Navigation -->
+
     <header class="bg-white shadow">
         <div class="flex justify-between items-center py-4 px-8">
             <div>
@@ -172,7 +174,7 @@
         </div>
     </header>
 
-    <!-- Page Content -->
+
     <div class="flex-1 overflow-auto p-6">
         @if (session('success'))
             <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">

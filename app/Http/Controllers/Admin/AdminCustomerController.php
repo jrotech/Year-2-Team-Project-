@@ -137,11 +137,9 @@ class AdminCustomerController extends Controller
     /**
      * remove the specified customer from storage.
      */
-
     public function destroy(Customer $customer)
     {
 
-        
         if ($customer->invoices()->count() > 0) {
             return back()->with('error', 'Cannot delete customer with existing orders.');
         }

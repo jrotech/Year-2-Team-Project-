@@ -1,7 +1,9 @@
-<!-- resources/views/admin/orders/index.blade.php -->
+<!-- Developer: Abdullah Alharbi
+    University ID: 230046409  -->
 @extends('admin.layouts.admin')
 
 @section('title', 'Orders')
+
 @section('header', 'Orders')
 
 @section('content')
@@ -11,7 +13,7 @@
                 <h3 class="text-lg font-medium text-gray-900">Order Management</h3>
             </div>
 
-            <!-- Search & Filter -->
+
             <form action="{{ route('admin.orders.index') }}" method="GET" class="mb-6">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
@@ -56,7 +58,7 @@
                 </div>
             </form>
 
-            <!-- Orders Table -->
+
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
