@@ -1,7 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, useSearchParams } from "react-router-dom";
-import { Pagination } from "@mantine/core";
+import { Center, Pagination } from "@mantine/core";
 import Product from "./Product";
 import Sidebar from "./Sidebar";
 import { MantineProvider, Flex, Stack, Title, Notification, TextInput, Divider } from "@mantine/core";
@@ -26,6 +26,14 @@ function ProductsList(props) {
   // Products from server
   const [products, setProducts] = React.useState([]);
 
+
+  React.useEffect(() => {
+    console.log("Selected categories changed:", selectedCategories);
+    const params = new URLSearchParams();
+    params.set("page", 1);
+
+  }, [selectedCategories]);
+
   // Update URL whenever filters or page change
   React.useEffect(() => {
     const params = new URLSearchParams();
@@ -42,6 +50,8 @@ function ProductsList(props) {
 
     setSearchParams(params);
   }, [selectedCategories, searchQuery, showInStockOnly, currentPage, setSearchParams]);
+
+
 
   // Fetch from API
   React.useEffect(() => {
@@ -98,6 +108,7 @@ function ProductsList(props) {
   // Mantine Pagination calls onChange(pageNumber)
   const onChangePage = (page) => {
     setCurrentPage(page);
+    
   };
 
   return (
@@ -151,7 +162,9 @@ function ProductsList(props) {
           </Flex>
 
           {/* Pagination Component */}
-          <Pagination total={totalPages} page={currentPage} onChange={onChangePage} />
+	  <Center mt="50">
+            <Pagination total={totalPages} page={currentPage} onChange={onChangePage} size="xl" />
+	  </Center>
         </Stack>
 
         <Sidebar
