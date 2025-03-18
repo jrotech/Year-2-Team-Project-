@@ -132,7 +132,7 @@ function SearchBar() {
         placeholder="Search"
         value={searchText}
         onChange={handleSearchChange}
-        className="border-2 border-gray-300 bg-white h-10 sm:w-80 px-5 my-2 max-[540px]:w-32 rounded-full text-sm focus:outline-none text-center text-black"
+        className="border-2 border-gray-300 bg-white h-10 sm:w-[600px] px-5 my-2 max-[540px]:w-32 rounded-full text-sm focus:outline-none text-center text-black"
       />
       <button type="submit" className="hidden">Submit</button>
     </form>
