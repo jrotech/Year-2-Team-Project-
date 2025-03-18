@@ -52,9 +52,9 @@ function Product(props) {
           <Table striped highlightOnHover withBorder>
             <thead>
               <tr>
-                <th>Category</th>
-                <th>Feature</th>
-                <th>Value</th>
+                <th className="text-left">Category</th>
+                <th className="text-left">Feature</th>
+                <th className="text-left">Value</th>
               </tr>
             </thead>
             <tbody>
