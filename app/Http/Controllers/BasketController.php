@@ -49,7 +49,7 @@ class BasketController extends Controller
                 'name' => $product->name,
                 'quantity' => $product->pivot->quantity,
                 'price' => $product->price,
-                'img_url' => asset('storage/' . $product->primary_image),
+                'img_url' => $product->primary_image,
                 'description' => $product->description,
                 'category' => $product->categories->pluck('name'), // Assuming categories relationship exists
             ];

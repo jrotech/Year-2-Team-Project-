@@ -16,4 +16,8 @@ class CoolerProduct extends Model
     {
         return $this->belongsTo(Product::class);
     }
+    public function sockets()
+    {
+        return $this->hasMany(CoolerSocket::class, 'cooler_id'); // One cooler has many sockets
+    }
 }

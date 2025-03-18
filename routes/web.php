@@ -77,6 +77,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'showCheckout'])->name('checkout.show');
     Route::post('/api/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
     Route::post('/basket/checkout', [BasketController::class, 'proceedToCheckout'])->name('basket.checkout');
+    Route::post('/api/check-compatibility', [CompatibilityController::class, 'checkCompatibility'])->name('basket.compatibility');
 
     Route::get('/dashboard/orders', [DashboardController::class, 'orders'])->name('dashboard.orders');
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');;
