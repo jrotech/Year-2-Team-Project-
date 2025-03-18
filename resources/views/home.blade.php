@@ -305,11 +305,11 @@
             @php
             $product = $stock->product;
             $image = $product->images->first(); // Get the first image for the product
-            $imagePath = $image ? 'storage/' . $image->url : 'img/placeholder.jpg'; // Use a placeholder if no image exists
+            $imagePath = $image ? $image->url : 'img/placeholder.jpg'; // Use a placeholder if no image exists
             @endphp
             {{ \Log::info($imagePath) }} <!-- For debugging purposes -->
             <div class="ProductCard">
-                <img src="{{ asset($imagePath) }}" alt="{{ $image ? $image->alt : $product->name }}">
+                <img src="{{ $imagePath }}" alt="{{ $image ? $image->alt : $product->name }}">
                 <h2>{{ $product->name }}</h2>
                 <div class="rating">
                     <i class="fas fa-star"></i>
