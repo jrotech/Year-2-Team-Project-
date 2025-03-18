@@ -67,7 +67,7 @@ class CheckoutController extends Controller
             // Add Items to InvoiceOrder
             foreach ($cartItems->products as $product) {
                 InvoiceOrder::create([
-                    'invoice_id' => $invoice->id,
+                    'invoice_id' => rand(10,100000),
                     'product_id' => $product->id,
                     'product_cost' => $product->price,
                     'quantity' => $product->pivot->quantity,
