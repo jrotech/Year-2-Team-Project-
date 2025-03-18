@@ -25,7 +25,9 @@ class ProductController extends Controller
                     'url' => $image->url,
                     'alt' => $image->alt ?? 'Product Image',
                 ];
+            
             }),
+            'specifications' => $product->specifications,
         ];
 
         return view('product', ['product' => $productInfo]);

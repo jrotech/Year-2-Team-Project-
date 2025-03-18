@@ -20,6 +20,7 @@ class Product extends Model
         'description',
         'in_stock',
         'deleted',
+        'specifications',
     ];
 
     /**
