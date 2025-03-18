@@ -153,7 +153,7 @@
 
                                             <img class="h-10 w-10 rounded-full object-cover"
 
-                                                 src="{{ asset('storage/' . $product->images->first()->url) }}"
+                                                 src="{{ $product->images->first()->url}}"
 
 
 
