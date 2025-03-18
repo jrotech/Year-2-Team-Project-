@@ -197,11 +197,9 @@
 
         <!-- Google Login Button -->
         <div class="google-login">
-            <a href="/authenticate/google/callback">
-                <button class="google-btn">
-                    <img src="https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000" alt="Google Logo">
-                    Sign in with Google
-                </button>
+            <a href="{{ route('google.login') }}" class="google-btn">
+                <img src="https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000" alt="Google Logo">
+                Sign in with Google
             </a>
         </div>
     </div>

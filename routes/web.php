@@ -57,9 +57,13 @@ Route::get('/login', [login::class, 'create'])->name('login');
 Route::post('/login', [login::class, 'login'])->name('login');
 Route::get('/logout', [login::class, 'logout'])->name('logout');
 
-Route::get('/auth/google', [GoogleAuthController::class, 'redirect']);
-Route::get('/authenticate/google/callback', [GoogleAuthController::class, 'callback']);
+// Route for initiating Google login
+Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])
+    ->name('google.login');
 
+// Route for handling the callback from Google
+Route::get('/authenticate/google/callback', [GoogleAuthController::class, 'callback'])
+    ->name('google.callback');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile/manage-profile', [ChangePersonalDetails::class, 'showChangePersonalDetailsForm'])->name('profile.manage-profile');
