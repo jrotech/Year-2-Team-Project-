@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PsuSeeder::class);
         $this->call(StorageSeeder::class);
         $this->call(CoolingSeeder::class);
+        $this->call(AdminSeeder::class);
         
     }
 }
