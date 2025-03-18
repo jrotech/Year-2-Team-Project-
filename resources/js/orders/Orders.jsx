@@ -15,8 +15,8 @@ function Orders(props) {
 	return (
 		<MantineProvider theme={theme}>
 			<Flex className="max-w-screen justify-between m-24 relative">
-				<Flex className="items-center justify-center w-full">
-					<Stack className="gap-20 flex-wrap justify-center mx-5">
+				<Flex className="justify-center w-full">
+					<Stack className="gap-20 flex-wrap mx-5">
 						{invoices.map((invoice, i) => (
 							<Order
 							key={invoice.invoice_id}
