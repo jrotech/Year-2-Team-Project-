@@ -5,8 +5,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import time
+import pytest
 
-def test_make_account():
+
+def test_01_make_account():
     # Use webdriver-manager to handle driver setup
     service = Service(ChromeDriverManager().install())
     options = webdriver.ChromeOptions()
@@ -31,7 +33,9 @@ def test_make_account():
     driver.find_element(By.NAME, "CustomerPhone").send_keys("1234567890")
     time.sleep(0.5)
     driver.find_element(By.NAME, "Register").click()
-    
-   
+
+    success_message = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.alert")))
+    assert "Registration successful" in success_message.text
+
     driver.quit()
 
