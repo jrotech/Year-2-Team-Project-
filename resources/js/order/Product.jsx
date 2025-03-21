@@ -9,13 +9,13 @@ import { InStock } from '../components/InStock';
 export default function Product(props){
   return (
     <Flex className="bg-white p-6 rounded-md " gap="50">
-      <img alt="" src={"/storage/" + props.img} className="h-36" />
+      <img alt="" src={props.img} className="h-36" />
       <Stack className="w-[500px] max-w-[500px]">
 	<Title order={4}>{props.title}</Title>
 	<Flex gap="20" className="items-between justify-between w-full">
 	  <Stack gap="2">
 	    <label>Unit Price</label>
-	    <NumberFormatter prefix="$ " value={props.unit_price} thousandSeparator />
+	    <NumberFormatter prefix="£ " value={props.unit_price} thousandSeparator />
 	  </Stack>
 	</Flex>
 	<InStock inStock={true} />

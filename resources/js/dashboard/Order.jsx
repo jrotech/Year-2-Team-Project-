@@ -26,7 +26,7 @@ export default function Order({name,id,order_date,total,invoice_orders}) {
 			invoice_orders.map((product, i) => (
 			  <Stack className="min-w-32" key={i} gap="5">
 				{console.log(product.product.image)}
-				<img alt="" src={"/storage/"+product.product.image} className="max-h-32" />
+				<img alt="" src={product.product.image} className="max-h-32" />
 				<Title order={6} className="m-0">{product.product.name}</Title>
 				<Title order={6} className="m-0">Quantity - {product.quantity}</Title>
 				<Title order={6} className="m-0">Price - £{product.product.price}</Title>

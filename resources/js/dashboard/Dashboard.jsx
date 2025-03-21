@@ -108,7 +108,7 @@ function Dashboard(props) {
 											price={prod.price}
 											id={prod.id}
 											description={prod.description || 'No description available.'}
-											img_url={"storage/" + prod.image}
+											img_url={prod.image}
 										/>
 									))
 								) : (
