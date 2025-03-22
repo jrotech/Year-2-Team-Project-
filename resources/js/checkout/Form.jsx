@@ -188,7 +188,7 @@ function Finish({ onCheckout, personalDetails }) { // Destructure onCheckout and
               <p className="text-secondary-foreground">Estimated Delivery: 3-5 business days</p>
           </Card>
           <footer className="flex justify-center">
-            <Button component="a" href="/shop" className="bg-primary w-full text-primary-foreground font-bold py-2 px-4 rounded-lg">
+            <Button component="a" type="button" href="/shop" className="bg-primary w-full text-primary-foreground font-bold py-2 px-4 rounded-lg">
               Continue Shopping
 	      <svg  xmlns="http://www.w3.org/2000/svg"  width="30"  height="30"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  strokeWidth="2"  strokeLinecap="round"  strokeLinejoin="round"  className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M13 18l6 -6" /><path d="M13 6l6 6" /></svg>
             </Button>

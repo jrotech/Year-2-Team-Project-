@@ -86,6 +86,7 @@ class CheckoutController extends Controller
 
             DB::commit();
             return response()->json(['success' => true, 'message' => 'Order created successfully!', 'invoice_id' => $invoice->id], 201);
+            
         } catch (Exception $e) {
             DB::rollBack();
             Log::error('Checkout Error: ' . $e->getMessage());

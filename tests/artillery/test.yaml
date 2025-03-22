@@ -1,8 +1,9 @@
 config:
   target: "http://localhost:8000"
   phases:
-    - duration: 10
-      arrivalRate: 2
+    - duration: 3
+      arrivalRate: 5
+      
   payload:
     path: "users.csv"
     fields:
@@ -14,7 +15,8 @@ config:
       Content-Type: "application/x-www-form-urlencoded"
   http:
     followRedirects: true
-  processor: "./hooks.mjs"  
+  processor: "./hooks.mjs"
+
 scenarios:
   - name: "Customer login and purchase"
     flow:
@@ -24,11 +26,6 @@ scenarios:
             CustomerEmail: "{{ email }}"
             CustomerPassword: "{{ password }}"
           afterResponse: "extractLaravelSession"
-
-      - get:
-          url: "/api/products"
-          headers:
-            Cookie: "{{ sessionCookie }}"
 
       - post:
           url: "/basket/add/1"
@@ -41,5 +38,9 @@ scenarios:
           url: "/api/checkout"
           headers:
             Cookie: "{{ sessionCookie }}"
+            Content-Type: "application/json"
+            Accept: "application/json"
           json:
-            payment_method: "card"
+            address: "123 Main St"
+            postcode: "12345"
+          afterResponse: "checkCheckout"
