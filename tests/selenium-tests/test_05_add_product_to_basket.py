@@ -98,7 +98,23 @@ def test_05_add_product_to_basket():
     basket_link = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/basket']")))
     basket_link.click()
 
+    time.sleep(1)  
 
+    wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "h4.mantine-Title-root")))
+    product_titles = driver.find_elements(By.CSS_SELECTOR, "h4.mantine-Title-root")
+
+
+    assert "amd ryzen 7 9800x3d" in product_titles[0].text.lower(), "Failed to add CPU"
+    assert "asus geforce rtx 4070" in product_titles[1].text.lower(),"Failed to add GPU"
+
+    prices = driver.find_elements(By.XPATH,"//h1[contains(text(),'£')]")
+    assert "957.98" in prices[0].text, "Incorrect Price in Cart item 1"
+    assert "1649.94" in prices[1].text, "Incorrect Price in Cart item 2"
+    assert "Subtotal: £2607.92" in prices[2].text, "Incorrect Price in Total"
+
+    clear_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[.//span[text()='Clear Basket']]")))
+    clear_button.click()
+  
 
     driver.quit()
 
