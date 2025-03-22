@@ -119,11 +119,7 @@
 
 
 
-                <div class="pt-4 text-center">
 
-                    <p class="text-gray-500 text-sm">Activity tracking is just a placeholder. You can implement actual activity tracking if needed.</p>
-
-                </div>
 
 
             </div>
