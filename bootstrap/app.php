@@ -13,13 +13,14 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         // Temporarily disable CSRF for Artillery testing
-        $middleware->validateCsrfTokens(except: [
+       /* $middleware->validateCsrfTokens(except: [
             'login',
             'register',
             'api/*',
             'basket/*',
             'checkout',
         ]);
+        */
         $middleware->append(LogRequests::class);
         
     })
