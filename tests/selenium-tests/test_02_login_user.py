@@ -28,9 +28,6 @@ def test_02_login_user():
     # assert login success 
     found_bar = wait.until(EC.presence_of_element_located((By.XPATH, "//div[@id='nav']")))
     assert found_bar is not None
-
-    driver.find_element(By.XPATH, "//a[contains(text(),'Shop')]").click()
-
     
 
     driver.quit()
