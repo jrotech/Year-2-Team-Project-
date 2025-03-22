@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Customer;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class ExportCustomerCSV extends Command
 {
@@ -13,14 +13,14 @@ class ExportCustomerCSV extends Command
 
     public function handle()
     {
-        $customers = Customer::limit(50)->get(['email']);
+        $customers = Customer::limit(700)->get(['email']);
 
         $csv = "email,password\n";
         foreach ($customers as $customer) {
             $csv .= "{$customer->email},password\n"; //  used 'password' in the factory
         }
 
-        Storage::disk('local')->put('artillery/users.csv', $csv);
-        $this->info('Exported users to storage/app/artillery/users.csv');
+        File::put(base_path('tests/artillery/users.csv'), $csv);
+        $this->info('Exported users to tests/artillery/users.csv');
     }
 }

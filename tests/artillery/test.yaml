@@ -1,42 +1,42 @@
 config:
   target: "http://localhost:8000"
   phases:
-    - duration: 60
-      arrivalRate: 10  # 10 users per second
-
+    - duration: 10
+      arrivalRate: 2
   payload:
     path: "users.csv"
     fields:
       - email
       - password
     order: random
-
   defaults:
     headers:
-      Content-Type: "application/json"
-
+      Content-Type: "application/x-www-form-urlencoded"
+  http:
+    followRedirects: true
+  processor: "./hooks.mjs"  
 scenarios:
-  - name: "Login and order product"
+  - name: "Customer login and purchase"
     flow:
       - post:
           url: "/login"
           form:
             CustomerEmail: "{{ email }}"
             CustomerPassword: "{{ password }}"
-          capture:
-            - headers:
-                cookie: "Set-Cookie"
-              as: sessionCookie
+          afterResponse: "extractLaravelSession"
+
       - get:
           url: "/api/products"
           headers:
             Cookie: "{{ sessionCookie }}"
+
       - post:
           url: "/basket/add/1"
           headers:
             Cookie: "{{ sessionCookie }}"
-          json:
+          form:
             quantity: 1
+
       - post:
           url: "/api/checkout"
           headers:
