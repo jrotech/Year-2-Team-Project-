@@ -4,7 +4,8 @@ University ID: 230238428, 230237144
 ********************************/
 import React, { useState } from 'react';
 import { Stack, Title, Button, Text, List, ThemeIcon, Loader } from "@mantine/core";
-import { IconCheck } from '@tabler/icons-react';
+import IconCheck from '@tabler/icons-react/dist/esm/icons/IconCheck.mjs';
+
 
 export default function Sidebar({ subtotal, delivery_cost, vat, total, compatibilityStatements, loadingCompatibility }) {
   const [showCompatibility, setShowCompatibility] = useState(false);
