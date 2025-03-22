@@ -1,7 +1,7 @@
 config:
   target: "http://localhost:8000"
   phases:
-    - duration: 10
+    - duration: 3
       arrivalRate: 5
       
   payload:
@@ -15,8 +15,6 @@ config:
       Content-Type: "application/x-www-form-urlencoded"
   http:
     followRedirects: true
-    timeout: 20000
-    maxRequestsPerSecond: 50
   processor: "./hooks.mjs"
 
 scenarios:
