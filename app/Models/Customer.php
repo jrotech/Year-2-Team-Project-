@@ -12,7 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Customer extends Authenticatable
 {
 
-    protected $fillable = ['customer_name', 'email', 'phone_number', 'email_confirmed', 'prev_balance', 'password','google_id'];
+    protected $fillable = ['customer_name', 'email', 'phone_number', 'email_confirmed', 'password','google_id'];
 
     public function invoices()
     {
