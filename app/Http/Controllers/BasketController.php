@@ -90,8 +90,7 @@ class BasketController extends Controller
         } else {
             $basket->products()->attach($product->id, ['quantity' => $request->quantity]);
         }
-
-        return redirect()->route('shop')->with('success', 'Product added to basket successfully!');
+        return redirect('shop')->with('success', 'Product added to basket successfully!')->setStatusCode(303);
     }
 
     /**

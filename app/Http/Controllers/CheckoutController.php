@@ -67,7 +67,7 @@ class CheckoutController extends Controller
             // Add Items to InvoiceOrder
             foreach ($cartItems->products as $product) {
                 InvoiceOrder::create([
-                    'invoice_id' => rand(10,100000),
+                    'invoice_id' => $invoice->invoice_id,
                     'product_id' => $product->id,
                     'product_cost' => $product->price,
                     'quantity' => $product->pivot->quantity,
@@ -86,6 +86,7 @@ class CheckoutController extends Controller
 
             DB::commit();
             return response()->json(['success' => true, 'message' => 'Order created successfully!', 'invoice_id' => $invoice->id], 201);
+            
         } catch (Exception $e) {
             DB::rollBack();
             Log::error('Checkout Error: ' . $e->getMessage());

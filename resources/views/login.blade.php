@@ -1,7 +1,6 @@
 <!--/
-    developer : Amen Alhousieni
-    university id : 230237878
-    fucntion : my aim to do the login page
+    developer : Amen Alhousieni, Robert Oros
+    university id : 230237878, 230237144
 /-->
 <!DOCTYPE html>
 <html lang="en">
@@ -145,6 +144,23 @@
             color: #fff;
             text-decoration: none;
         }
+        .alert {
+        background-color:rgb(1, 201, 124);
+        color: rgb();
+        padding: 12px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: bold;
+        animation: fadeOut 4s ease-in-out forwards;
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; display: none; }
+        }
+
     </style>
 </head>
 
@@ -152,6 +168,11 @@
 
     <!-- Login Form Container -->
     <div class="login-container">
+        @if(session('registered'))
+            <div class="alert" id="registration-success">
+                {{ session('registered') }}
+            </div>
+        @endif
         <!-- Login Heading with Logo -->
         <div class="login-heading">
 	  <a href="/">

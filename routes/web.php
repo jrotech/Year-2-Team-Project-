@@ -19,6 +19,7 @@ use App\Http\Controllers\ChangeAddressDetails;
 use App\Http\Controllers\ChangePersonalDetails;
 use App\Http\Controllers\LoggedInAPI;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ReviewController;
 
 // Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -93,22 +94,24 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/products/{id}/reviews', [App\Http\Controllers\ReviewController::class, 'getProductReviews'])
     ->name('products.reviews');
 
+// Submit or update a review    (needs to be public for internal logic to send correct error, otherwise redirects to login page and breaks)
+Route::post('/reviews', [ReviewController::class, 'store'])
+    ->name('reviews.store');
+
+
 // Customer review operations (protected)
 Route::middleware(['auth:customer'])->prefix('reviews')->group(function () {
-    // Submit or update a review
-    Route::post('/', [App\Http\Controllers\ReviewController::class, 'store'])
-        ->name('reviews.store');
-
+  
     // Update an existing review
-    Route::put('/{id}', [App\Http\Controllers\ReviewController::class, 'update'])
+    Route::put('/{id}', [ReviewController::class, 'update'])
         ->name('reviews.update');
 
     // Delete a review
-    Route::delete('/{id}', [App\Http\Controllers\ReviewController::class, 'destroy'])
+    Route::delete('/{id}', [ReviewController::class, 'destroy'])
         ->name('reviews.destroy');
 
     // Get the authenticated customer's reviews
-    Route::get('/my-reviews', [App\Http\Controllers\ReviewController::class, 'getCustomerReviews'])
+    Route::get('/my-reviews', [ReviewController::class, 'getCustomerReviews'])
         ->name('reviews.my');
 });
 

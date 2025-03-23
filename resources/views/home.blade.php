@@ -370,5 +370,3 @@
             </div>
         </div>
     </footer>
-
-    <script src="https://cdnjs.cloudflare.c

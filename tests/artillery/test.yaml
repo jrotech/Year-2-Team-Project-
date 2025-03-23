@@ -1,0 +1,48 @@
+config:
+  target: "http://localhost:8000"
+  phases:
+    - duration: 10
+      arrivalRate: 5
+      
+  payload:
+    path: "users.csv"
+    fields:
+      - email
+      - password
+    order: random
+  defaults:
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+  http:
+    followRedirects: true
+    timeout: 20000
+    maxRequestsPerSecond: 50
+  processor: "./hooks.mjs"
+
+scenarios:
+  - name: "Customer login and purchase"
+    flow:
+      - post:
+          url: "/login"
+          form:
+            CustomerEmail: "{{ email }}"
+            CustomerPassword: "{{ password }}"
+          afterResponse: "extractLaravelSession"
+
+      - post:
+          url: "/basket/add/1"
+          headers:
+            Cookie: "{{ sessionCookie }}"
+          form:
+            quantity: 1
+
+      - post:
+          url: "/api/checkout"
+          headers:
+            Cookie: "{{ sessionCookie }}"
+            Content-Type: "application/json"
+            Accept: "application/json"
+          json:
+            address: "123 Main St"
+            postcode: "12345"
+          afterResponse: "checkCheckout"

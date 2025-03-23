@@ -13,7 +13,9 @@ class Invoice extends Model
 
     protected $table = 'invoices';
     protected $primaryKey = 'invoice_id';
-
+    public $incrementing = true;
+    protected $keyType = 'int';
+    
     protected $fillable = [
         'date',
         'customer_id',

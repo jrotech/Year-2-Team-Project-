@@ -31,7 +31,8 @@ class login extends Controller
 
         // try to login the customer
         if(Auth::attempt(['email' => $email, 'password' => $password])){
-            return redirect()->intended('/');
+            return redirect()->to('/')->with('success', 'Logged in!')->setStatusCode(303);
+
         }
         // redirect if the login failed
         return redirect('/login')->with('error','Email or Password is Incorrect');

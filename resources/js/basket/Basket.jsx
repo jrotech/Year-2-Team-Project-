@@ -22,7 +22,7 @@ function Basket() {
     setTotal(basket.total);
     
     // Fetch compatibility statements from backend
-    checkCompatibility(basket.cartItems);
+    // checkCompatibility(basket.cartItems);
   };
 
   const clearBasket = async () => {

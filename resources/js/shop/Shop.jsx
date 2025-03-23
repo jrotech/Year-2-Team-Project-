@@ -4,8 +4,11 @@ import { BrowserRouter, useSearchParams } from "react-router-dom";
 import { Center, Pagination } from "@mantine/core";
 import Product from "./Product";
 import Sidebar from "./Sidebar";
-import { MantineProvider, Flex, Stack, Title, Notification, TextInput, Divider } from "@mantine/core";
+import {MantineProvider,Flex,Stack,Title,Notification,TextInput,Divider,} from "@mantine/core";
 import { theme } from "../mantine";
+
+// Import the useDebounce hook
+import { useDebounce } from "use-debounce";
 
 function ProductsList(props) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -14,10 +17,18 @@ function ProductsList(props) {
   const [selectedCategories, setSelectedCategories] = React.useState(
     searchParams.get("categories")?.split(",") || ["All"]
   );
-  const [searchQuery, setSearchQuery] = React.useState(searchParams.get("search") || "");
+  const [searchQuery, setSearchQuery] = React.useState(
+    searchParams.get("search") || ""
+  );
   const [priceRange, setPriceRange] = React.useState([10, 2500]);
   const [showInStockOnly, setShowInStockOnly] = React.useState(false);
-  const [successMessage, setSuccessMessage] = React.useState(props.successMessage || null);
+  const [successMessage, setSuccessMessage] = React.useState(
+    props.successMessage || null
+  );
+
+  // Create debounced versions of your search and price range
+  const [debouncedSearchQuery] = useDebounce(searchQuery, 100);
+  const [debouncedPriceRange] = useDebounce(priceRange, 100);
 
   // Pagination: keep track of the current page and total pages
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -26,12 +37,10 @@ function ProductsList(props) {
   // Products from server
   const [products, setProducts] = React.useState([]);
 
-
   React.useEffect(() => {
     console.log("Selected categories changed:", selectedCategories);
     const params = new URLSearchParams();
     params.set("page", 1);
-
   }, [selectedCategories]);
 
   // Update URL whenever filters or page change
@@ -51,19 +60,17 @@ function ProductsList(props) {
     setSearchParams(params);
   }, [selectedCategories, searchQuery, showInStockOnly, currentPage, setSearchParams]);
 
-
-
-  // Fetch from API
+  // Fetch from API (use debounced values in the query)
   React.useEffect(() => {
     let apiUrl = `/api/products?`;
 
     const paramsObj = {
       categories: selectedCategories.join(","),
-      search: searchQuery.trim(),
+      search: debouncedSearchQuery.trim(),     
       inStock: showInStockOnly ? "true" : "",
-      minPrice: priceRange[0],
-      maxPrice: priceRange[1],
-      page: currentPage
+      minPrice: debouncedPriceRange[0],         
+      maxPrice: debouncedPriceRange[1],         
+      page: currentPage,
     };
 
     // Build final query
@@ -77,14 +84,20 @@ function ProductsList(props) {
       .then((response) => response.json())
       .then((data) => {
         // 'data' is the Laravel paginator object
-        setProducts(data.data);           // The actual products
+        setProducts(data.data); // The actual products
         setCurrentPage(data.current_page);
         setTotalPages(data.last_page);
       })
       .catch((error) => {
         console.error("Error fetching products:", error);
       });
-  }, [selectedCategories, searchQuery, showInStockOnly, priceRange, currentPage]);
+  }, [
+    selectedCategories,
+    debouncedSearchQuery,    
+    showInStockOnly,
+    debouncedPriceRange,    
+    currentPage,
+  ]);
 
   // Handlers
   const handleSearchChange = (e) => setSearchQuery(e.target.value);
@@ -108,7 +121,6 @@ function ProductsList(props) {
   // Mantine Pagination calls onChange(pageNumber)
   const onChangePage = (page) => {
     setCurrentPage(page);
-    
   };
 
   return (
@@ -162,9 +174,14 @@ function ProductsList(props) {
           </Flex>
 
           {/* Pagination Component */}
-	  <Center mt="50">
-            <Pagination total={totalPages} page={currentPage} onChange={onChangePage} size="xl" />
-	  </Center>
+          <Center mt="50">
+            <Pagination
+              total={totalPages}
+              page={currentPage}
+              onChange={onChangePage}
+              size="xl"
+            />
+          </Center>
         </Stack>
 
         <Sidebar
@@ -183,7 +200,9 @@ function ProductsList(props) {
 function NotFound() {
   return (
     <Stack align="center" justify="center" className="mt-10">
-      <Title order={3} color="dimmed">No products found</Title>
+      <Title order={3} color="dimmed">
+        No products found
+      </Title>
     </Stack>
   );
 }

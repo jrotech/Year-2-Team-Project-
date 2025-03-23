@@ -2,22 +2,22 @@
 Developer: Mihail Vacarciuc , Robert Oros
 University ID: 230238428, 230237144
 ********************************/
-import React, {useState, useEffect } from 'react';
-import { Stack, TextInput, Button, Text, Flex,Stepper, Group, NumberInput, Card, Title } from '@mantine/core';
+import React, { useState, useEffect } from 'react';
+import { Stack, TextInput, Button, Text, Flex, Stepper, Group, NumberInput, Card, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import confetti from 'canvas-confetti'
 
-export default function Form({onCheckout}){
+export default function Form({ onCheckout }) {
   const [active, setActive] = useState(0);
   const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
   const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
   const [personalDetails, setPersonalDetails] = useState({
-      first_name: '',
-      last_name: '',
-      address: '',
-      postal_code: '',
-      email: '',
-      phone_number: '',
+    first_name: '',
+    last_name: '',
+    address: '',
+    postal_code: '',
+    email: '',
+    phone_number: '',
   });
   const [cardDetails, setCardDetails] = useState({
     cardNumber: '',
@@ -30,25 +30,25 @@ export default function Form({onCheckout}){
     <Stack>
       <Stepper active={active} onStepClick={setActive}>
         <Stepper.Step label="Personal Details" description="">
-          <PersonalDetails next={ (values) =>{setPersonalDetails(values);nextStep()}} initial={personalDetails} />
+          <PersonalDetails next={(values) => { setPersonalDetails(values); nextStep() }} initial={personalDetails} />
         </Stepper.Step>
         <Stepper.Step label="Payment" description="Payment Details">
-          <CardPaymentForm next={ (values) => {setCardDetails(values);nextStep()} } />
+          <CardPaymentForm next={(values) => { setCardDetails(values); nextStep() }} />
         </Stepper.Step>
         <Stepper.Step label="Finish">
-          <Finish onCheckout={onCheckout} personalDetails={personalDetails}/>
+          <Finish onCheckout={onCheckout} personalDetails={personalDetails} />
         </Stepper.Step>
       </Stepper>
 
       <Group justify="center" mt="xl">
-        { active == 1 && <Button variant="default" onClick={prevStep}>Back</Button>}
+        {active == 1 && <Button variant="default" onClick={prevStep}>Back</Button>}
       </Group>
     </Stack>
   );
-  
+
 }
 
-function PersonalDetails({next, initial}){
+function PersonalDetails({ next, initial }) {
   const form = useForm({
     initialValues: initial,
     validate: {
@@ -61,31 +61,31 @@ function PersonalDetails({next, initial}){
     },
   });
 
-  const handleSubmit = ( values ) => {
+  const handleSubmit = (values) => {
     console.log(values);
   }
 
   return (
     <Stack>
       <form onSubmit={form.onSubmit(next)} className="flex gap-y-4 flex-col">
-	<Flex gap="10" className="items-stretch justify-stretch">
-	  <TextInput {...form.getInputProps("first_name")} label="First Name" required/>
-	  <TextInput {...form.getInputProps("last_name")} label="Last Name" required/>
-	</Flex>
-	<TextInput {...form.getInputProps("address")} label="Address"  required />
-	<TextInput {...form.getInputProps("postal_code")} label="Postal Code" required />
-	<Flex gap="10">
-	  <TextInput {...form.getInputProps("email")} label="Email" required />
-	  <TextInput {...form.getInputProps("phone_number")} label="Phone Number"  required />
-	</Flex>
-	<Button type="submit" mt="10">Next</Button>
+        <Flex gap="10" className="items-stretch justify-stretch">
+          <TextInput {...form.getInputProps("first_name")} label="First Name" required />
+          <TextInput {...form.getInputProps("last_name")} label="Last Name" required />
+        </Flex>
+        <TextInput {...form.getInputProps("address")} label="Address" required />
+        <TextInput {...form.getInputProps("postal_code")} label="Postal Code" required />
+        <Flex gap="10">
+          <TextInput {...form.getInputProps("email")} label="Email" required />
+          <TextInput {...form.getInputProps("phone_number")} label="Phone Number" required />
+        </Flex>
+        <Button type="submit" mt="10">Next</Button>
       </form>
     </Stack>
   )
 
 }
 
-const CardPaymentForm = ({next,initial}) => {
+const CardPaymentForm = ({ next, initial }) => {
   const form = useForm({
     mode: 'controlled',
     initialValues: initial,
@@ -120,7 +120,7 @@ const CardPaymentForm = ({next,initial}) => {
         />
 
         <NumberInput
-	  rightSection={<></>}
+          rightSection={<></>}
           label="Card Number"
           placeholder="1234 5678 9012 3456"
           maxLength={16}
@@ -162,7 +162,7 @@ function Finish({ onCheckout, personalDetails }) { // Destructure onCheckout and
       console.error('Error processing payment:', error);
     }
   };
-    useEffect(() => {
+  useEffect(() => {
     handlePayNow();
     // Trigger confetti animation
     confetti({
@@ -175,25 +175,42 @@ function Finish({ onCheckout, personalDetails }) { // Destructure onCheckout and
 
   return (
     <div className="">
-        <Card className="w-full max-w-md">
-          <Card>
-	    <svg  xmlns="http://www.w3.org/2000/svg"  width="30"  height="30"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  strokeWidth="2"  strokeLinecap="round"  strokeLinejoin="round"  className="icon icon-tabler icons-tabler-outline icon-tabler-circle-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>
-            <Title className="text-2xl font-bold text-center mt-4">Order Successful!</Title>
-          </Card>
-          <Card>
-            <p className="text-center text-muted-foreground">
-              Thank you for your purchase. Your order has been received and is being processed.
-            </p>
-              <h3 className="font-semibold text-primary">Order Details:</h3>
-              <p className="text-secondary-foreground">Estimated Delivery: 3-5 business days</p>
-          </Card>
-          <footer className="flex justify-center">
-            <Button component="a" href="/shop" className="bg-primary w-full text-primary-foreground font-bold py-2 px-4 rounded-lg">
-              Continue Shopping
-	      <svg  xmlns="http://www.w3.org/2000/svg"  width="30"  height="30"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  strokeWidth="2"  strokeLinecap="round"  strokeLinejoin="round"  className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l14 0" /><path d="M13 18l6 -6" /><path d="M13 6l6 6" /></svg>
-            </Button>
-          </footer>
+      <Card className="w-full max-w-md">
+          <Title className="text-2xl font-bold text-center mt-4">
+            <Group position="center" spacing="sm" justify='center'>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                height="30"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="icon icon-tabler icons-tabler-outline icon-tabler-circle-check"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                <path d="M9 12l2 2l4 -4" />
+              </svg>
+              <span>Order Successful!</span>
+            </Group>
+          </Title>
+        <Card>
+          <p className="text-center text-muted-foreground">
+            Thank you for your purchase. Your order has been received and is being processed.
+          </p>
+          <h3 className="font-semibold text-primary">Order Details:</h3>
+          <p className="text-secondary-foreground">Estimated Delivery: 3-5 business days</p>
         </Card>
+        <footer className="flex justify-center">
+          <Button component="a" type="button" href="/shop" className="bg-primary w-full text-primary-foreground font-bold py-2 px-4 rounded-lg">
+            Continue Shopping
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 12l14 0" /><path d="M13 18l6 -6" /><path d="M13 6l6 6" /></svg>
+          </Button>
+        </footer>
+      </Card>
     </div>
   )
 
