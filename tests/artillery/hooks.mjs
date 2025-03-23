@@ -1,5 +1,5 @@
 export function extractLaravelSession(req, res, context, ee, next) {
-  console.log("✅ extractLaravelSession triggered");
+  console.log(" extractLaravelSession triggered");
 
   const cookieHeader = res.headers['set-cookie'];
   if (cookieHeader) {
@@ -21,4 +21,3 @@ export function checkCheckout(req, res, context, ee, next) {
   }
   return next();
 }
-
