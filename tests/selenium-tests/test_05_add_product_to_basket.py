@@ -114,6 +114,9 @@ def test_05_add_product_to_basket():
 
     clear_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[.//span[text()='Clear Basket']]")))
     clear_button.click()
+    
+    empty_message = wait.until(EC.presence_of_element_located((By.XPATH, "//h1[contains(text(),'Your basket is empty')]")))
+    assert empty_message is not None, "Basket was not cleared"
   
 
     driver.quit()

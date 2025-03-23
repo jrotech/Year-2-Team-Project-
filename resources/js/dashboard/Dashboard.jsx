@@ -16,6 +16,7 @@ import Related from '../components/Related';
 function Dashboard(props) {
 	const customer = JSON.parse(document.getElementById('dashboard').dataset.customer);
 	const invoices = JSON.parse(document.getElementById('dashboard').dataset.invoices);
+	console.log(invoices);
 
 	// State for API fetched data
 	const [lastProduct, setLastProduct] = useState(null);
@@ -69,7 +70,7 @@ function Dashboard(props) {
 						<Title className="text-main-accent underline" mt="40">Recent Orders</Title>
 						<Stack gap="50">
 							{invoices.length > 0 ? (
-								invoices.map((invoice) => (
+								invoices.reverse().map((invoice) => (
 									<Order
 										key={invoice.invoice_id}
 										name={`Invoice #${invoice.invoice_id}`}
@@ -77,6 +78,7 @@ function Dashboard(props) {
 										order_date={invoice.created_at}
 										total={invoice.amount}
 										invoice_orders={invoice.invoice_orders}
+										status={invoice.status}
 									/>
 								))
 							) : (

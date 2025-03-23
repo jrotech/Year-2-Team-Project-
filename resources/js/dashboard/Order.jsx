@@ -6,7 +6,7 @@ import React from 'react'
 import { Flex, Stack, Button, Title } from '@mantine/core';
 import {InStock} from '../components/InStock'
 
-export default function Order({name,id,order_date,total,invoice_orders}) {
+export default function Order({name,id,order_date,total,invoice_orders,status}) {
 	const productsContainerRef = React.useRef(null);
   
 	return (
@@ -16,7 +16,7 @@ export default function Order({name,id,order_date,total,invoice_orders}) {
 		  <Title order={4}>{new Date(order_date).toLocaleDateString()}</Title>
 		  <Title order={4}>Total - £{total}</Title>
 		  <Title order={4} className="flex gap-2 flex-nowrap !whitespace-nowrap">
-			Status - <InStock inStock ={true} text="complete" />
+			Status - <InStock inStock ={true} text={status} />
 		  </Title>
 		</Stack>
 		<div className="w-[3px] bg-black"></div>
@@ -26,10 +26,10 @@ export default function Order({name,id,order_date,total,invoice_orders}) {
 			invoice_orders.map((product, i) => (
 			  <Stack className="min-w-32" key={i} gap="5">
 				{console.log(product.product.image)}
-				<img alt="" src={product.product.image} className="max-h-32" />
+				<img alt="" src={product.product.image.replace("max","gross")} className="max-h-36 max-w-36"/>
 				<Title order={6} className="m-0">{product.product.name}</Title>
 				<Title order={6} className="m-0">Quantity - {product.quantity}</Title>
-				<Title order={6} className="m-0">Price - £{product.product.price}</Title>
+				<Title order={6} className="m-0">Unit Price - £{product.product.price}</Title>
 			  </Stack>
 			))
 		  ) : (

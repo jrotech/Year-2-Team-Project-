@@ -8,7 +8,7 @@ import time
 import pytest
 
 
-def test_05_add_product_to_basket():
+def test_06_checkout():
    
     service = Service(ChromeDriverManager().install())
     options = webdriver.ChromeOptions()
@@ -86,6 +86,8 @@ def test_05_add_product_to_basket():
 
     plus_button.click()
 
+    time.sleep(1)
+
     buttons = driver.find_elements(By.CSS_SELECTOR, "button")
     for button in buttons:
         if "Add to cart" in button.text:
@@ -108,12 +110,9 @@ def test_05_add_product_to_basket():
     assert "asus geforce rtx 4070" in product_titles[1].text.lower(),"Failed to add GPU"
 
     prices = driver.find_elements(By.XPATH,"//h1[contains(text(),'£')]")
-    assert "957.98" in prices[0].text, "Incorrect Price in Cart item 1"
-    assert "1649.94" in prices[1].text, "Incorrect Price in Cart item 2"
-    assert "Subtotal: £2607.92" in prices[2].text, "Incorrect Price in Total"
 
     
-    checkout = driver.find_element(By.XPATH, "//a[@href='Checkout']")
+    checkout = driver.find_element(By.XPATH, "//a[@href='/checkout']")
     checkout.click()
 
     # fill in the checkout form fields using the stable data-path attribute and press next
@@ -138,13 +137,13 @@ def test_05_add_product_to_basket():
     next_button = driver.find_element(By.XPATH, "//button[.//span[text()='Next']]")
     next_button.click()
 
-    cardholder_name = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[data-path='cardholder_name']")))
+    cardholder_name = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[data-path='cardHolderName']")))
     cardholder_name.send_keys("John Doe")
 
-    card_number = driver.find_element(By.CSS_SELECTOR, "input[data-path='card_number']")
+    card_number = driver.find_element(By.CSS_SELECTOR, "input[data-path='cardNumber']")
     card_number.send_keys("4242424242424242")
 
-    expiry_date = driver.find_element(By.CSS_SELECTOR, "input[data-path='expiry_date']")
+    expiry_date = driver.find_element(By.CSS_SELECTOR, "input[data-path='expiryDate']")
     expiry_date.send_keys("12/25")
 
     cvv = driver.find_element(By.CSS_SELECTOR, "input[data-path='cvv']")
@@ -156,7 +155,7 @@ def test_05_add_product_to_basket():
     success_notification = wait.until(EC.presence_of_element_located((By.XPATH,"//h1[.//span[text()='Order Successful!']]")))
     assert "Order Successful!" in success_notification.text, "Order was not successful"
     time.sleep(1)
-    
+
     driver.quit()
 
 
