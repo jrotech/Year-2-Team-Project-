@@ -18,7 +18,10 @@ class ShopController extends Controller
     public function apiShop(Request $request)
     {
        
-        $query = Product::with(['categories', 'images']);
+        $query = Product::with(['categories', 'images'])
+        ->withCount('reviews')
+        ->withAvg('reviews', 'rating');
+
 
         // Read query params
         $categories = $request->query('categories');
@@ -55,11 +58,14 @@ class ShopController extends Controller
         $perPage = 12; 
         $products = $query->paginate($perPage);
 
-        // Append the 'primary_image' for each product
+        // Append the 'primary_image' and ratings for each product
         $products->getCollection()->transform(function ($product) {
             $product->primary_image = optional($product->images->first())->url;
+            $product->average_rating = round($product->average_rating, 1);
+            $product->reviews_count = $product->reviews_count;
             return $product;
         });
+        
 
         // Return the paginated result as JSON
         // $products here is a LengthAwarePaginator, which includes total pages, etc.

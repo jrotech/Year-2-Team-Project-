@@ -164,11 +164,11 @@ function ProductsList(props) {
                 key={product.id}
                 name={product.name}
                 primary_image={product.primary_image}
-                rating={product.rating || 0}
+                rating={product.average_rating || 0}
                 price={product.price}
                 inStock={product.in_stock}
-                wishList={false}
                 id={product.id}
+
               />
             ))}
           </Flex>

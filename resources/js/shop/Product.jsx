@@ -8,12 +8,10 @@ import {InStock} from '../components/InStock'
 
 //function to get path
 
-export default function Product({ name, primary_image, price, inStock, rating, id, wishList }) {
+export default function Product({ name, primary_image, price, inStock, rating, id }) {
   return (
-    <Stack className="bg-white w-80 rounded-md relative px-12 py-8 gap-7 hover:bg-main-bg transition-color duration-300 !justify-between">
-      <div className="absolute top-3 right-3 cursor-pointer">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" stroke="currentColor" fill={wishList ? "#FF0707" : "none"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="hover:fill-[#FF0707] transition-colors duration-300 icon icon-tabler icons-tabler-outline icon-tabler-heart"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" /></svg>
-      </div>
+    <Stack className="bg-white w-80 rounded-md relative px-12 py-8 gap-5 hover:bg-main-bg transition-color duration-300 !justify-between">
+      
       <Title order={2} className="text-center">{name}</Title>
       <Center>
 	<img alt={name} src={primary_image} className="w-40" />
@@ -27,7 +25,7 @@ export default function Product({ name, primary_image, price, inStock, rating, i
 
       <Flex>
         <Title order={3}>
-          {Intl.NumberFormat('en-GB', { maximumSignificantDigits: 2, currency: 'GBP', style: "currency" }).format(price)}
+          {Intl.NumberFormat('en-GB', { decimal: 2, currency: 'GBP', style: "currency" }).format(price)}
         </Title>
       </Flex>
       
