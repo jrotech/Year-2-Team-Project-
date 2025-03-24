@@ -20,6 +20,7 @@ use App\Http\Controllers\ChangePersonalDetails;
 use App\Http\Controllers\LoggedInAPI;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\CompatibilityController;
 
 // Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');

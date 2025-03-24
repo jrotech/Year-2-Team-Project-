@@ -59,7 +59,7 @@ export default function Product({
   };
 
   return (
-    <Stack className="px-4 py-4 max-w-[700px] rounded-md border-b-2 border-black">
+    <Stack className="px-4 py-4 max-w-[1000px] rounded-md border-b-2 border-black">
       <Title order={4}>{name}</Title>
       <Flex gap="40">
         <Stack className="flex-1">

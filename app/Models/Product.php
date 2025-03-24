@@ -7,6 +7,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Product extends Model
 {
@@ -57,33 +58,33 @@ class Product extends Model
             'category_id'
         );
     }
-    public function cpu(): HasOne
+    public function cpu() 
     {
-        return $this->hasOne(CpuProduct::class);
+        return $this->hasOne(CpuProduct::class,'product_id');
     }
     public function gpu()
     {
-        return $this->hasOne(GpuProduct::class);
+        return $this->hasOne(GpuProduct::class,'product_id');
     }
     public function motherboard()
     {
-        return $this->hasOne(MotherboardProduct::class);
+        return $this->hasOne(MotherboardProduct::class,'product_id');
     }
     public function psu()
     {
-        return $this->hasOne(PSUProduct::class);
+        return $this->hasOne(PSUProduct::class,'product_id');
     }
     public function ram()
     {
-        return $this->hasOne(RAMProduct::class);
+        return $this->hasOne(RAMProduct::class,'product_id');
     }
     public function storage()
     {
-        return $this->hasOne(StorageProduct::class);
+        return $this->hasOne(StorageProduct::class,'product_id');
     }
     public function cooler()
     {
-        return $this->hasOne(CoolerProduct::class);
+        return $this->hasOne(CoolerProduct::class,'product_id');
     }
     // Relation with Reviews
     public function reviews()

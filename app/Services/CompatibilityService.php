@@ -74,35 +74,75 @@ class CompatibilityService
     public function checkMotherboardStorage(array $motherboards, array $storages): array
     {
         $results = [];
+
         foreach ($motherboards as $mb) {
+            // Count the storage devices by connector type.
             $sataCount = 0;
             $m2Count = 0;
-            // Count storage devices by connector type.
+
             foreach ($storages as $storage) {
-                if (isset($storage['connector_type'])) {
-                    $type = strtolower($storage['connector_type']);
-                    if ($type === 'sata') {
-                        $sataCount++;
-                    } elseif ($type === 'm2') {
-                        $m2Count++;
-                    }
+                if (! isset($storage['connector_type'])) {
+                    continue;
+                }
+
+                $type = strtolower($storage['connector_type']);
+
+                if ($type === 'sata') {
+                    $sataCount++;
+                } elseif ($type === 'm.2') {
+                    $m2Count++;
                 }
             }
+
+            // Build a description for the user's storage devices (omitting zeros).
+            $deviceParts = [];
+            if ($sataCount > 0) {
+                $deviceParts[] = "{$sataCount} SATA";
+            }
+            if ($m2Count > 0) {
+                $deviceParts[] = "{$m2Count} M.2";
+            }
+            // If both are zero, user has no storage devices for this motherboard
+            $deviceDescription = !empty($deviceParts)
+                ? implode(' and ', $deviceParts) . ' storage devices'
+                : 'no storage devices';
+
+            // Build a description for the motherboard’s available connectors (omitting zeros).
+            $availableParts = [];
+            if (!empty($mb['sata_storage_connectors'])) {
+                $availableParts[] = "{$mb['sata_storage_connectors']} SATA";
+            }
+            if (!empty($mb['m2_storage_connectors'])) {
+                $availableParts[] = "{$mb['m2_storage_connectors']} M.2";
+            }
+            $availableDescription = !empty($availableParts)
+                ? implode(' and ', $availableParts) . ' connectors'
+                : 'no connectors';
+
+            // Check compatibility
             $compatible = ($sataCount <= $mb['sata_storage_connectors']) && ($m2Count <= $mb['m2_storage_connectors']);
-            $message = "SATA drives: $sataCount/{$mb['sata_storage_connectors']}, M.2 drives: $m2Count/{$mb['m2_storage_connectors']}";
+
+            // Construct messages
+            if ($compatible) {
+                $message = "All storage devices in the basket can be connected to the motherboard \"{$mb['name']}\". "
+                        . "You have {$deviceDescription}, which fit within the available {$availableDescription}.";
+            } else {
+                $message = "The motherboard \"{$mb['name']}\" lacks sufficient connectors. "
+                        . "You have {$deviceDescription}, but only {$availableDescription} are available.";
+            }
+
             $results[] = [
                 'block' => 'Motherboard - Storage',
                 'motherboard' => $mb,
-                'storage' => $storages, // In this block, all storage devices are compared against the motherboard.
+                'storage' => $storages, // All storage devices are considered
                 'compatible' => $compatible,
-                'message' => $compatible
-                ? "All storage devices in the basket can be connected to the motherboard \"{$mb['name']}\". {$sataCount} SATA and {$m2Count} M.2 devices fit within the available {$mb['sata_storage_connectors']} SATA and {$mb['m2_storage_connectors']} M.2 slots."
-                : "The motherboard \"{$mb['name']}\" lacks sufficient connectors. You need {$sataCount} SATA and {$m2Count} M.2, but only {$mb['sata_storage_connectors']} SATA and {$mb['m2_storage_connectors']} M.2 connectors are available.",
-
+                'message' => $message,
             ];
         }
+
         return $results;
     }
+
 
     /**
      * Check compatibility between Motherboards and GPUs.
@@ -124,7 +164,7 @@ class CompatibilityService
                     'gpu' => $gpu,
                     'compatible' => true, // Defaulting to true; enhance as needed.
                     'message' => "Due to standard PCIe compatibility, the GPU \"{$gpu['name']}\" should be compatible with the motherboard \"{$mb['name']}\". Please verify physical slot and case size separately.",
-];
+            ];
             }
         }
         return $results;
@@ -151,7 +191,7 @@ class CompatibilityService
                     'message' => $compatible
                     ? "The RAM module \"{$ram['name']}\" is compatible with motherboard \"{$mb['name']}\" as both use the \"{$ram['ram_type']}\" standard."
                     : "The RAM module \"{$ram['name']}\" uses \"{$ram['ram_type']}\", but motherboard \"{$mb['name']}\" only supports \"{$mb['ram_type']}\" RAM.",
-];
+                ];
             }
         }
         return $results;
@@ -168,29 +208,69 @@ class CompatibilityService
     {
         $results = [];
 
+        // Get the most power-hungry CPU.
         $maxCpu = collect($cpus)->sortByDesc('tdp')->first();
+        // Get the most power-hungry GPU if available.
         $maxGpu = collect($gpus)->sortByDesc('tdp')->first();
 
         $cpuTdp = $maxCpu['tdp'] ?? 0;
         $gpuTdp = $maxGpu['tdp'] ?? 0;
-        $totalTdp = $cpuTdp + $gpuTdp;
+        if ($gpuTdp === 0) {
+            $gpuTdp = 260;
+        }
 
         foreach ($psus as $psu) {
-            $compatible = $psu['power'] >= $totalTdp;
+            // Check if a GPU is present.
+            if ($maxGpu) {
+                // Both CPU and GPU are present.
+                $totalTdp = $cpuTdp + $gpuTdp;
+                $requiredMinimum = round($totalTdp * 1.15);
+                $requiredSafety  = round($totalTdp * 1.30);
+
+                if ($psu['power'] < $requiredMinimum) {
+                    $compatible = false;
+                    $message = "The PSU \"{$psu['name']}\" ({$psu['power']}W) is insufficient for your CPU \"{$maxCpu['name']}\" ({$cpuTdp}W) and GPU \"{$maxGpu['name']}\" ({$gpuTdp}W). A minimum of {$requiredMinimum}W (15% margin) is required, and ideally {$requiredSafety}W (30% safety margin).";
+                } elseif ($psu['power'] < $requiredSafety) {
+                    $compatible = true;
+                    $message = "The PSU \"{$psu['name']}\" ({$psu['power']}W) meets the minimum requirement (15% margin, {$requiredMinimum}W) for your CPU \"{$maxCpu['name']}\" ({$cpuTdp}W) and GPU \"{$maxGpu['name']}\" ({$gpuTdp}W), but falls short of the recommended 30% safety margin ({$requiredSafety}W).";
+                } else {
+                    $compatible = true;
+                    $message = "The PSU \"{$psu['name']}\" ({$psu['power']}W) exceeds the recommended 30% safety margin ({$requiredSafety}W) for powering your CPU \"{$maxCpu['name']}\" ({$cpuTdp}W) and GPU \"{$maxGpu['name']}\" ({$gpuTdp}W).";
+                }
+            } else {
+                // No GPU is present—only the CPU is considered.
+                $totalTdp = $cpuTdp;
+                $requiredMinimum = round($totalTdp * 1.15);
+                $requiredSafety  = round($totalTdp * 1.30);
+
+                if ($psu['power'] < $requiredMinimum) {
+                    $compatible = false;
+                    $message = "The PSU \"{$psu['name']}\" ({$psu['power']}W) is insufficient for your CPU \"{$maxCpu['name']}\" ({$cpuTdp}W). At least {$requiredMinimum}W is required.";
+                } elseif ($psu['power'] < $requiredSafety) {
+                    $compatible = true;
+                    $extraWatts = $psu['power'] - $requiredMinimum;
+                    $message = "The PSU \"{$psu['name']}\" ({$psu['power']}W) meets the minimum requirement (15% margin, {$requiredMinimum}W) for your CPU \"{$maxCpu['name']}\" ({$cpuTdp}W), leaving approximately {$extraWatts}W available for a future GPU and other components. Ideally, a PSU with {$requiredSafety}W (30% safety margin) is recommended.";
+                } else {
+                    $compatible = true;
+                    $message = "The PSU \"{$psu['name']}\" ({$psu['power']}W) is well suited for your CPU \"{$maxCpu['name']}\" ({$cpuTdp}W), leaving ample headroom for a potential GPU and additional components.";
+                }
+            }
+
             $results[] = [
                 'block' => 'PSU - Components',
                 'psu' => $psu,
                 'cpu' => $maxCpu,
-                'gpu' => $maxGpu,
+                'gpu' => $maxGpu, // May be null if no GPU is present.
                 'components_total_tdp' => $totalTdp,
+                'required_minimum' => $requiredMinimum,
+                'required_safety'  => $requiredSafety,
                 'compatible' => $compatible,
-                'message' => $compatible
-                    ? "The most power-hungry CPU \"{$maxCpu['name']}\" ({$cpuTdp}W) and GPU \"{$maxGpu['name']}\" ({$gpuTdp}W) can both be supported by the PSU \"{$psu['name']}\" ({$psu['power']}W). Total draw: {$totalTdp}W."
-                    : "The PSU \"{$psu['name']}\" ({$psu['power']}W) cannot support the most power-hungry CPU \"{$maxCpu['name']}\" ({$cpuTdp}W) and GPU \"{$maxGpu['name']}\" ({$gpuTdp}W). Required: {$totalTdp}W.",
+                'message' => $message,
             ];
         }
 
         return $results;
     }
+
 
 }
