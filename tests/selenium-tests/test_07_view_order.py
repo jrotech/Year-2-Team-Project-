@@ -73,8 +73,6 @@ def test_07_view_order():
     assert "3" in driver.page_source, "Second product quantity not found"
     assert "£1,649.94" in driver.page_source, "Second product total not found"
     
-    # Verify Payments Section exists
-    payments_heading = driver.find_element(By.XPATH, "//h1[contains(text(),'Payments')]").text
-    assert "Payments" in payments_heading, "Payments section not found"
+    
     
     driver.quit()

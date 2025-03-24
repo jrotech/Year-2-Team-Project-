@@ -25,8 +25,10 @@ def test_03_filter_search_shop():
     # -------------------
     # apply category filter: gpu
     # -------------------
-    gpu_checkbox = wait.until(EC.presence_of_element_located((By.XPATH,  "//label[text()='GPU']/preceding::input[@type='checkbox'][1]")))
-    driver.execute_script("arguments[0].click();", gpu_checkbox)
+    gpu_checkbox_label = wait.until(EC.presence_of_element_located((By.XPATH, "//h5[text()='GPU']")))
+    gpu_checkbox_input = gpu_checkbox_label.find_element(By.XPATH, "./following-sibling::div//input[@type='checkbox']")
+    # click it using JavaScript to avoid Mantine's custom styling interference
+    driver.execute_script("arguments[0].click();", gpu_checkbox_input)
 
     # wait for products to update
     time.sleep(2)  
@@ -57,8 +59,10 @@ def test_03_filter_search_shop():
     # -------------------
     # check in-stock only filter
     # -------------------
-    in_stock_checkbox = driver.find_element(By.XPATH, "//label[contains(text(),'Only show products in stock')]/preceding::input[@type='checkbox'][1]")
-    driver.execute_script("arguments[0].click();", in_stock_checkbox)
+    in_stock_label = wait.until(EC.presence_of_element_located((By.XPATH, "//h5[text()='Only Show In Stock Products']")))
+    in_stock_input = in_stock_label.find_element(By.XPATH, "./following-sibling::div//input[@type='checkbox']")
+    # click it using JavaScript to avoid Mantine's custom styling interference
+    driver.execute_script("arguments[0].click();", in_stock_input)
 
     time.sleep(2)
 

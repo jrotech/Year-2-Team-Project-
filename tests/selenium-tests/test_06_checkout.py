@@ -32,8 +32,10 @@ def test_06_checkout():
 
     driver.find_element(By.XPATH, "//a[contains(text(),'shop')]").click()
 
-    gpu_checkbox = wait.until(EC.presence_of_element_located((By.XPATH,  "//label[text()='GPU']/preceding::input[@type='checkbox'][1]")))
-    driver.execute_script("arguments[0].click();", gpu_checkbox)
+    gpu_checkbox_label = wait.until(EC.presence_of_element_located((By.XPATH, "//h5[text()='GPU']")))
+    gpu_checkbox_input = gpu_checkbox_label.find_element(By.XPATH, "./following-sibling::div//input[@type='checkbox']")
+    # click it using JavaScript to avoid Mantine's custom styling interference
+    driver.execute_script("arguments[0].click();", gpu_checkbox_input)
 
     # wait for products to update
     time.sleep(2)  
