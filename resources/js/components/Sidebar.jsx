@@ -123,9 +123,9 @@ export default function Sidebar() {
             <a 
               key={i}
               href={link.href}
-              className="relative text-xl lg:text-lg hover:text-blue-600 transition-colors duration-300 
+              className="relative text-xl lg:text-lg hover:text-main-accent transition-colors duration-300 
                          before:content-[''] before:absolute before:h-[2px] before:w-full 
-                         before:bottom-0 before:left-0 before:bg-blue-600 
+                         before:bottom-0 before:left-0 before:bg-main-accent
                          before:scale-x-0 before:transition-all before:ease-linear 
                          before:duration-300 hover:before:scale-x-100"
             >

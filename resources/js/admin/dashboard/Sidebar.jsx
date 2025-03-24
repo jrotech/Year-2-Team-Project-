@@ -55,7 +55,7 @@ export default function SideBar() {
                 return (
                   <div
                     key={url}
-                    className="relative text-center text-main-secondary border-b-2 cursor-pointer my-8 before:content-[''] before:absolute before:h-[2px] before:w-full before:bottom-0 before:left-0 before:right-0 before:bg-main-primary before:scale-x-0 before:transition-all before:ease-linear before:duration-300 hover:before:scale-x-100"
+                    className="relative text-center text-main-primaryAccent border-b-2 cursor-pointer my-8 before:content-[''] before:absolute before:h-[2px] before:w-full before:bottom-0 before:left-0 before:right-0 before:bg-main-primary before:scale-x-0 before:transition-all before:ease-linear before:duration-300 hover:before:scale-x-100"
                   >
                     <a href={url} className={`text-xl `} onClick={close}>{name}</a>
                   </div>
