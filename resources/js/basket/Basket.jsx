@@ -79,7 +79,7 @@ useEffect(() => {
     <MantineProvider theme={theme}>
       <Stack spacing="lg">
         {/* Main Content */}
-        <Flex className="max-w-screen justify-center relative mt-4 mb-20" gap="30">
+        <Flex className="max-w-screen justify-center relative mt-4 mb-20 flex-col md:flex-row" gap="30">
           <Stack>
             <Flex justify="flex-start" p="md">
               <Button onClick={clearBasket} color="red" variant="outline">Clear Basket</Button>

@@ -1,6 +1,6 @@
 <!--
 /********************************
-Developer: Robert Oros  
+Developer: Mihail Vacarciuc Robert Oros  
 University ID: 230237144
 
 ********************************/ 

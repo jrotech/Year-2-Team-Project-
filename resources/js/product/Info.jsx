@@ -11,7 +11,7 @@ export default function Info({productName,rating, inStock,description,price, id}
 
   return (
     <Stack className="max-w-[600px] justify-around h-full">
-      <Flex className="items-center gap-2">
+      <Flex className="items-center gap-2 flex-col md:flex-row">
       <Title>{productName}</Title>
       <InStock inStock={inStock} />
       </Flex>
@@ -138,7 +138,7 @@ function Submit({ id, price }) {
         }
       />
 
-      <Button type="submit" className="!rounded-md !w-96 !h-14">
+      <Button type="submit" className="!rounded-md !w-full !h-14">
         Add to cart
       </Button>
     </form>

@@ -61,7 +61,7 @@ export default function Product({
   return (
     <Stack className="px-4 py-4 max-w-[1000px] rounded-md border-b-2 border-black">
       <Title order={4}>{name}</Title>
-      <Flex gap="40">
+      <Flex gap="40" className="flex-col md:flex-row">
         <Stack className="flex-1">
           <img alt={name} src={img_url} className="w-40" />
         </Stack>
