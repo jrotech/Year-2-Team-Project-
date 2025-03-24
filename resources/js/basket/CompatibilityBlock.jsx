@@ -158,7 +158,7 @@ export default function CompatibilityBlock({ block, basketItems }) {
 
         {/* Middle message with limited width to wrap text */}
         <Box style={{ maxWidth: 300 }}>
-          <Text align="center" weight={500} style={{ wordBreak: 'break-word' }}>
+          <Text align="center" weight={500} style={{ wordBreak: 'break-word' }} c={block.compatible ? 'green' : 'red'}>
             {block.message}
           </Text>
         </Box>
