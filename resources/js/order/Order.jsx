@@ -23,8 +23,8 @@ function Order(props) {
   }
   return (
     <MantineProvider theme={theme}>
-      <Flex className="justify-between my-20 md:m-24 relative">
-	<Flex className="items-center justify-center w-full">
+      <Flex className="justify-center items-center md:items-start md:justify-between my-20 md:m-24 relative flex-col-reverse md:flex-row">
+	<Flex className="items-center justify-center w-full mt-5">
 	  <Stack className="gap-40 flex-wrap justify-center mx-5">
 	    
 	    <Title order={2} className="text-center">Order Date: {transformDate(invoice.created_at)}</Title>
