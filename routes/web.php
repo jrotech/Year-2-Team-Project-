@@ -21,6 +21,7 @@ use App\Http\Controllers\LoggedInAPI;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\CompatibilityController;
+use App\Http\Controllers\ReturnController;
 
 // Homepage
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -84,6 +85,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/api/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
     Route::post('/basket/checkout', [BasketController::class, 'proceedToCheckout'])->name('basket.checkout');
     Route::post('/api/check-compatibility', [CompatibilityController::class, 'checkCompatibility'])->name('basket.compatibility');
+
+    Route::post('/api/return', [ReturnController::class, 'removeProducts'])->name('return.removeProducts');
 
     Route::get('/dashboard/orders', [DashboardController::class, 'orders'])->name('dashboard.orders');
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');;
