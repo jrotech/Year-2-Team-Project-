@@ -8,6 +8,21 @@ function ContactUsForm() {
   const [showNotification, setShowNotification] = useState(false);
 
   const handleSubmit = (values) => {
+    const formData = new FormData(document.getElementById("contactForm"));
+    try{
+    const req = fetch('/api/contact', {
+      headers: {
+        'Accept': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+      },
+      method: "POST",
+      body: JSON.stringify(formData)
+	}).then(response => {
+	  return response.json();
+	}).then(data => data.message)
+    }catch(e){
+      console.error(e);
+    }
     document.getElementById("contactForm").reset();
     setShowNotification(true);
     setTimeout(() => {
