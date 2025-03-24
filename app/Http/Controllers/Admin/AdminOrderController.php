@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\Invoice;
 use App\Models\InvoiceOrder;
 use App\Models\Product;
+use Illuminate\Support\Facades\Log;
 
 class AdminOrderController extends Controller
 {
@@ -64,6 +65,7 @@ class AdminOrderController extends Controller
     public function show(Invoice $order)
     {
         $order->load(['customer', 'invoiceOrders.product.images']);
+        Log::info($order);
 
         return view('admin.orders.show', compact('order'));
 

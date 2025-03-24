@@ -119,7 +119,7 @@
                                     <div class="flex items-center">
                                         @if($item->product && $item->product->images->isNotEmpty())
                                             <img class="h-10 w-10 rounded-full object-cover mr-3"
-                                                 src="{{ asset('storage/' . $item->product->images->first()->url) }}"
+                                                 src="{{$item->product->images->first()->url }}"
                                                  alt="{{ $item->product->name }}">
                                         @else
                                             <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center mr-3">
@@ -139,13 +139,13 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">${{ number_format($item->price, 2) }}</div>
+                                    <div class="text-sm text-gray-900">£ {{ number_format($item->product_cost, 2) }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">{{ $item->quantity }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm font-medium text-gray-900">${{ number_format($item->price * $item->quantity, 2) }}</div>
+                                    <div class="text-sm font-medium text-gray-900">£ {{ number_format($item->product_cost * $item->quantity, 2) }}</div>
                                 </td>
                             </tr>
                         @empty
@@ -164,51 +164,77 @@
                 </div>
             </div>
 
-            <!-- Order Actions -->
             <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                <h3 class="font-semibold text-lg mb-3">Order Actions</h3>
+            <h3 class="font-semibold text-lg mb-3">Order Actions</h3>
 
-                <div class="flex flex-wrap gap-3">
-                    <!-- Update Status Form -->
-                    <form action="{{ route('admin.orders.status.update', $order->invoice_id) }}" method="POST" class="flex items-end space-x-2">
-                        @csrf
-                        <div>
-                            <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Change Status</label>
-                            <select name="status" id="status" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>Processing</option>
-                                <option value="paid" {{ $order->status == 'paid' ? 'selected' : '' }}>Paid</option>
-                                <option value="shipped" {{ $order->status == 'shipped' ? 'selected' : '' }}>Shipped</option>
-                                <option value="delivered" {{ $order->status == 'delivered' ? 'selected' : '' }}>Delivered</option>
-                                <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
-                            Update Status
-                        </button>
-                    </form>
+            <!-- Flex container that holds all forms in one row -->
+            <div class="flex flex-wrap items-center gap-4">
 
-                    <!-- Ship Order (if not already shipped) -->
-                    @if($order->status == 'paid' || $order->status == 'processing')
-                        <form action="{{ route('admin.orders.ship', $order->invoice_id) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
-                                Ship Order
-                            </button>
-                        </form>
-                    @endif
+                <!-- Update Status Form -->
+                <form 
+                action="{{ route('admin.orders.status.update', $order->invoice_id) }}" 
+                method="POST" 
+                class="flex items-center gap-2"
+                >
+                @csrf
+                <!-- Label and select on the same line -->
+                <label for="status" class="text-sm font-medium text-gray-700">Change Status:</label>
+                <select 
+                    name="status" 
+                    id="status" 
+                    class="border-gray-300 rounded-md shadow-sm focus:border-indigo-300 
+                        focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                >
+                    <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                    <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>Processing</option>
+                    <option value="paid" {{ $order->status == 'paid' ? 'selected' : '' }}>Paid</option>
+                    <option value="shipped" {{ $order->status == 'shipped' ? 'selected' : '' }}>Shipped</option>
+                    <option value="delivered" {{ $order->status == 'delivered' ? 'selected' : '' }}>Delivered</option>
+                    <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                </select>
 
-                    <!-- Cancel Order (if not delivered or cancelled) -->
-                    @if($order->status != 'delivered' && $order->status != 'cancelled')
-                        <form action="{{ route('admin.orders.cancel', $order->invoice_id) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="return confirm('Are you sure you want to cancel this order? This action cannot be undone.')">
-                                Cancel Order
-                            </button>
-                        </form>
-                    @endif
-                </div>
+                <button 
+                    type="submit" 
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+                >
+                    Update Status
+                </button>
+                </form>
+
+                <!-- Ship Order (if not already shipped) -->
+                @if($order->status == 'paid' || $order->status == 'processing')
+                <form action="{{ route('admin.orders.ship', $order->invoice_id) }}" method="POST" class="flex items-center">
+                    @csrf
+                    <button 
+                    type="submit" 
+                    class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+                    >
+                    Ship Order
+                    </button>
+                </form>
+                @endif
+
+                <!-- Cancel Order (if not delivered or cancelled) -->
+                @if($order->status != 'delivered' && $order->status != 'cancelled')
+                <form 
+                    action="{{ route('admin.orders.cancel', $order->invoice_id) }}" 
+                    method="POST" 
+                    class="flex items-center"
+                >
+                    @csrf
+                    <button 
+                    type="submit" 
+                    class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                    onclick="return confirm('Are you sure you want to cancel this order? This action cannot be undone.')"
+                    >
+                    Cancel Order
+                    </button>
+                </form>
+                @endif
+
             </div>
+            </div>
+
         </div>
     </div>
 @endsection
