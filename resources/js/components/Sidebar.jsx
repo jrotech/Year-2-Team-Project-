@@ -83,14 +83,9 @@ export default function Sidebar() {
       />
       <label 
         htmlFor="sidebarHamburger" 
-        className="cursor-pointer fixed top-80 left-4 z-30 peer-checked:hidden lg:hidden"
+        className="cursor-pointer top-80 left-4 z-30 peer-checked:hidden lg:hidden"
       >
-        {[1, 2, 3].map((_, i) => (
-          <span
-            key={i}
-            className="block w-8 mb-1 bg-black h-1 origin-top-right transition-transform"
-          ></span>
-        ))}
+	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-settings-2"><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg>
       </label>
       
       {/* Sidebar */}
