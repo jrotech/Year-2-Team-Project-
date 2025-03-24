@@ -12,8 +12,16 @@ use App\Models\SecondaryStorageProduct;
 use App\Models\PSUProduct;
 use App\Models\CoolerProduct;
 use App\Models\Category;
+use App\Services\CompatibilityService;
 class CompatibilityController extends Controller
 {
+    protected $compatibilityService;
+
+    //CompatibilityService dependency injection
+    public function __construct(CompatibilityService $compatibilityService)
+    {
+        $this->compatibilityService = $compatibilityService;
+    }
     public function checkCompatibility(Request $request)
     {
         $categorizedProducts = [
@@ -114,9 +122,59 @@ class CompatibilityController extends Controller
                 }
             }
         }
+        $compatibilityBlocks = [];
 
-        // to do 
-        //come up with statements to return from the info: categorizedProducts
+        if (!empty($categorizedProducts['motherboard']) && !empty($categorizedProducts['cpu'])) {
+            $compatibilityBlocks = array_merge(
+                $compatibilityBlocks,
+                $this->compatibilityService->checkMotherboardCpu($categorizedProducts['motherboard'], $categorizedProducts['cpu'])
+            );
+        }
+        
+        if (!empty($categorizedProducts['cpu']) && !empty($categorizedProducts['cooling'])) {
+            $compatibilityBlocks = array_merge(
+                $compatibilityBlocks,
+                $this->compatibilityService->checkCpuCooler($categorizedProducts['cpu'], $categorizedProducts['cooling'])
+            );
+        }
+        
+        if (!empty($categorizedProducts['motherboard']) && !empty($categorizedProducts['storage'])) {
+            $compatibilityBlocks = array_merge(
+                $compatibilityBlocks,
+                $this->compatibilityService->checkMotherboardStorage($categorizedProducts['motherboard'], $categorizedProducts['storage'])
+            );
+        }
+        
+        if (!empty($categorizedProducts['motherboard']) && !empty($categorizedProducts['gpu'])) {
+            $compatibilityBlocks = array_merge(
+                $compatibilityBlocks,
+                $this->compatibilityService->checkMotherboardGpu($categorizedProducts['motherboard'], $categorizedProducts['gpu'])
+            );
+        }
+        
+        if (!empty($categorizedProducts['motherboard']) && !empty($categorizedProducts['ram'])) {
+            $compatibilityBlocks = array_merge(
+                $compatibilityBlocks,
+                $this->compatibilityService->checkMotherboardRam($categorizedProducts['motherboard'], $categorizedProducts['ram'])
+            );
+        }
+        
+       
+        if (!empty($categorizedProducts['psu'])) {
+            $compatibilityBlocks = array_merge(
+                $compatibilityBlocks,
+                $this->compatibilityService->checkPsuPower(
+                    $categorizedProducts['psu'],
+                    $categorizedProducts['cpu'] ?? [],
+                    $categorizedProducts['gpu'] ?? []
+                )
+            );
+        }
+        
+
+        return response()->json([
+            'compatibility_blocks' => $compatibilityBlocks,
+        ]);
         
     }
 
