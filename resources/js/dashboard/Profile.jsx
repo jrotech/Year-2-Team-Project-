@@ -7,7 +7,7 @@ import { Stack, Avatar, Title, Flex } from '@mantine/core'
 
 export default function Profile(props){
   return (
-    <Flex className="bg-white rounded-md p-10 gap-24 w-[800px]">
+    <Flex className="bg-white rounded-md p-10 gap-24  flex-col md:flex-row">
       <Avatar radius="xl" size="xl" />
       <Stack>
 	<Title order={4}>Full Name: {props.name}</Title>

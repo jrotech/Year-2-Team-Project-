@@ -10,7 +10,7 @@ export default function Order({name,id,order_date,total,invoice_orders,status}) 
 	const productsContainerRef = React.useRef(null);
   
 	return (
-	  <Flex className="bg-white rounded-md p-10" gap="20">
+	  <Flex className="bg-white rounded-md p-10 flex-col md:flex-row" gap="20">
 		<Stack>
 		  <Title order={4}>{name}</Title>
 		  <Title order={4}>{new Date(order_date).toLocaleDateString()}</Title>

@@ -18,7 +18,7 @@ export default function Product(props) {
   return (
     <Card withBorder radius="md" shadow="sm" p="lg">
       {/* Top-level layout: image on the left, text on the right */}
-      <Flex gap="md" align="center">
+      <Flex gap="md" align="center" className="flex-col md:flex-row">
         {/* Product Image */}
         <Image
           src={props.img.replace('max', 'gross')}
