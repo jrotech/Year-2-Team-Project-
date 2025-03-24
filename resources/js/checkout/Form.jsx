@@ -28,7 +28,7 @@ export default function Form({ onCheckout }) {
 
   return (
     <Stack>
-      <Stepper active={active} onStepClick={setActive} allowNextStepsSelect={false}>
+      <Stepper active={active} onStepClick={setActive} allowNextStepsSelect={true}>
         <Stepper.Step label="Personal Details" description="">
           <PersonalDetails next={(values) => { setPersonalDetails(values); nextStep() }} initial={personalDetails} />
         </Stepper.Step>

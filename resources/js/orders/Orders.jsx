@@ -14,8 +14,8 @@ function Orders(props) {
 	console.log(invoices)
 	return (
 		<MantineProvider theme={theme}>
-			<Flex className="max-w-screen justify-between m-24 relative">
-				<Flex className="justify-center w-full">
+			<Flex className="max-w-screen justify-center items-center my-10 md:justify-between relative flex-col-reverse md:flex-row">
+				<Flex className="justify-center w-full my-12">
 					<Stack className="gap-20 flex-wrap mx-5">
 						{invoices.map((invoice, i) => (
 							<Order

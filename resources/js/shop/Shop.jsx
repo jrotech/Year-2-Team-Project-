@@ -125,7 +125,7 @@ function ProductsList(props) {
 
   return (
     <MantineProvider theme={theme}>
-      <Flex className="max-w-screen justify-center m-24 relative gap-20">
+      <Flex className="max-w-screen justify-center m-24 relative gap-20 flex-col-reverse md:flex-row">
         {/* Main Content */}
         <Stack className="w-full max-w-[1200px]">
           {successMessage && (
@@ -157,7 +157,7 @@ function ProductsList(props) {
 
           <Divider size="xs" my="xs" />
 
-          <Flex className="gap-20 flex-wrap justify-center">
+          <Flex className="gap-20 flex-wrap justify-center items-center">
             {products.length === 0 && <NotFound />}
             {products.map((product) => (
               <Product

@@ -8,7 +8,7 @@ import { Stars } from "./Stars";
 
 export default function Related({ img_url, name, price, description, rating, id }) {
   return (
-    <div className="w-[400px] h-[500px] flex flex-col gap-y-4 bg-white hover:bg-main-bg transition-all duration-300 py-4 px-8 rounded-md">
+    <div className="mb-10 flex flex-col gap-y-4 bg-white hover:bg-main-bg transition-all duration-300 py-4 px-8 rounded-md">
       <img alt="" src={img_url} className="h-[150px] object-contain my-4" />
       <h1 className="text-2xl font-bold">{name}</h1>
       <h4 className="text-sm text-gray-600">{description}</h4>

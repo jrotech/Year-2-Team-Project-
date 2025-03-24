@@ -118,7 +118,6 @@
 
         /* Best Sellers */
         .BestSellers {
-            background: #222222;
             padding: 60px 20px;
         }
 
@@ -127,23 +126,26 @@
             font-weight: 700;
             margin-bottom: 40px;
             text-align: left;
-            color: white;
+            color: black;
         }
 
         .ProductsGrid {
             display: flex;
             gap: 20px;
+	  width: 100vw;
             flex-wrap: wrap;
-            justify-content: center;
+            justify-content: space-around;
         }
 
         .ProductCard {
-            background: #FFFFFF;
+            background: #F7F7F7;
             color: #000000;
             border-radius: 20px;
             width: 300px;
             padding: 20px;
             text-align: center;
+	  gap: 20px;
+	  font-size: 20px;
             display: flex;
             flex-direction: column;
             /* Arrange items vertically */
@@ -207,10 +209,12 @@
         }
 
         .CategoriesGrid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
+	  flex-wrap: wrap;
             gap: 40px;
-            max-width: 1200px;
+	  width: 100vw;
+	  justify-content: center;
+	  align-items: center;
             margin: 0 auto;
         }
 
@@ -221,7 +225,7 @@
         }
 
         .CategoryCard img {
-            width: 100%;
+            width: 500px;
             height: 300px;
             object-fit: cover;
             display: block;
@@ -229,10 +233,15 @@
 
         .CategoryCard .overlay {
             position: absolute;
+	  height: 100%;
+	  width: 100%;
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.4);
             padding: 20px;
             text-align: center;
         }

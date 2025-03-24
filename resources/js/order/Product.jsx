@@ -16,9 +16,9 @@ import { InStock } from "../components/InStock";
 
 export default function Product(props) {
   return (
-    <Card withBorder radius="md" shadow="sm" p="lg">
+    <Card withBorder radius="md" shadow="sm" p="lg" className="md:max-w-[100vw] max-w-[90vw] mb-10">
       {/* Top-level layout: image on the left, text on the right */}
-      <Flex gap="md" align="center">
+      <Flex gap="md" align="center" className="flex-col md:flex-row">
         {/* Product Image */}
         <Image
           src={props.img.replace('max', 'gross')}
@@ -35,7 +35,7 @@ export default function Product(props) {
           <Title order={4}>{props.title}</Title>
 
           {/* Pricing details in a horizontal row */}
-          <Flex justify="space-between">
+          <Flex className="flex-col md:flex-row md:items-start items-center justify-center md:justify-between">
             <Stack spacing={2}>
               <Text size="sm" weight={500}>Unit Price</Text>
               <Text size="md" weight={600} c="blue">
