@@ -136,7 +136,7 @@ function FeebackCard({userName, rating, comment}) {
     const [showMore, setShowMore] = React.useState(false);
     return (
         <Stack className="max-w-[800px] bg-white rounded-md pt-8 px-6">
-            <Flex jusify="center" align="center" gap="50">
+            <Flex jusify="center" align="center" gap="50" className="flex-col md:flex-row">
                 <Flex gap="20" align="center">
                     <Title order={2}>{userName}</Title>
                 </Flex>

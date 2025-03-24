@@ -60,11 +60,11 @@ class Product extends Model
     }
     public function cpu() 
     {
-        return $this->hasOne(CpuProduct::class,'product_id');
+        return $this->hasOne(CPUProduct::class,'product_id');
     }
     public function gpu()
     {
-        return $this->hasOne(GpuProduct::class,'product_id');
+        return $this->hasOne(GPUProduct::class,'product_id');
     }
     public function motherboard()
     {

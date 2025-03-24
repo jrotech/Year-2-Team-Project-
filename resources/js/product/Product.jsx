@@ -18,35 +18,32 @@ function Product(props) {
 
     return (
         <MantineProvider theme={theme}>
-            <Container size="lg" className="py-24 px-16 bg-main-bg">
-                {/* Product Section */}
-                <Paper shadow="sm" radius="md" p="lg" withBorder>
-                    <Flex gap="lg" wrap="wrap" justify="center" align="flex-start">
-                        {/* Product Images */}
-                        <Images images={product.images.map(img => ({ src: img.url, alt: img.alt }))} />
-
-            {/* Product Info */}
-            <ModalsProvider>
-              <Info
-                productName={product.name}
-                inStock={product.in_stock}
-                rating={3}
-                price={product.price}
-                id={product.id}
-                description={product.description}
-                specification={product.specification}
-              />
-            </ModalsProvider>
-          </Flex>
-        </Paper>
-
-                {/* Divider */}
-                <Divider my="xl" size="sm" />
-
-        {/* Footer */}
-        
-        <Paper shadow="sm" radius="md" p="lg" withBorder>
-      <Card shadow="sm" padding="lg" radius="md" withBorder>
+          <Container size="lg" className="py-24 px-16 bg-main-bg">
+            {/* Product Section */}
+	    <Paper className='py-10'>
+              <Flex gap="lg" wrap="wrap" justify="center" align="flex-start">
+                <Images images={product.images.map(img => ({ src: img.url, alt: img.alt }))} />
+		
+		<ModalsProvider>
+		  <Info
+                    productName={product.name}
+                    inStock={product.in_stock}
+                    rating={3}
+                    price={product.price}
+                    id={product.id}
+                    description={product.description}
+                    specification={product.specification}
+		  />
+		</ModalsProvider>
+	      </Flex>
+	    </Paper> 
+            {/* Divider */}
+            <Divider my="xl" size="sm" />
+	    
+            {/* Footer */}
+            
+            <Paper shadow="sm" radius="md" p="lg" withBorder>
+	      <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Stack>
           <Title order={3} mt="md">Specifications</Title>
           <Table striped highlightOnHover withBorder>
