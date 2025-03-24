@@ -10,6 +10,7 @@ import {InStock} from '../components/InStock'
 
 export default function Product({ name, primary_image, price, inStock, rating, id }) {
   return (
+    <Stack className="bg-white w-80 rounded-md relative px-12 py-8 gap-7 hover:bg-main-bg transition-color duration-300 !justify-between">
       <Title order={2} className="text-center">{name}</Title>
       <Center>
 	<img alt={name} src={primary_image} className="w-40" />
