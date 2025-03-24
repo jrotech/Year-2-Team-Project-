@@ -11,8 +11,8 @@ class LoggedInAPI extends Controller
 {
     public function loggedin()
     {
-
-         
+        
+        
         return response() -> json([
             'isAuthenticated' => Auth::check(),
             'customer' => Auth::check() ? Auth::user() : null,
