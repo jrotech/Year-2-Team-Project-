@@ -8,13 +8,27 @@ function ContactUsForm() {
   const [showNotification, setShowNotification] = useState(false);
 
   const handleSubmit = (values) => {
-    console.log('Form submitted:', values);
+    document.getElementById("contactForm").reset();
     setShowNotification(true);
+    setTimeout(() => {
+      setShowNotification(false);
+    }, 5000);
   };
 
   return (
     <MantineProvider theme={{ colorScheme: 'light' }}>
     <main className="mb-20">
+          {showNotification && (
+            <Notification
+              onClose={() => setSuccessMessage(null)}
+              color="teal"
+              title="Success"
+              className="mb-8"
+            >
+	      Your message has been sent successfully!
+            </Notification>
+          )}
+
       {/* <div className="px-5 md:px-20 lg:px-40 2xl:px-60">
 	  <CallUs />
 	  </div> */}
@@ -22,7 +36,7 @@ function ContactUsForm() {
 			<section className="w-full flex flex-col justify-center text-center md:text-left md:max-w-2/3">
 				<h1 classNmae="text-4xl"> Get In Touch</h1>
 				<p>Please fill in your details and a member of our team will be in touch shortly.</p>
-				<form className="flex flex-wrap w-full md:max-w-[580px] text-left">
+					  <form className="flex flex-wrap w-full md:max-w-[580px] text-left" onSubmit={e => { e.preventDefault();handleSubmit() } } id="contactForm">
 					{
 						["name", "subject", "email", "phone number"].map((field, i) => (
 							<section className="flex flex-col w-full md:w-[250px] md:max-w-[250px] mx-5 my-4" key={i}>
@@ -38,8 +52,7 @@ function ContactUsForm() {
 					<div className="w-full md:w-[250px] mt-10 ml-5 mr-5">
 						<button type="submit" className="border-2 border-foreground rounded-[5px] w-full h-12">Submit Message</button>
 					</div>
-					<p className="text-sm pl-2 py-10 text-center md:text-left">Your personal data is used only for the purpose of responding to your query. For more information
-						on how FSE Legal process personal data, please read our <a className="text-sm text-black underline" href="/">Privacy Policy here</a>.</p>
+					<p className="text-sm pl-2 py-10 text-center md:text-left">Your personal data is used only for the purpose of responding to your query. For more information on how Tech Forge process personal data, please read our <a className="text-sm text-black underline" href="/">Privacy Policy here</a>.</p>
 				</form>
 			</section>
 			<map className="flex flex-col md:max-w-1/3 md:w-1/3 my-10 gap-y-2">
