@@ -52,9 +52,9 @@ function Dashboard(props) {
   
   return (
     <MantineProvider theme={theme}>
-      <Flex className="max-w-screen md:justify-between md:m-32 relative mb-10">
+      <Flex className="max-w-screen justify-center my-10 items-center md:items-start md:justify-between md:m-32 relative flex-col-reverse md:flex-row">
 	<Flex className="items-center justify-center w-full">
-	  <Stack className="gap-20 flex-wrap justify-center mx-5">
+	  <Stack className="gap-20 flex-wrap justify-center mx-5 mt-10 md:mt-0">
 	    
 	    <Title className="text-main-accent underline">Profile</Title>
 	    <Profile

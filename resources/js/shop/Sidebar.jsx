@@ -175,7 +175,7 @@ export default function Sidebar({onCategoryChange,
         <hr />
 	</nav>
         
-        <Stack>
+        <Stack className="my-5">
           <Title order={3}>Availability</Title>
 	  
 	    <Flex justify="space-between" onClick={handleInStockToggle}>
