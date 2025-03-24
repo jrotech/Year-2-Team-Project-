@@ -7,10 +7,17 @@ import { MantineProvider, Flex } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 
 export default function CarouselWrap(){
+  const 
   return (
-    <div className="h-[70vh] flex w-screen">
-      <Carousel withIndicators height="100%" width="100%" loop>
-	{
+    <div className="flex w-screen md:justify-center md:items-center mt-[150px]">
+    <Carousel
+      withIndicators
+      height={200}
+      slideSize={{ base: '100%', sm: '50%', md: '33.333333%' }}
+      slideGap={{ base: 0, sm: 'md' }}
+      loop
+      align="start"
+    >	{
 	  [
 	   
 	    {src: "/storage/categories/cpu.jpg",alt: "cpu"},
@@ -20,7 +27,7 @@ export default function CarouselWrap(){
 
 	].map((item, index) => (
 	  <Carousel.Slide key={index}>
-	    <img alt={item.alt} src={item.src} className="bg-no-repeat object-fill w-screen" />
+	  <img alt={item.alt} src={item.src} className="bg-no-repeat object-fill" />
 	  </Carousel.Slide>
 	))}
       </Carousel>
