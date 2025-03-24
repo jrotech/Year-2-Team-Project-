@@ -3,7 +3,7 @@ Developer: Robert Oros, Mihail Vacarciuc
 University ID: 230237144, 230238428
 ********************************/
 import React from "react";
-import { Stack, RangeSlider, Title, Checkbox } from "@mantine/core";
+import { Stack, RangeSlider, Title, Checkbox, NumberInput, Flex } from "@mantine/core";
 
 export default function Sidebar({
   onCategoryChange,
@@ -79,30 +79,54 @@ export default function Sidebar({
               { value: 2500, label: "2500" },
             ]}
           />
+	  <Flex mt="40" gap="10">
+    <NumberInput
+      value={priceRange[0]}
+      label="Min price"
+      rightSection={<></>}
+      onChange={(value) => handlePriceChange([value, priceRange[1]])}
+      placeholder="Input placeholder"
+    />
+    <NumberInput
+      value={priceRange[1]}
+      label="Max Price"
+      onChange={(value) => handlePriceChange([priceRange[0], value])}
+      rightSection={<></>}
+      placeholder="Input placeholder"
+    />
+	  </Flex>
         </div>
 
         <hr />
 
-        <div>
+        <Stack>
           <Title order={3}>Availability</Title>
+	  
+	    <Flex justify="space-between" onClick={handleInStockToggle}>
+	      <Title order={5} className="">Only Show In Stock Products</Title>
           <Checkbox
-            label="Only show products in stock"
             checked={showInStockOnly}
             onChange={handleInStockToggle}
+	    size="lg"
           />
-        </div>
+	    </Flex>
+
+        </Stack>
 
         <hr />
 
         <Stack className="gap-0">
           <Title order={3}>Categories</Title>
           {categories.map((category) => (
-            <Checkbox
-              key={category.name}
-              checked={selectedCategories.includes(category.name)}
-              onChange={() => handleCategorySelect(category.name)}
-              label={category.name}
-            />
+	    <Flex justify="space-between" onClick={() => handleCategorySelect(category.name)}>
+	      <Title order={5} className="">{category.name}</Title>
+              <Checkbox
+		key={category.name}
+		    checked={selectedCategories.includes(category.name)}
+		    onChange={() => handleCategorySelect(category.name)}
+		size="lg"
+              />
+	    </Flex>
           ))}
         </Stack>
       </Stack>
