@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class CpuProduct extends Model
+class CPUProduct extends Model
 {
     protected $table = 'cpu_products';
 

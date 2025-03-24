@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GpuProduct extends Model
+class GPUProduct extends Model
 {
     protected $table = 'gpu_products';
 
