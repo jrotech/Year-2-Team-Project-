@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
-use App\Models\CPUProduct;
-use App\Models\GPUProduct;
+use App\Models\CpuProduct;
+use App\Models\GpuProduct;
 use App\Models\MotherboardProduct;
-use App\Models\RAMProduct;
+use App\Models\RamProduct;
 use App\Models\SecondaryStorageProduct;
-use App\Models\PSUProduct;
+use App\Models\PsuProduct;
 use App\Models\CoolerProduct;
 use App\Models\Category;
 use App\Services\CompatibilityService;
