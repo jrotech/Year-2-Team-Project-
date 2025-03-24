@@ -19,7 +19,6 @@
         body {
             margin: 0;
             padding: 0;
-            background: #000000;
             color: #ffffff;
             font-family: 'Inter', sans-serif;
         }
@@ -225,7 +224,8 @@
         }
 
         .CategoryCard img {
-            width: 500px;
+            width: 300px;
+            flex: 1 0 40%;
             height: 300px;
             object-fit: cover;
             display: block;
@@ -318,8 +318,8 @@
             @endphp
             {{ \Log::info($imagePath) }} <!-- For debugging purposes -->
             <div class="ProductCard">
-                <img src="{{ $imagePath }}" alt="{{ $image ? $image->alt : $product->name }}">
-                <h2>{{ $product->name }}</h2>
+	      <img src="{{ Str::lower($imagePath) }}" alt="{{ $image ? $image->alt : $product->name }}">
+              <h2>{{ $product->name }}</h2>
                 <div class="rating">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
@@ -346,8 +346,8 @@
             $categoryHref = '/shop?categories=' . urlencode($category->name); // Build the href dynamically
             @endphp
             <a href="{{ $categoryHref }}" class="CategoryCard"> <!-- Make the entire card clickable -->
-                <img src="{{ asset($categoryImage) }}" alt="{{ $category->name }}">
-                <div class="overlay">
+	      <img src="{{ asset(Str::lower($categoryImage)) }}" alt="{{ $category->name }}">
+              <div class="overlay">
                     <span>{{ $category->name }}</span>
                 </div>
             </a>
