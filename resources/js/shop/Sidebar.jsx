@@ -178,7 +178,7 @@ export default function Sidebar({onCategoryChange,
         <Stack className="my-5">
           <Title order={3}>Availability</Title>
 	  
-	    <Flex justify="space-between" onClick={handleInStockToggle}>
+	    <Flex justify="space-between">
 	      <Title order={5} className="">Only Show In Stock Products</Title>
           <Checkbox
             checked={showInStockOnly}
@@ -194,7 +194,7 @@ export default function Sidebar({onCategoryChange,
         <Stack className="gap-0">
           <Title order={3}>Categories</Title>
           {categories.map((category, index) => (
-	    <Flex justify="space-between" onClick={() => handleCategorySelect(category.name)} key={index}>
+	    <Flex justify="space-between" key={index}>
 	      <Title order={5} className="">{category.name}</Title>
               <Checkbox
 		key={category.name}
