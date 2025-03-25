@@ -145,7 +145,7 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     @if ($product->images->isNotEmpty())
-                                        <img class="h-10 w-10 rounded-full object-cover mr-3" src="{{ asset('storage/' . $product->images->first()->url) }}" alt="{{ $product->name }}">
+                                        <img class="h-10 w-10 rounded-full object-cover mr-3" src="{{$product->images->first()->url}}" alt="{{ $product->name }}">
                                     @else
                                         <div class="h-10 w-10 rounded-full bg-gray-200 mr-3 flex items-center justify-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -252,7 +252,7 @@
 
                                     @if ($item['product']->images->isNotEmpty())
 
-                                        <img class="h-10 w-10 rounded-full object-cover mr-3" src="{{ asset('storage/' . $item['product']->images->first()->url) }}" alt="{{ $item['product']->name }}">
+                                        <img class="h-10 w-10 rounded-full object-cover mr-3" src="{{$item['product']->images->first()->url}}" alt="{{ $item['product']->name }}">
 
                                     @else
 
