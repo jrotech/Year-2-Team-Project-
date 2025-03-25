@@ -108,7 +108,7 @@ Route::post('/reviews', [ReviewController::class, 'store'])
 
 // Customer review operations (protected)
 Route::middleware(['auth:customer'])->prefix('reviews')->group(function () {
-  
+
     // Update an existing review
     Route::put('/{id}', [ReviewController::class, 'update'])
         ->name('reviews.update');
@@ -143,8 +143,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 
         Route::resource('categories', App\Http\Controllers\Admin\AdminCategoryController::class);
-        Route:get('contacts', [App\Http\Controllers\Admin\AdminContactController::class, 'contacts'])->name('contacts');
-
+        Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
         Route::get('/orders', [App\Http\Controllers\Admin\AdminOrderController::class, 'index'])->name('orders.index');
         Route::get('/orders/{order}', [App\Http\Controllers\Admin\AdminOrderController::class, 'show'])->name('orders.show');
         Route::post('/orders/{order}/status', [App\Http\Controllers\Admin\AdminOrderController::class, 'updateStatus'])->name('orders.status.update');

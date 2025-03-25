@@ -6,10 +6,15 @@ University ID: 230237144
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Contact; 
+use App\Models\Contact;
 
 class ContactController extends Controller
 {
+    public function index()
+    {
+        $contacts = Contact::orderBy('created_at', 'desc')->paginate(10);
+        return view('admin.contacts.index', compact('contacts'));
+    }
     public function contact()
     {
         return view('contact');
@@ -24,7 +29,7 @@ class ContactController extends Controller
             'phone_number' => 'required|string|max:20',
             'message'      => 'required|string',
         ]);
-        
+
 
         // Store data in the database (ensure you have a corresponding migration & model)
         Contact::create($validatedData);
