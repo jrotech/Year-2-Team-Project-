@@ -20,17 +20,15 @@ import './components/inStock';
 import './components/Related';
 import './components/Stars';
 
-import '/about/page.js'
-import '/admin/dashboard/page.js'
-import '/admin/products/page.js'
-import '/basket/page.js'
-import '/checkout/page.js'
-import '/contact/page.js'
-import '/home/page.js'
-import '/order/page.js'
-import '/product/page.js'
-import '/orders/page.js'
-import '/shop/page.js'
-import 'constants.js'
-import 'mantine.jsx'
+import './about/page.js'
+import './basket/page.js'
+import './checkout/page.js'
+import './contact/page.js'
+import './home/page.js'
+import './order/page.js'
+import './product/page.js'
+import './orders/page.js'
+import './shop/page.js'
+import './constants.js'
+import './mantine.jsx'
 
