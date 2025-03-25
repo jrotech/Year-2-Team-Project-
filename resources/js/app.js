@@ -23,7 +23,7 @@ import './components/Stars';
 import '/about/page.js'
 import '/admin/dashboard/page.js'
 import '/admin/products/page.js'
-import 'basket/page.js'
+import '/basket/page.js'
 import '/checkout/page.js'
 import '/contact/page.js'
 import '/home/page.js'
