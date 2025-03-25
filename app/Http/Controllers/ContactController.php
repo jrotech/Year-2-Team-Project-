@@ -6,7 +6,7 @@ University ID: 230237144
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
+use App\Models\Contact; 
 
 class ContactController extends Controller
 {
@@ -14,24 +14,21 @@ class ContactController extends Controller
     {
         return view('contact');
     }
-
     public function submit(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'message' => 'required|string',
+        // Validate incoming data
+        $validatedData = $request->validate([
+            'name'         => 'required|string|max:255',
+            'subject'      => 'required|string|max:255',
+            'email'        => 'required|string|max:255',
+            'phone_number' => 'required|string|max:20',
+            'message'      => 'required|string',
         ]);
-
-        // Replace with your admin email
-        $adminEmail = 'admin@business.com';
-
-        Mail::raw("You have received a new contact request:\n\nName: {$validated['name']}\nEmail: {$validated['email']}\nMessage: {$validated['message']}", function ($message) use ($adminEmail) {
-            $message->to($adminEmail)
-                ->subject('New Contact Request');
-        });
-
         
-        return redirect()->back()->with('success', 'Your message has been sent successfully!');
+
+        // Store data in the database (ensure you have a corresponding migration & model)
+        Contact::create($validatedData);
+
+        return response()->json(['message' => 'Contact submitted successfully']);
     }
 }

@@ -31,6 +31,9 @@ Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
 Route::get('/about', [HomeController::class, 'about'])->name('about_us');
 Route::get('/payment-methods', [HomeController::class, 'paymentMethods'])->name('payment-methods');
 
+Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
+Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+
 // Nav Bar Links
 Route::get('/wishlist', [NavController::class, 'wishlist'])->name('wishlist');
 Route::get('/about', [NavController::class, 'about'])->name('about');
