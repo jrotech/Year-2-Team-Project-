@@ -20,15 +20,4 @@ import './components/InStock.jsx';
 import './components/Related.jsx';
 import './components/Stars.jsx';
 
-import './about/page.js'
-import './basket/page.js'
-import './checkout/page.js'
-import './contact/page.js'
-import './home/page.js'
-import './order/page.js'
-import './product/page.js'
-import './orders/page.js'
-import './shop/page.js'
-import './constants.js'
-import './mantine.jsx'
 
