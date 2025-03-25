@@ -16,7 +16,7 @@ import '@mantine/core/styles.css';
 
 import './components/Nav.jsx';
 import './components/Sidebar.jsx';
-import './components/inStock.jsx';
+import './components/InStock.jsx';
 import './components/Related.jsx';
 import './components/Stars.jsx';
 
