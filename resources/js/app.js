@@ -14,11 +14,11 @@ import '@mantine/core/styles.css';
  */
 
 
-import './components/Nav';
-import './components/Sidebar';
-import './components/inStock';
-import './components/Related';
-import './components/Stars';
+import './components/Nav.jfx';
+import './components/Sidebar.jfx';
+import './components/inStock.jfx';
+import './components/Related.jfx';
+import './components/Stars.jfx';
 
 import './about/page.js'
 import './basket/page.js'
