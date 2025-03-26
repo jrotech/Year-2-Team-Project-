@@ -12,6 +12,7 @@ export default defineConfig({
                 'resources/js/about/page.js',
                 'resources/js/basket/page.js',
                 'resources/js/checkout/page.js',
+                'resources/js/dashboard/page.js',
                 'resources/js/contact/page.js',
                 'resources/js/home/page.js',
                 'resources/js/order/page.js',
