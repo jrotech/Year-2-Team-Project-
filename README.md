@@ -64,7 +64,8 @@ This project is a full-stack e-commerce platform designed to provide users with 
    ```
 
 6. Access the application:
-    - : `http://localhost:8000`
+   - Local: `http://localhost:8000`
+   - Hosted: [https://cs2team32.cs2410-web01pvm.aston.ac.uk/](https://cs2team32.cs2410-web01pvm.aston.ac.uk/)
 
 ## Testing
 
