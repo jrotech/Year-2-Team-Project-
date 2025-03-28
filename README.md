@@ -85,9 +85,14 @@ This project is a full-stack e-commerce platform designed to provide users with 
 ## Contributors
 
 - **Robert Oros** (230237144)
+- **Asrar Redwan** (230367027)
+- **Nwokike John** (230252745)
 - **Mihail Vacarciuc** (230238428)
+- **Alhouseini Amen** (230237878)
 - **Kai Lowe-Jones** (230234682)
+- **Musah Iddrisu** (230222232)
 - **Hasnain Imran** (230209037)
+- **Alharbi Abdullah** (230046409)
 
 
 
